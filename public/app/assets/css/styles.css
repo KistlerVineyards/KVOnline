@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab:400,600,700');
+
+body{
+    font-family: 'Josefin Slab', serif;
+    background-color: #f5f2eb;
+    font-weight: 600;
+    
+}
+a {
+    color: #7a412d;
+    text-decoration: none;
+}
+a:focus, a:hover {
+    color: #7a412d;
+    text-decoration: underline;
+}
+
+
+
+.bg-navKistler {
+ background-color: #3f3011; 
+}
+
+
+.form-signin {
+  max-width: 450px;
+  padding: 15px 35px 45px;
+  margin:5% auto 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1); 
+}
+
+.loginTextCenter{ text-align: center; margin-bottom: 10px; color: #a75b02;}
+.loginSummText{ margin-bottom: 10px; text-align: center;}
+
+
+.btn-kistler{
+    color: #fff;
+    background-color: #7a412d;
+    border-color: #6a3826;
+}
+.btn-kistler:hover {
+    color: #fff;
+    background-color: #663625;
+    border-color: #763721;
+}
+.forgotPassword{ margin-left:10px; }
+.loginFooter{ padding-top: 15px; border-top:solid 2px #dcdddb; padding-bottom: 15px;}
+.join-mailingList{ padding-bottom:15px;}
+.join-mailingList a{ font-weight:bold; font-size:1.2em;}
+
+.signInPanel{ padding-bottom:20px;}
+.mainContainer{padding-top: 0px;}
+.introText{ margin-bottom:20px; padding:20px; background-color:#f5f2eb; border:solid 1px #ddd; /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,f5f2e9+100 */
+background: #fcfcfc; /* Old browsers */
+background: -moz-linear-gradient(top,  #fcfcfc 0%, #f5f2e9 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #fcfcfc 0%,#f5f2e9 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #fcfcfc 0%,#f5f2e9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#f5f2e9',GradientType=0 ); /* IE6-9 */
+-webkit-border-radius: 5px 5px 5px 5px;
+border-radius: 5px 5px 5px 5px; 
+
+}
+.introText .welcomeTxt{ font-size:1.2em; margin-bottom:1px;}
+.introText .welcomeTxt .username{ color:#a65a02;}
+
+
+.orderWith{ width:60px; display:inline-block;}
+
+.ProductPanel .productTitle{font-size:1.2em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top: 5px; }
+.ProductPanel .productTitle a{ cursor: pointer; color: #a0090a;}
+.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 50%; float: left; padding-top: 7px; }
+.productPrice{color: #a75b02; }
+
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 50%; float: left; padding-top: 7px;}
+.ProductPanel .notesOrderAvailPanel .availPack .availableQtyColor{ color: #858585;}
+
+
+.ProductPanel .showproductDetails{padding: 15px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
+border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
+box-shadow: 0 0 2px 2px #dddddd;}
+
+.ProductPanel .showproductDetails .tastingNotesPanel{ border-top:solid 1px #dddddd; padding-top:15px;}
+.ProductPanel .showproductDetails .orderDescPanel .review1{ font-family: serif; font-weight: 700;}
+.orderDescPanel ul{list-style-type: none; margin-left: -29px;}
+
+
+.ProductPanel .requestPanel{padding:15px 0px;}
+.ProductPanel .requestPanel .btn{ text-align: right;}
+
+.hidefieldvalidationMsg{display: none; }
+.showfieldvalidationMsg{color: #94070d; display:block; }
+
+
+.Loadbox{ width: 40px; height: 40px; margin-left:-20px; margin-top:-20px; top:50%; left:50%; position: absolute; background-image:url(Preloader.gif); background-repeat: no-repeat;}
+.navbar{-webkit-border-radius: 0 0 0 0;
+border-radius: 0 0 0 0;}
+
+.bg-navKistler > .active > a, .bg-navKistler > .active > a:hover, .bg-navKistler > .active > a:focus {
+    background-color: #7a412d;
+    color: #fff;
+}
+
+
+.profilepage{padding:20px; background-color:#fff; border:solid 1px #ddd; }
+
+.kistlarOderHistory{ background-color:#fff; min-height: 335px;}
+.kistlarOderHistory th {
+    color: #fff;
+    background-color: #3f3011;
+    border-color: #ddd;
+}
+
+
+.kistlarShippingAddress .panel-heading{ color: #fff;
+    background-color: #3f3011;
+    border-color: #ddd;}
+.kistlarShippingAddress  .divierBar{ border-bottom:solid 1px #ddd; padding:10px 0px;}
+.panelAddSubmit { padding:10px;} 
+.paymentMethDivider{ border-bottom:solid 1px #ddd; padding:10px 0px;}
+.cardName{ color:#a75b02; font-weight:700;}
+.AddCardPanel{ padding:10px;}
+.AddCardPanelForm { padding-bottom:20px;}
+.grandTotals{ background-color: #f5f5f5; font-weight:700; font-size: 1.3em;}
+.subTotalTtitle{font-weight:700; font-size: 1.2em;}
+.apporveOderBtn{ padding-right: 15px; padding-bottom: 15px;}
+.apporveOderBtn button{ margin-left: 10px;}
+.divider{ border-bottom: solid 1px #763721;}
+
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{
+    background-color: #312000;
+
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{
+    background-color: #312000;
+}
+.navbar-inverse .navbar-toggle {
+    border-color: #3f3011;
+}
+.KistlerSubMenu{/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#352311+0,261e15+100 */
+background: #352311; /* Old browsers */
+background: -moz-linear-gradient(top,  #352311 0%, #261e15 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #352311 0%,#261e15 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #352311 0%,#261e15 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#352311', endColorstr='#261e15',GradientType=0 ); /* IE6-9 */
+
+-webkit-border-radius: 5px 5px 5px 5px;
+border-radius: 5px 5px 5px 5px;
+}
+
+.KistlerSubMenu li a{ color: #ddd; }
+.KistlerSubMenu li a:hover, .KistlerSubMenu li a:focus{ color: #f2a840; /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#261e15+0,473418+100 */
+background: #261e15; /* Old browsers */
+background: -moz-linear-gradient(top,  #261e15 0%, #473418 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #261e15 0%,#473418 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #261e15 0%,#473418 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#261e15', endColorstr='#473418',GradientType=0 ); /* IE6-9 */
+}
+.approveOrderAddress .panel-heading, .approveOrderPayment .panel-heading{ font-size: 1.1em; color: #a75b02;}
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #763721;
+    border-color: #763721;
+}
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #7a412d;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.paginationAlign{ float: right; padding-right: 20px;}
+.Chkshowdetails{ color: #a0090a; cursor: pointer; }
+.panelPaymentGap{ padding: 5px 0px; display:block;}
+.panelPaymentGap span.cardname{ color: #a65a02; font-size: 1.2em;}
+.panelPaymentGap span.cardNumber{ color: #000; }
+.noBorder{ border-top: solid 0px #fff!important;}
+.orderDetailsPanel{ position: relative; padding:15px; background-color:#ddd;}
+
+.orderDetailsPanel .arrow-up { top: -20px; left: 30px; position: absolute;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid #ddd;
+
+}
+.orderDetailsPanel th{ font-weight: bold; font-size: 1.1em; }
+.orderDetailsPanel .panel-heading{ font-size: 1.1em; color: #a75b02;}
+
+.priceFldAlign{ text-align: right; width: 150px;}
+
+.alertExcesOrder{ margin-top: 5px; font-weight: 700; color:#b04463; background-color: #f2dede; border:solid 1px #ebccd1; padding: 0px 10px;-webkit-border-radius: 5px 5px 5px 5px;
+border-radius: 5px 5px 5px 5px;}
+.alertExcesOrder span{ margin-top: 5px;}
+
+input.ng-valid{
+          border: 1px solid #42A948;
+        }
+        input.ng-invalid{
+            border: 1px solid #a94442;
+        }
+.name-shipping-address{ color: #a75b02; font-size: 1.1em; font-weight: 700; }
+
+.paymentPageFixGap{ padding-top: 10px;}
+.formGap{ margin-bottom: 10px;}
+.paymentSubmit{ padding-top: 10px;}
+
+.ui-growl-message-info{
+	background: deepskyblue;
+}
+.ui-growl-message-success{
+	background: lawngreen;
+}
+
+.ui-growl-message-warn{
+	background: darkorange;
+}
+
+.ui-growl-message-error{
+	background: red;
+}
+
+	/*==========  Mobile First Method  ==========*/
+
+	/* Custom, iPhone Retina */
+	@media only screen and (min-width : 320px){
+		
+	}
+
+	/* Extra Small Devices, Phones */
+	@media only screen and (min-width : 480px){
+
+	}
+
+	/* Small Devices, Tablets */
+	@media only screen and (min-width : 768px){
+
+	}
+
+	/* Medium Devices, Desktops */
+	@media only screen and (min-width : 992px){
+
+	}
+
+	/* Large Devices, Wide Screens */
+	@media only screen and (min-width : 1200px){
+
+	}
+
+
+
+	/*==========  Non-Mobile First Method  ==========*/
+
+	/* Large Devices, Wide Screens */
+	@media only screen and (max-width : 1200px){
+
+	}
+
+	/* Medium Devices, Desktops */
+	@media only screen and (max-width : 992px){
+
+	}
+
+	/* Small Devices, Tablets */
+	@media only screen and (max-width : 767px){
+		.ProductPanel .showproductDetails .orderDescPanel {
+     padding-bottom: 0px; 
+    font-size: .9em;
+}
+.ProductPanel .showproductDetails{padding: 10px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
+border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
+box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
+
+
+.ProductPanel .productTitle{ text-align: center; margin-bottom: 10px;}
+.orderDescPanel .col-sm-2{ padding-bottom: 10px; text-align: center;}
+ .notesOrderAvailPanel{margin-bottom: 10px; text-align: center; border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
+.ProductPanel .col-xs-6{ text-align: center;}
+
+
+ .KistlerSubMenu .navbar-toggle {
+     background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    float: none;
+    margin-bottom: 8px;
+    margin-right: 15px;
+    margin-top: 8px;
+    padding: 9px 10px;
+    position: relative;
+}
+.KistlerSubMenu .mobileMenu{
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btnApprovedpayment, .btnApprovedOrder{ margin-top: 20px;}
+
+	}
+
+	/* Extra Small Devices, Phones */
+	
+
+
+	@media only screen and (max-width: 480px) {
+	.subTotalTtitle{ font-weight: 700; font-size: 1.1em;}
+	.grandTotals{ background-color: #f5f5f5; font-weight:700; font-size: 1.1em;}
+
+/* ------------- Order History ---------------- */
+
+		/* Force table to not be like tables anymore */
+		 .mobileviewOrderHistory table, .mobileviewOrderHistory thead, .mobileviewOrderHistory tbody, .mobileviewOrderHistory th, .mobileviewOrderHistory td, .mobileviewOrderHistory tr { 
+			display: block; 
+            text-align: left;
+            border: none;
+		}
+		
+		/* Hide table headers (but not display: none;, for accessibility) */
+	.mobileviewOrderHistory thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		
+		.mobileviewOrderHistory tr { border: 1px solid #eee; }
+		
+		.mobileviewOrderHistory td { 
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #fcfcfc; 
+			position: relative;
+			padding-left: 50%!important; 
+            width: 100%; 
+		}
+		
+	.mobileviewOrderHistory td:before { 
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+			white-space: nowrap;
+            font-family: serif;
+			font-weight: 600;
+		}
+		
+		/*
+		Label the data
+		*/
+		.mobileviewOrderHistory td:nth-of-type(1):before { content: "Date"; }
+		.mobileviewOrderHistory td:nth-of-type(2):before { content: "Invoice"; }
+		.mobileviewOrderHistory td:nth-of-type(3):before { content: "Order Summary"; }
+		.mobileviewOrderHistory td:nth-of-type(4):before { content: "Amount"; }
+        .mobileviewOrderHistory td:nth-of-type(5):before { content: " "; }
+
+
+
+/* ------------- Order ---------------- */
+       	 .orderDetailsPaneltbl table, .orderDetailsPaneltbl thead, .orderDetailsPaneltbl tbody, .orderDetailsPaneltbl th, .orderDetailsPaneltbl td, .orderDetailsPaneltbl tr { 
+			display: block; 
+            text-align: left;
+		}
+		/* Hide table headers (but not display: none;, for accessibility) */
+	.orderDetailsPaneltbl thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		
+		.orderDetailsPaneltbl tr { border: 1px solid #eee; }
+		
+		.orderDetailsPaneltbl td { 
+			/* Behave  like a "row" */
+			border: none;
+		/*	border-bottom: 1px solid #fcfcfc; */
+			position: relative;
+			padding-left: 50%!important; 
+            width: 100%;
+		}
+		
+	.orderDetailsPaneltbl td:before { 
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+			white-space: nowrap;
+			font-family: serif;
+			font-weight: 600;
+		}
+		
+		/*
+		Label the data
+		*/
+		.orderDetailsPaneltbl td:nth-of-type(1):before { content: "Wine Request"; }
+		.orderDetailsPaneltbl td:nth-of-type(2):before { content: "Request"; }
+		.orderDetailsPaneltbl td:nth-of-type(3):before { content: "Total"; }
+		.orderDetailsPaneltbl td:nth-of-type(4):before { content: "Wish List"; }
+        .orderDetailsPaneltbl td:nth-of-type(5):before { content: "Additional"; }
+
+
+
+/* ------------- Approve ---------------- */
+
+	 .movieViewApproveOrder table, .movieViewApproveOrder thead, .movieViewApproveOrder tbody, .movieViewApproveOrder th, .movieViewApproveOrder td, .movieViewApproveOrder tr { 
+			display: block; 
+            text-align: left;
+		}
+		/* Hide table headers (but not display: none;, for accessibility) */
+	.movieViewApproveOrder thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		
+		.movieViewApproveOrder tr { border: 1px solid #eee; }
+		
+		.movieViewApproveOrder td { 
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #fcfcfc; 
+			position: relative;
+			padding-left: 50%!important; 
+            width: 100%;
+		}
+		
+	.movieViewApproveOrder td:before { 
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+			white-space: nowrap;
+			font-family: serif;
+			font-weight: 600;
+		}
+		
+		/*
+		Label the data
+		*/
+		.movieViewApproveOrder td:nth-of-type(1):before { content: "Wine Request"; }
+		.movieViewApproveOrder td:nth-of-type(2):before { content: "Request"; }
+		.movieViewApproveOrder td:nth-of-type(3):before { content: "Total"; }
+		.movieViewApproveOrder td:nth-of-type(4):before { content: "Wish List"; }
+        .movieViewApproveOrder td:nth-of-type(5):before { content: "Additional"; }
+
+	}
+
+    @media only screen and (max-width : 480px){
+
+	}
+
+	/* Custom, iPhone Retina */
+	@media only screen and (max-width : 320px){
+		.col-xs-6 span{display: block;}
+	}

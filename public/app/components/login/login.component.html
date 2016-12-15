@@ -1,0 +1,31 @@
+<div class="form-signin">
+  <h2 class="loginTextCenter">Login</h2>
+  <div class="loginSummText">Welcome to your Kistler Vineyards Member Portal</div>
+  <form [formGroup]="loginForm" novalidate (ngSubmit)="authenticate(loginForm.controls.password.value)">
+    <div class="form-group">
+      <label for="InputEmail1">Email address</label>
+      <input type="email" class="form-control" id="InputEmail1" placeholder="Email" formControlName="email">
+      <control-messages [control]="loginForm.controls.email"></control-messages>
+    </div>
+    <div class="form-group">
+      <label for="InputPassword1">Password</label>
+      <input type="password" class="form-control" id="InputPassword1" placeholder="Password" #pwd formControlName="password">
+      <control-messages [control]="loginForm.controls.password"></control-messages>
+    </div>
+    <alert  *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
+    <div class="form-inline signInPanel">
+      <div class="form-group">
+        <button type="submit" class="btn btn-md btn-kistler" [disabled]="!loginForm.valid">Submit</button>
+      </div>
+      <div class="form-group forgotPassword">
+        <a routerLink='/forgot/password'>Forgot password</a>
+      </div>
+    </div>
+  </form>
+  <div class="loginFooter">
+    <div class="join-mailingList">
+      Not a member yet? <a href='http://www.kistlervineyards.com/mailing-list/'>Join our mailing list</a>
+    </div>
+    <div class="">Enjoy access to new releases and vintners notes view and track your order</div>
+  </div>  
+</div>

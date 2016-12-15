@@ -1,0 +1,21 @@
+{
+  "name": "kistlerecommerce",
+  "version": "0.0.1",
+  "description": "E-Commerce project for Kistler Wineries",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Sushant Agrawal",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "edge": "^6.5.1",
+    "express": "^4.14.0",
+    "ipaddr.js": "^1.2.0",
+    "jsonwebtoken": "^7.1.9",
+    "nodemailer": "^2.6.4",
+    "request-ip": "^1.2.3",
+    "rxjs": "^5.0.0-rc.1"
+  }
+}

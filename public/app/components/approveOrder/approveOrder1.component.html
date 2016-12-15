@@ -1,0 +1,116 @@
+<div class="container mainContainer">
+  <p>{{approveHeading}}</p>
+
+  <form class="form-horizontal">
+
+    <div class="form-group">
+      <div>Shipping Address</div>
+      <div class="col-sm-3">
+        {{selectedAddress.address1}}, {{selectedAddress.zip}}, {{selectedAddress.city}}, {{selectedAddress.street}}
+      </div>
+      <button type="button" class="col-sm-1" (click)="changeSelectedAddress()">Change</button>
+    </div>
+
+    <div class="form-group">
+      <p>Payment method</p>
+      <div class="col-sm-3">
+        {{selectedCard.cardName}}, {{selectedCard.cardNumber}}
+      </div>
+      <button type="button" class="col-sm-1" (click)="changeSelectedCard()">Change</button>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class='col-sm-2'>Wine Request</div>
+        <div class='col-sm-1'>Request</div>
+        <div class='col-sm-1'>Total</div>
+        <div class="col-sm-1">Wish List</div>
+        <div class="col-am-1">Additional</div>
+        <div class="row" *ngFor="let order of orders">
+          <div class='col-sm-2'>{{order.item}}</div>
+          <div class='col-sm-1'>{{order.orderQty}}</div>
+          <div class='col-sm-1'>${{(order.orderQty * order.price)  | number : '1.2-2'}}</div>
+          <div class='col-sm-1'>{{order.wishList}}</div>
+          <div class='col-sm-1'>${{(order.wishList * order.price) | number : '1.2-2'}}</div>
+        </div>
+        
+        <div class='row'>
+          <div class='col-sm-2'>Total wine costs</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.wineTotals.wine | number : '1.2-2'}}</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.wineTotals.addl | number : '1.2-2'}}</div>
+        </div>
+        <div class="row">
+          <div class='col-sm-2'>Sales Tax @{{footer.salesTaxPerc}}%</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.salesTaxTotals.wine | number : '1.2-2'}}</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.salesTaxTotals.addl | number : '1.2-2'}}</div>
+        </div>
+        <div class="row">
+          <div class='col-sm-2'>Shipping</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.shippingTotals.wine | number : '1.2-2'}}</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.shippingTotals.addl | number : '1.2-2'}}</div>
+        </div>
+        <div class="row">
+          <div class='col-sm-2'>Previous Balance / Credit</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.prevBalances.wine | number : '1.2-2'}}</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.prevBalances.addl | number : '1.2-2'}}</div>
+        </div>
+        <div class="row">
+          <div class='col-sm-2'>Grand Total</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.grandTotals.wine | number : '1.2-2'}}</div>
+          <div class='col-sm-1'></div>
+          <div class='col-sm-1'>${{footer.grandTotals.addl | number : '1.2-2'}}</div>
+        </div>
+      </div>
+      <button type="button" (click)="editWineRequest()">Edit Wine Request</button>
+      <button type="button" (click)="approve()">Approve</button>
+    </div>
+  </form>
+  <div class="row">
+    <modal #addrModal>
+      <modal-header>
+        <h1>Select a shipping address</h1>
+      </modal-header>
+      <modal-content>
+        <div class="form-group" *ngFor="let address of allAddresses; let i=index">
+          <input type="radio" [checked]="address.isDefault" (click)=selectAddress(address) name="isDefault"> {{address.address1}},
+          {{address.street}}, {{address.city}}, {{address.zip}}
+        </div>
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-primary" (click)="addrModal.close()">close</button>
+      </modal-footer>
+    </modal>
+  </div>
+  <div class="row">
+    <modal #cardModal>
+      <modal-header>
+        <h1>Select a credit card</h1>
+      </modal-header>
+      <modal-content>
+        <div class="form-group" *ngFor="let card of allCards; let i=index">
+          <input type="radio" [checked]="card.isDefault" (click)=selectCard(card) name="isDefaultCard"> {{card.cardName}},
+          {{card.cardNumber}}
+        </div>
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-primary" (click)="cardModal.close()">close</button>
+      </modal-footer>
+    </modal>
+  </div>
+  <alert *ngIf="isAlert" [type]="alert.type" dismissable="true">Test</alert>
+  <!--<alert *ngFor="let alert of alerts;let i = index" [type]="alert.type" dismissible="true" (close)="closeAlert(i)">
+  {{ alert?.msg }}
+</alert>-->
+
+  <alert *ngIf="isAlert" dismissOnTimeout="3000" [type]="alert.type">Data saved</alert>
+
+  <!--<button type="button" class='btn btn-primary' (click)="addAlert()">Add Alert</button>-->
+</div>

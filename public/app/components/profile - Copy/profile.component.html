@@ -1,0 +1,74 @@
+<div class="container mainContainer">
+    <h2>Profile</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="firstName">First Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.firstName" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="lastName">Last Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.lastName" class="form-control" id="lastName" name="lastName" placeholder="Enter last name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="phone">Phone:</label>
+                    <div class="col-sm-4">
+                        <input type="phone" [(ngModel)]="profile.phone" class="form-control" id="phone" name="phone" placeholder="Enter phone number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="birthDay">Birthday:</label>
+                    <div class="col-sm-4">
+                        <input type="date" [(ngModel)]="profile.birthDay" class="form-control" id="birthday" name="birthday" placeholder="Enter birth day">
+                        <!--<div style="display:inline-block; min-height:290px;">
+                            <datepicker [(ngModel)]="dt" [minDate]="minDate" [showWeeks]="true" name='kvDatePicker'></datepicker>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingAddress1">Mailing Address1:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.mailingAddress1" class="form-control" id="mailingAddress1" name="mailingAddress1"
+                            placeholder="Enter mailing address1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingAddress2">Mailing Address2:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.mailingAddress2" class="form-control" id="mailingAddress2" name="mailingAddress2"
+                            placeholder="Enter mailing address2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingCity">Mailing City:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.mailingCity" class="form-control" id="mailingCity" name="mailingCity" placeholder="Enter mailing city">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingState">Mailing state:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.mailingState" class="form-control" id="mailingState" name="mailingState" placeholder="Enter mailing address1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingZip">Mailing Zip:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [(ngModel)]="profile.mailingZip" class="form-control" id="mailingZip" name="mailingZip" placeholder="Enter mailing zip">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-4">
+                        <button type="submit" class="btn btn-kistler" (click)="submit()"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

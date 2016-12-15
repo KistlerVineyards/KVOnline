@@ -1,0 +1,52 @@
+<div class="container mainContainer">
+    <h2>Order</h2>
+    <div class="introText boxPanel">
+        <div class="welcomeTxt">Welcome <label class="username"> {{staticTexts.salutation}}</label></div>
+        <summary [innerHTML]=staticTexts.introText></summary>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-default ProductPanel" *ngFor="let order of orders">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-5 col-xs-12 productTitle">
+                        <a (click)="toggleDetails(order)">{{order.item }}</a>
+                    </div>
+                    <div class="col-sm-3 col-xs-12 notesOrderAvailPanel">
+                        <!-- <div class="testingNotes"><a (click)="toggleDetails(order)">Tasting Notes</a></div>-->
+                        <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.packing =='b' ? 'Btl' : 'Pkg'}}</div>
+                        <div class="availPack">Avail:<span class="availableQtyColor"> {{order.availableQty}} {{order.packing =='b' ? 'Btls' : 'Pkg'}}</span></div>
+                    </div>
+                    <div class="col-sm-2 col-xs-6 ">
+                        <span>Request: </span><input class="form-control orderWith" type="number" min="0" onfocus="this.select()"
+                            [(ngModel)]="order.orderQty">
+                    </div>
+                    <div class="col-sm-2 col-xs-6 ">Wish List: <input class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList"></div>
+                </div>
+                <div *ngIf="order.orderQty > order.availableQty" class="alertExcesOrder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{excessOrder}}</div>
+                <div class=" showproductDetails" *ngIf="order.isShowDetails || order.packing !='b'">
+                    <div class="row orderDescPanel">
+                        <div *ngIf="order.imageUrl" class="col-sm-2"><img [src]="order.imageUrl" class="img-thumbnail"></div>
+                        <div class="col-sm-10" *ngIf="order.packing !='b'" [innerHTML]=order.descr></div>
+                        <div class="col-sm-10" *ngIf="order.packing =='b'"><span class="review1"> {{order.review1}}</span>
+                                <div [innerHTML]=order.review2></div>
+                        </div>
+                    </div>
+                    <!--<div class="row" *ngIf="order.tastingNotes">
+                        <div class="col-sm-12 tastingNotesPanel" [innerHTML]=order.tastingNotes></div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row requestPanel">
+        <div class="checkbox col-xs-10" >
+            <label *ngIf="isShowHolidayGiftOption"><input type="checkbox" [(ngModel)]="isholidayGift"> {{staticTexts.holidayGift}}</label>
+        </div>
+        <div class="col-xs-2">
+            <button (click)="request()" class="btn btn-md btn-kistler pull-right">Request</button>
+        </div>
+    </div>
+    <alert *ngIf="alert.show" [type]="alert.type" dismissable="true"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{alert.message}}</alert>
+    <label>{{staticTexts.minimumRequest}}</label>
+    <div><label>{{staticTexts.bottomNotes}}</label></div>
+</div>

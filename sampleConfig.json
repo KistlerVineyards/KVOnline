@@ -1,0 +1,37 @@
+{
+    "jwtKey": "12345",
+    "port": 6120,
+    "env": "development",
+    "connString": "Data Source=SRV-SQL2012-SP\\SQL2012SP;Database=@dbName;Integrated Security=True",
+    "dbName": "KistlerDB",
+    "host": "http://localhost:6120",
+    "homePageUrl": "http://www.kistlervineyards.com/",
+    "sendMail": {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "secure": false,
+        "fromUser": "*****",
+        "fromUserPassword": "*****",
+        "fromUserName": "System"
+    },
+    "forgotPassword": {
+        "mailBody": "Please note that this is a system generated email. Please do not reply to this email. In order to generate a new password click the following link or paste it in your browser. This link is valid for 24 hours.",
+        "subject": "Forgot password"
+    },
+    "sendPassword": {
+        "mailBody": "Your newly generated password is <b>@pwd</b> and you are strongy recommended to change this password by logging in to site at @url.",
+        "subject": "New password"
+    },
+    "changePassword": {
+        "mailBody": "Your password is successfully changed.",
+        "subject": "Change password"
+    },
+    "receipt": {
+        "mailBody": "Thank you for Your order to Kistler Vineyards. Your materials will be shipped as per policy.",
+        "subject": "Request receipt"
+    },
+    "createPassword": {
+        "mailBody": "A new password has been successfully created.",
+        "subject": "Create password"
+    }
+}

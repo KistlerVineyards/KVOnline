@@ -1,0 +1,17 @@
+<h3>Create new account</h3>
+<div class='row'>
+	<span class='col-md-1'>Email:</span>
+	<input class='col-md-2' type="text" [(ngModel)]="email">
+</div>
+<div class='row'>
+	<span class='col-md-1'>Password:</span>
+	<input class='col-md-2' type="password" #pwd>
+</div>
+<div class='row'>
+	<span class='col-md-1'>Confirm password:</span>
+	<input class='col-md-2' type="password" #confirmPwd>
+</div>
+<div class='row'>
+	<span class='col-md-1'></span>
+	<button class="col-md-2 btn btn-success" (click)="createAccount(pwd.value,confirmPwd.value)">Submit</button>
+</div>

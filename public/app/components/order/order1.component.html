@@ -1,0 +1,48 @@
+<div class="container mainContainer">
+    <h2>Order</h2>
+    <div class="introText boxPanel">
+        <div class="welcomeTxt">Welcome <label class="username"> ipsum</label></div>
+        <summary>{{staticTexts.introText}}</summary>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-default" *ngFor="let order of orders">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-4 productTitle">
+                        <a (click)="toggleDetails(order)">{{order.item }}</a>
+                    </div>
+                    <div class="col-sm-1 col-xs-4"><a href="#collapse{{order.id}}">Tasting Notes</a></div>
+                    <div class="col-sm-1 col-xs-4"><span class="productPrice">${{order.price}}</span>/{{order.packing =='b' ? 'Btl' : 'Pkg'}}</div>
+                    <div class="col-sm-2 col-xs-4">Avail: {{order.availableQty}} {{order.packing =='b' ? 'Btls' : 'Pkg'}}</div>
+                    <div class="col-sm-2 col-xs-6 ">
+                        <span>Request: </span><input class="form-control orderWith" type="number" min="1" onfocus="this.select()"
+                            [(ngModel)]="order.orderQty">
+                    </div>
+                    <div class="col-sm-2 col-xs-6 ">Wish List: <input class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList"></div>
+                </div>
+                <div class="row" *ngIf="order.isShowDetails">
+                    <img [src]="order.imageUrl" class="col-sm-4">
+                    <div class="col-sm-4">{{order.descr}}</div>
+                    <div class="col-sm-4">{{order.tastingNotes}}</div>
+                </div>
+            </div>
+
+            <!--<div id="collapse{{order.id}}" class="panel-collapse collapse">
+                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.</div>
+            </div>-->
+        </div>
+    </div>
+    <div class="row requestPanel">
+        <div class="checkbox col-sm-10">
+            <label><input type="checkbox" value=""> {{staticTexts.holidayGift}}</label>
+        </div>
+        <div class="col-sm-2">
+            <!--<button (click)="save()" class="btn btn-md btn-kistler pull-right">Save</button>-->
+            <button (click)="request()" class="btn btn-md btn-kistler pull-right">Request</button>
+        </div>
+    </div>
+    <label>{{staticTexts.minimumRequest}}</label>
+    <div><label>{{staticTexts.bottomNotes}}</label></div>
+</div>

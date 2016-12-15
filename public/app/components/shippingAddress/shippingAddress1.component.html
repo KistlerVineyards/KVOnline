@@ -1,0 +1,41 @@
+<h2>Shipping Addresses</h2>
+<button (click)="addAddress()">Add Address</button>
+<form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-2">Address</div>
+        <div class="col-sm-2">Zip</div>
+        <div class="col-sm-2">Street</div>
+        <div class="col-sm-2">City</div>
+    </div>
+    <div class="form-group" *ngFor="let address of addresses; let i=index">
+        <div *ngIf="(!address.isEdit)&&(!address.isNew)">
+            <div class="col-sm-2">{{address.address1}}</div>
+            <div class="col-sm-2">{{address.zip}}</div>
+            <div class="col-sm-2">{{address.street}}</div>
+            <div class="col-sm-2">{{address.city}}</div>
+            <div class="col-sm-2">
+                <button  (click)="toggleEdit(address)">Edit</button>
+                <input  type="radio" [checked]="address.isDefault" (click)="setDefault(address)" name="isDefault">Default
+            </div>
+        </div>
+        <div *ngIf="(address.isEdit) && (!address.isNew)">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.address1" name="address1">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.zip" name="zip">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.street" name="street">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.city" name="city">
+            <div class="col-sm-2">
+                <button  (click)="toggleEdit(address)">Edit</button>
+                <input  type="radio" [checked]="address.isDefault" (click)="setDefault(address)" name="isDefault">Default
+            </div>
+        </div>
+        <div *ngIf="(address.isNew) && (!address.isEdit)">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.address1" name="newAddress1">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.zip" name="newZip">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.street" name="newStreet">
+            <input class="col-sm-2" type="text" [(ngModel)]="address.city" name="newCity">
+            <button class="col-sm-1" (click)="removeNew(i)">Remove</button>
+        </div>
+
+    </div>
+    <button (click)="submit()">Submit</button>
+</form>

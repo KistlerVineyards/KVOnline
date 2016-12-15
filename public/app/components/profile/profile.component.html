@@ -1,0 +1,95 @@
+<div class="container mainContainer">
+    <h2>Profile</h2>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form [formGroup]="profileForm" novalidate (ngSubmit)="submit()" class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="firstName">Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" formControlName="firstName">
+                        <control-messages [control]="profileForm.controls.firstName"></control-messages>
+                    </div>
+                </div>
+                <!--
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="lastName">Last Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="lastName" class="form-control" id="lastName" name="lastName" placeholder="Enter last name">
+                        <control-messages [control]="profileForm.controls.lastName"></control-messages>
+                    </div>
+                </div>
+                -->
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="birthDay">Birthday:</label>
+                    <div class="col-sm-4">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4">
+                                <p-calendar formControlName='birthDay' [(ngModel)]="primeDate" [showIcon]="true" placeholder='mm/dd/yyyy' [monthNavigator]="true"
+                                    [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
+                            </div>
+                        </div>
+                        <control-messages [control]="profileForm.controls.birthDay"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingAddress1">Mailing Address 1:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="mailingAddress1" class="form-control" id="mailingAddress1" name="mailingAddress1" placeholder="Enter mailing address1">
+                        <control-messages [control]="profileForm.controls.mailingAddress1"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingAddress2">Mailing Address 2:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="mailingAddress2" class="form-control" id="mailingAddress2" name="mailingAddress2" placeholder="Enter mailing address2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingCity">Mailing City:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="mailingCity" class="form-control" id="mailingCity" name="mailingCity" placeholder="Enter mailing city">
+                        <control-messages [control]="profileForm.controls.mailingCity"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingState">Mailing state:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="mailingState" class="form-control" id="mailingState" name="mailingState" placeholder="Enter mailing state">
+                        <control-messages [control]="profileForm.controls.mailingState"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="mailingZip">Mailing Zip:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="mailingZip" class="form-control" id="mailingZip" name="mailingZip" placeholder="Enter mailing zip">
+                        <control-messages [control]="profileForm.controls.mailingZip"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="control-label col-sm-4" for="bCountry">Mailing Country:</label>
+                        <div class="col-sm-4">
+                            <select formControlName='mailingCountry' [(ngModel)]='selectedCountryName' class="form-control" id="bCountry">
+                                <option *ngFor="let country of countries" [value]="country.countryName" [selected]="country.countryName == profileForm.controls.mailingCountry">{{country.countryName}}</option>
+                            </select>
+                            <control-messages [control]="profileForm.controls.mailingCountry"></control-messages>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <label class="control-label col-sm-4" for="phone">Phone:</label>
+                    <div class="col-sm-4">
+                        <!--<input type="phone" formControlName="phone" class="form-control" id="phone" name="phone" placeholder="Enter phone number">-->
+						<p-inputMask mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
+                        <control-messages [control]="profileForm.controls.phone"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-4">
+                        <alert *ngIf="alert.show" [type]="alert.type" [dismissible]="true">{{alert.message}}</alert>
+                        <button type="submit" [disabled]="!(profileForm.valid && profileForm.dirty)" class="btn btn-kistler"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-growl [value]="messages"></p-growl>
+</div>

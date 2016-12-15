@@ -1,0 +1,41 @@
+<nav class="navbar navbar-dark navbar-inverse bg-navKistler">
+    <div class="navbar-header" (window:resize)="onResize($event)">
+        <button type="button" class="navbar-toggle" (click)="menuToggle()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" [href]="kistler">Kistler Vineyards</a>
+    </div>
+    <div class="navbar-collapse collapse1" *ngIf="showMenu">
+        <!--<ul class="nav navbar-nav">
+            <li class="active"><a [href]="home">Home</a></li>
+        </ul>-->
+        <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="viewBox.logout"><a>{{currentUser}}</a></li>
+            <li *ngIf="viewBox.needHelp"><a routerLink="#" (click)="hideMenu()">Need Help?</a></li>
+            <li *ngIf="viewBox.order"><a routerLink="/order" (click)="hideMenu()">Order</a></li>
+            <li *ngIf="viewBox.myAccount"><a routerLink="/profile" (click)="hideMenu()">My Account</a></li>
+            <li *ngIf="viewBox.logout"><a routerLink="/login" (click)="logout()">Log Out</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container navbar KistlerSubMenu" role="navigation" *ngIf="viewBox.menuBar">
+    <div class="navbar-header"(window:resize)="onResize($event)">
+        <div class="navbar-toggle mobileMenu" (click)="myAccountToggle()">
+            My Account
+        </div>
+    </div>
+    <div class="navbar-collapse"  *ngIf="myAccountshowMenu">
+        <ul class="nav navbar-nav">
+            <li class=""><a routerLink="/profile" (click)="hideMenu()">Profile</a></li>
+            <li class=""><a routerLink="/order/history" (click)="hideMenu()">Order History</a></li>
+            <li class=""><a routerLink="/shipping/address" (click)="hideMenu()">Shipping Addresses</a></li>
+            <li class=""><a routerLink="/payment/method" (click)="hideMenu()">Payment Methods</a></li>
+            <li class="active"><a routerLink="/change/password" (click)="hideMenu()">Change Password</a></li>
+        </ul>
+    </div>
+</div>
+<router-outlet></router-outlet>

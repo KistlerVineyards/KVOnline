@@ -1,0 +1,22 @@
+<nav class="navbar navbar-dark navbar-inverse bg-navKistler">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li *ngIf="viewBox.needHelp"><a routerLink="#">Need Help?</a></li>
+      <li *ngIf="viewBox.order"><a routerLink="/order">Order</a></li>
+      <li *ngIf="viewBox.myAccount"><a routerLink="/profile">My Account</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid" *ngIf="viewBox.menuBar">
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a routerLink="/profile">Profile</a></li>
+    <li class="active"><a routerLink="/order/history">Order History</a></li>
+    <li class="active"><a routerLink="/shipping/address">Shipping Addresses</a></li>
+    <li class="active"><a routerLink="/payment/method">Payment Methods</a></li>
+    <li class="active"><a routerLink="/change/password">Change Password</a></li>
+  </ul>
+</div>
+<router-outlet></router-outlet>
