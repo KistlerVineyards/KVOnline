@@ -15,13 +15,17 @@ export class ForgotPassword {
   subscription: Subscription;
   //email: string;
   forgotForm: FormGroup;
+  alert: any = {};
   constructor(private appService: AppService, private router: Router, private fb: FormBuilder) {
     this.subscription = appService.filterOn('post:forgot:password')
       .subscribe(d => {
         if (d.data.error) {
-          console.log(d.data.error.status)
+          console.log(d.data.error.status);
+          this.appService.showAlert(this.alert, true, 'emailNotFound');
         } else {
           console.log('Success');
+          
+          //this.appService.showAlert(this.alert, true, 'emailFound');
           this.router.navigate(['/login']);
         }
       });
@@ -32,6 +36,7 @@ export class ForgotPassword {
     });
   }
   sendMail(email) {
+    this.alert = {};
     let base64Encoded = this.appService.encodeBase64(email);
     this.appService.httpPost('post:forgot:password', { auth: base64Encoded });
   }

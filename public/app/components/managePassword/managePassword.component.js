@@ -20,13 +20,16 @@ var ForgotPassword = (function () {
         this.appService = appService;
         this.router = router;
         this.fb = fb;
+        this.alert = {};
         this.subscription = appService.filterOn('post:forgot:password')
             .subscribe(function (d) {
             if (d.data.error) {
                 console.log(d.data.error.status);
+                _this.appService.showAlert(_this.alert, true, 'emailNotFound');
             }
             else {
                 console.log('Success');
+                //this.appService.showAlert(this.alert, true, 'emailFound');
                 _this.router.navigate(['/login']);
             }
         });
@@ -38,6 +41,7 @@ var ForgotPassword = (function () {
         });
     };
     ForgotPassword.prototype.sendMail = function (email) {
+        this.alert = {};
         var base64Encoded = this.appService.encodeBase64(email);
         this.appService.httpPost('post:forgot:password', { auth: base64Encoded });
     };

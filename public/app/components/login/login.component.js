@@ -45,8 +45,10 @@ var Login = (function () {
             else {
                 console.log('token:' + d.data.token);
                 _this.alert.show = false;
-                _this.appService.setCredential(_this.loginForm.controls["email"].value, d.data.token);
-                _this.router.navigate(['order']);
+                appService.setCredential(_this.loginForm.controls["email"].value, d.data.token);
+                //start inactivity timeout using request / reply mecanism
+                var ret = appService.request('login:success', d.data.inactivityTimeoutSecs || 300);
+                router.navigate(['order']);
             }
         });
     }

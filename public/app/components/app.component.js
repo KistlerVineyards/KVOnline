@@ -12,22 +12,69 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var app_service_1 = require('../services/app.service');
 var config_1 = require('../config');
+var core_2 = require('@ng-idle/core');
+//import {DialogModule} from 'primeng/primeng';
 var AppComponent = (function () {
-    function AppComponent(appService, router) {
+    //needHelpDisplay:boolean=false;
+    function AppComponent(appService, router, idle) {
         var _this = this;
         this.appService = appService;
         this.router = router;
+        this.idle = idle;
         this.home = '#';
         this.kistler = '#';
         this.viewBox = config_1.viewBoxConfig['/login'];
         this.showMenu = false;
         this.myAccountshowMenu = false;
         this.currentUser = "";
+        this.needHelpText = "";
+        this.logout = function () {
+            _this.appService.resetCredential();
+            if (_this.idle.isIdling() || _this.idle.isRunning()) {
+                _this.idle.stop();
+            }
+        };
+        //Total timeout period is secs * 2
+        this.setInactivityTimeout = function (secs) {
+            //set current user to be displayed to nav bar
+            var credential = _this.appService.getCredential();
+            if (credential) {
+                _this.currentUser = credential.email;
+            }
+            if (_this.idle.isIdling() || _this.idle.isRunning()) {
+                _this.idle.stop();
+            }
+            // sets an idle timeout of 15 seconds, for testing purposes.
+            _this.idle.setIdle(Number(secs));
+            // sets a timeout period of 15 seconds. after 30 seconds of inactivity, the user will be considered timed out.
+            _this.idle.setTimeout(Number(secs));
+            // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
+            _this.idle.setInterrupts(core_2.DEFAULT_INTERRUPTSOURCES);
+            // this.idle.onIdleEnd.subscribe(() => { 
+            //   // this.idleState = 'No longer idle.' ;
+            //   console.log('Idle end');
+            // });
+            _this.idle.onTimeout.take(1).subscribe(function () {
+                // this.idleState = 'Timed out!';
+                // this.timedOut = true;
+                console.log('time out');
+                _this.logout();
+                _this.router.navigate(['/login']);
+            });
+            // this.idle.onIdleStart.subscribe(() => { 
+            //   // this.idleState = 'You\'ve gone idle!' ;
+            //   console.log('idle start');
+            // });
+            // this.idle.onTimeoutWarning.subscribe((countdown) => { 
+            //   // this.idleState = 'You will time out in ' + countdown + ' seconds!' ;
+            // });
+            _this.idle.watch();
+        };
         this.initMenu(window.innerWidth);
-        var credential = appService.getCredential();
-        if (credential) {
-            this.currentUser = credential.email;
-        }
+        this.needHelpSub = appService.behFilterOn('masters:download:success').subscribe(function (d) {
+            _this.needHelpText = _this.appService.getNeedHelpText();
+            //this.isDataReady = true;
+        });
         this.initDataSub = appService.filterOn('get:init:data').subscribe(function (d) {
             if (d.data.error) {
                 console.log(d.data.error);
@@ -45,28 +92,17 @@ var AppComponent = (function () {
         });
     }
     ;
-    AppComponent.prototype.logout = function () {
-        this.appService.resetCredential();
-    };
-    ;
-    AppComponent.prototype.hideMenu = function () {
-        if (window.innerWidth > 768) {
-            this.showMenu = true;
-            this.myAccountshowMenu = true;
-        }
-        else {
-            this.showMenu = false;
-            this.myAccountshowMenu = false;
-        }
-    };
-    ;
     AppComponent.prototype.ngOnInit = function () {
         this.appService.httpGet('get:init:data');
+        //request / reply mecanism to start inactivity timer at successful login
+        this.appService.reply('login:success', this.setInactivityTimeout);
+        //this.setInactivityTimeout();
     };
     ;
     AppComponent.prototype.ngOnDestroy = function () {
         this.subscription.unsubscribe();
         this.initDataSub.unsubscribe();
+        this.needHelpSub.unsubscribe();
     };
     ;
     AppComponent.prototype.menuToggle = function () {
@@ -96,7 +132,7 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/components/app.component.html'
         }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router])
+        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router, core_2.Idle])
     ], AppComponent);
     return AppComponent;
 }());

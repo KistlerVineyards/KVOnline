@@ -41,8 +41,10 @@ export class Login {
                 } else {
                     console.log('token:' + d.data.token);
                     this.alert.show = false;
-                    this.appService.setCredential(this.loginForm.controls["email"].value, d.data.token);
-                    this.router.navigate(['order']);
+                    appService.setCredential(this.loginForm.controls["email"].value, d.data.token);
+                    //start inactivity timeout using request / reply mecanism
+                    let ret = appService.request('login:success', d.data.inactivityTimeoutSecs || 300);
+                    router.navigate(['order']);
                 }
             });
     };

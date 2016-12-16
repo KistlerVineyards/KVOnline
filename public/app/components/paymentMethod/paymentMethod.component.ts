@@ -28,7 +28,7 @@ export class PaymentMethod {
     isDataReady: boolean = false;
     messages: Message[] = [];
     display: boolean = false;
-
+    creditCardTypes: any = []
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService
     ) {
         this.initPayMethodForm();
@@ -43,6 +43,7 @@ export class PaymentMethod {
             });
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
             this.countries = this.appService.getCountries();
+            this.creditCardTypes = this.appService.getCreditCardTypes();
             this.isDataReady = true;
         });
         this.postPayMethodSub = appService.filterOn("post:payment:method")
@@ -143,9 +144,9 @@ export class PaymentMethod {
             , ccExpiryYear: this.payMethodForm.controls['ccExpiryYear'].value
             , ccSecurityCode: this.payMethodForm.controls['ccSecurityCode'].value
             //, co: ['']
-            //, name: this.payMethodForm.controls['name'].value
+            , name: this.payMethodForm.controls['ccFirstName'].value + ' ' + this.payMethodForm.controls['ccLastName'].value
             , street1: this.payMethodForm.controls['street1'].value
-            , street2: this.payMethodForm.controls['street2'].value
+            , street2: this.payMethodForm.controls['street2'].value ? this.payMethodForm.controls['street2'].value : ''
             , city: this.payMethodForm.controls['city'].value
             , state: this.payMethodForm.controls['state'].value
             , zip: this.payMethodForm.controls['zip'].value

@@ -25,6 +25,7 @@
       , 'moment': 'npm:moment'
       // , 'mydatepicker': 'npm:mydatepicker'
       , 'primeng': 'npm:primeng'
+      , '@ng-idle/core':'npm:@ng-idle/core/bundles/core.umd.min.js'
       //, 'ng2-bootstrap/ng2-bootstrap': 'npm:ng2-bootstrap/bundles/ng2-bootstrap.umd.js'
       // , 'jquery': 'npm:jquery/dist/jquery.min.js'
       // , 'bootstrap':'npm:bootstrap/dist/js/bootstrap.min.js'

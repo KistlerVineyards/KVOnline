@@ -20,9 +20,11 @@ export class AppService {
     channel: any;
     globalHash: {} = {};
     countries: [{ any }];
+    creditCardTypes: [string];
     smartyStreetApiKey: string;
     smartyStreetAuthId:string;
     smartyStreetAuthToken:string;
+    needHelpText: string;
     constructor(private http: Http) {
         this.subject = new Subject();
         this.behSubject = new BehaviorSubject({ id: '1', data: {} });
@@ -38,6 +40,10 @@ export class AppService {
                         this.smartyStreetApiKey = data.Table1[0].smartyStreetApiKey;
                         this.smartyStreetAuthId = data.Table1[0].smartyStreetAuthId;
                         this.smartyStreetAuthToken = data.Table1[0].smartyStreetAuthToken;
+                        this.creditCardTypes = data.Table1[0].creditCardTypes.split(",").map(function (item) {
+                            return item.trim();
+                        });
+                        this.needHelpText = data.Table2[0].HelpText;
                     }
                     this.behEmit('masters:download:success');
                 }
@@ -46,11 +52,14 @@ export class AppService {
         setTimeout(() => {
             this.httpGet('get:all:masters')
         }, 2000);
-
+     };
+    getCreditCardTypes() {
+        return (this.creditCardTypes);
     };
     getCountries() {
         return (this.countries);
-    }
+    };
+    getNeedHelpText() { return (this.needHelpText); }
     // getTestAsync(){
     //     setTimeout(function(){ 
     //         return('testError'); 

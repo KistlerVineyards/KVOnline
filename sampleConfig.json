@@ -1,5 +1,7 @@
 {
     "jwtKey": "12345",
+    "jwtKeyExpiresIn":"1d",
+    "inactivityTimeoutSecs":"600",
     "port": 6120,
     "env": "development",
     "connString": "Data Source=SRV-SQL2012-SP\\SQL2012SP;Database=@dbName;Integrated Security=True",

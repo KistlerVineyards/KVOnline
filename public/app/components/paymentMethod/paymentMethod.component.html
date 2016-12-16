@@ -58,7 +58,11 @@
                     <div class="row">
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccType">Card type:</label>
-                            <input type="text" class="form-control" id="ccType" placeholder="Enter card type" formControlName="ccType">
+                            <!--<input type="text" class="form-control" id="ccType" placeholder="Enter card type" formControlName="ccType">                            -->
+                            <select formControlName='ccType' [(ngModel)]='selectedCreditCardType' class="form-control" id="ccType">
+                                <option *ngFor="let cardType of creditCardTypes" [value]="cardType">{{cardType}}</option>
+                            </select>
+                            
                             <control-messages [control]="payMethodForm.controls.ccType"></control-messages>
                         </div>
                         <div class="col-sm-6 formGap">
@@ -136,7 +140,7 @@
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bCountry">Billing Country:</label>
                             <select formControlName='countryName' [(ngModel)]='selectedISOCode' class="form-control" id="bCountry">
-                                <option *ngFor="let countryObj of countries" [value]="countryObj.isoCode">{{countryObj.countryName}}</option>
+                                <option *ngFor="let countryObj of countries" [value]="countryObj.countryName">{{countryObj.countryName}}</option>
                             </select>
                             <control-messages [control]="payMethodForm.controls.countryName"></control-messages>
                         </div>

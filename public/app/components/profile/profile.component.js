@@ -38,6 +38,9 @@ var Profile = (function () {
                 var profileArray = JSON.parse(d.data).Table;
                 if (profileArray.length > 0) {
                     _this.profile = profileArray[0];
+                    if (_this.profile.mailingCountry == null) {
+                        _this.profile.mailingCountry = "United States";
+                    }
                 }
                 _this.initProfileForm();
             }
@@ -115,6 +118,7 @@ var Profile = (function () {
         pr.birthDay = mDate;
         pr.mailingAddress1 = this.profileForm.controls['mailingAddress1'].value;
         pr.mailingAddress2 = this.profileForm.controls['mailingAddress2'].value;
+        pr.mailingAddress2 = pr.mailingAddress2 ? pr.mailingAddress2 : '';
         pr.mailingCity = this.profileForm.controls['mailingCity'].value;
         pr.mailingState = this.profileForm.controls['mailingState'].value;
         pr.mailingZip = this.profileForm.controls['mailingZip'].value;

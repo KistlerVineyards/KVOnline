@@ -31,6 +31,7 @@ var createPassword_component_1 = require('./components/managePassword/createPass
 var ng2_modal_1 = require('ng2-modal');
 var ng2_bootstrap_1 = require('ng2-bootstrap');
 var ng2_bootstrap_2 = require('ng2-bootstrap');
+var core_2 = require('@ng-idle/core');
 // import { MyDatePickerModule } from 'mydatepicker/dist/my-date-picker.module';
 var primeng_1 = require('primeng/primeng');
 // import { SpinnerModule } from 'primeng/primeng';
@@ -49,7 +50,8 @@ var AppModule = (function () {
                 primeng_1.CalendarModule,
                 primeng_1.ConfirmDialogModule,
                 primeng_1.InputMaskModule,
-                primeng_1.GrowlModule
+                primeng_1.GrowlModule,
+                core_2.NgIdleModule.forRoot()
             ],
             declarations: [app_component_1.AppComponent, login_component_1.Login, order_component_1.Order, managePassword_component_1.ForgotPassword,
                 managePassword_component_1.SendPassword, managePassword_component_1.ChangePassword, createAccount_component_1.CreateAccount,

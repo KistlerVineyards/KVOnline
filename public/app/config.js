@@ -1,6 +1,7 @@
 "use strict";
 exports.urlHash = {
     'post:authenticate': '/api/authenticate',
+    'post:authenticate:code:email': '/api/authenticate/code/email',
     'post:validate:token': '/api/validate/token',
     'post:forgot:password': '/api/forgot/password',
     'post:send:password': '/api/send/password',
@@ -68,7 +69,9 @@ exports.validationErrorMessages = {
     'payMethodInsertFailed': 'Payment method insert failed',
     'addressValidationUnauthorized': 'Authorization error while validating address.',
     'invalidAddress': 'This address is invalid',
-    'invalidZipCode': 'This zip code is not a US legal zip code'
+    'invalidZipCode': 'This zip code is not a US legal zip code',
+    'emailNotFound': 'Email address is not registered. Please try again.',
+    'emailFound': 'Reset password link has been sent to your email address. Please check.'
 };
 exports.viewBoxConfig = {
     '/login': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false },
@@ -81,7 +84,7 @@ exports.viewBoxConfig = {
     '/payment/method': { home: true, needHelp: false, order: true, myAccount: false, menuBar: true, logout: true },
     '/change/password': { home: true, needHelp: false, order: true, myAccount: false, menuBar: true, logout: true },
     '/create/account': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: true },
-    '/forgot/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: true },
+    '/forgot/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false },
     '/send/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: true },
     '/approve/order': { home: true, needHelp: true, order: false, myAccount: true, menuBar: false, logout: true },
     '/create/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false }

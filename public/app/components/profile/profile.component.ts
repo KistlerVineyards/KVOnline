@@ -44,6 +44,10 @@ export class Profile {
                     let profileArray = JSON.parse(d.data).Table;
                     if (profileArray.length > 0) {
                         this.profile = profileArray[0];
+                        if(this.profile.mailingCountry == null)
+                        {
+                            this.profile.mailingCountry="United States";
+                        }
                     }
                     this.initProfileForm();
                 }
@@ -117,6 +121,7 @@ export class Profile {
         pr.birthDay = mDate;
         pr.mailingAddress1 = this.profileForm.controls['mailingAddress1'].value;
         pr.mailingAddress2 = this.profileForm.controls['mailingAddress2'].value;
+        pr.mailingAddress2 = pr.mailingAddress2 ? pr.mailingAddress2 :'';
         pr.mailingCity = this.profileForm.controls['mailingCity'].value;
         pr.mailingState = this.profileForm.controls['mailingState'].value;
         pr.mailingZip = this.profileForm.controls['mailingZip'].value;

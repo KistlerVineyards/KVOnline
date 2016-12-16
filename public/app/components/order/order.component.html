@@ -13,8 +13,8 @@
                     </div>
                     <div class="col-sm-3 col-xs-12 notesOrderAvailPanel">
                         <!-- <div class="testingNotes"><a (click)="toggleDetails(order)">Tasting Notes</a></div>-->
-                        <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.packing =='b' ? 'Btl' : 'Pkg'}}</div>
-                        <div class="availPack">Avail:<span class="availableQtyColor"> {{order.availableQty}} {{order.packing =='b' ? 'Btls' : 'Pkg'}}</span></div>
+                        <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.prodtype}}</div>
+                        <div class="availPack">Avail:<span class="availableQtyColor"> {{order.allocationDescription}}</span></div>
                     </div>
                     <div class="col-sm-2 col-xs-6 ">
                         <span>Request: </span><input class="form-control orderWith" type="number" min="0" onfocus="this.select()"

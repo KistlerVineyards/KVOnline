@@ -4,6 +4,10 @@
         <div class="panel-body">
             <form [formGroup]="profileForm" novalidate (ngSubmit)="submit()" class="form-horizontal">
                 <div class="form-group">
+                    <label class="control-label col-sm-4" for="code">Code:</label>
+                    <label  class="control-label">{{profile.id}}</label>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-sm-4" for="firstName">Name:</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" formControlName="firstName">
@@ -69,7 +73,7 @@
 					<label class="control-label col-sm-4" for="bCountry">Mailing Country:</label>
                         <div class="col-sm-4">
                             <select formControlName='mailingCountry' [(ngModel)]='selectedCountryName' class="form-control" id="bCountry">
-                                <option *ngFor="let country of countries" [value]="country.countryName" [selected]="country.countryName == profileForm.controls.mailingCountry">{{country.countryName}}</option>
+                                <option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}</option>
                             </select>
                             <control-messages [control]="profileForm.controls.mailingCountry"></control-messages>
                         </div>
@@ -85,7 +89,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-4">
                         <alert *ngIf="alert.show" [type]="alert.type" [dismissible]="true">{{alert.message}}</alert>
-                        <button type="submit" [disabled]="!(profileForm.valid && profileForm.dirty)" class="btn btn-kistler"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Submit</button>
+                        <button type="submit" [disabled]="!(profileForm.valid && profileForm.dirty && profileForm.valueChanges)" class="btn btn-kistler"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Submit</button>
                     </div>
                 </div>
             </form>

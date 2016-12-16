@@ -26,6 +26,7 @@ var PaymentMethod = (function () {
         this.isDataReady = false;
         this.messages = [];
         this.display = false;
+        this.creditCardTypes = [];
         this.initPayMethodForm();
         this.getAllPaymentMethodsSub = appService.filterOn("get:payment:method")
             .subscribe(function (d) {
@@ -39,6 +40,7 @@ var PaymentMethod = (function () {
         });
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
             _this.countries = _this.appService.getCountries();
+            _this.creditCardTypes = _this.appService.getCreditCardTypes();
             _this.isDataReady = true;
         });
         this.postPayMethodSub = appService.filterOn("post:payment:method")
@@ -143,8 +145,9 @@ var PaymentMethod = (function () {
             ccExpiryMonth: this.payMethodForm.controls['ccExpiryMonth'].value,
             ccExpiryYear: this.payMethodForm.controls['ccExpiryYear'].value,
             ccSecurityCode: this.payMethodForm.controls['ccSecurityCode'].value,
+            name: this.payMethodForm.controls['ccFirstName'].value + ' ' + this.payMethodForm.controls['ccLastName'].value,
             street1: this.payMethodForm.controls['street1'].value,
-            street2: this.payMethodForm.controls['street2'].value,
+            street2: this.payMethodForm.controls['street2'].value ? this.payMethodForm.controls['street2'].value : '',
             city: this.payMethodForm.controls['city'].value,
             state: this.payMethodForm.controls['state'].value,
             zip: this.payMethodForm.controls['zip'].value,

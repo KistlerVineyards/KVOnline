@@ -59,10 +59,12 @@ filterOn('authenticate').subscribe(d => {
             next(err);
         } else {
             if (result.authenticated) {
-                let token = jwt.sign(result.user, config.jwtKey);
+                let token = jwt.sign(result.user, config.jwtKey,{ expiresIn: config.jwtKeyExpiresIn || '1d' });
+                let inactivityTimeoutSecs=config.inactivityTimeoutSecs || 300
                 res.status(200).json({
                     authenticated: true,
-                    token: token
+                    token: token,
+                    inactivityTimeoutSecs:inactivityTimeoutSecs
                 });
             } else {
                 let err = new def.NError(401, messages.errUnAuthenticated, messages.messAuthFailed);

@@ -21,10 +21,12 @@ import { CreatePassword } from './components/managePassword/createPassword.compo
 import { ModalModule } from 'ng2-modal';
 import { PaginationModule } from 'ng2-bootstrap';
 import { AlertModule } from 'ng2-bootstrap';
+import {NgIdleModule} from '@ng-idle/core';
 // import { MyDatePickerModule } from 'mydatepicker/dist/my-date-picker.module';
 import {
   CalendarModule, ConfirmDialogModule,
   ConfirmationService, InputMaskModule, GrowlModule, Message
+  //, DialogModule
 } from 'primeng/primeng';
 // import { SpinnerModule } from 'primeng/primeng';
 //import { jquery } from 'jquery';
@@ -42,8 +44,9 @@ import {
     , ConfirmDialogModule
     , InputMaskModule
     , GrowlModule
+    , NgIdleModule.forRoot()
+    //, DialogModule
     //,DialogModule
-    // , SpinnerModule
   ]
   , declarations: [AppComponent, Login, Order, ForgotPassword
     , SendPassword, ChangePassword, CreateAccount,
