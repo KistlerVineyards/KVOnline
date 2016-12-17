@@ -17,6 +17,8 @@ export class Order {
   };
   excessOrder: string = this.appService.getValidationErrorMessage('excessOrder');
   email: string;
+  minOrderBottles=0;
+  minOrderPackages=0;
   staticTexts: {
     introText: string,
     holidayGift: string,
@@ -69,7 +71,9 @@ export class Order {
                   let settingsData = JSON.parse(d.data);
                   if (settingsData.Table.length > 0) {
                         let settings = settingsData.Table[0];
-                        this.staticTexts.minimumRequest = "Minimum request " + settings.MinOrderBottles + " bottles or " + settings.MinOrderpackages + " 6-bottle package";
+                        this.minOrderBottles = settings.MinOrderBottles;
+                        this.minOrderPackages = settings.MinOrderpackages;
+                        this.staticTexts.minimumRequest = "Minimum request " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
                         //this.staticTexts.bottomNotes = "Wines in " + settings.MinOrderBottles+ " bottle packages are subject to change";;
                         this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox;// == "true" ? true : false;
                         //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);
@@ -99,21 +103,46 @@ export class Order {
   //   this.appService.httpPost('post:save:order', { token: token, order: finalOrder });
   // };
   request() {
+    let totalRequestedBottles = 0;
+    let totalRequestedPackagess = 0;
     let ords = this.orders.filter((a) => {
+      if(a.packing == 'p')
+      {
+        totalRequestedPackagess += a.orderQty;
+        totalRequestedBottles += a.orderQty * 6;
+      }
+      else
+      {
+        if(a.packing == 's')
+        {
+          totalRequestedBottles += a.orderQty * 3;
+        }
+        else
+        {
+          totalRequestedBottles += a.orderQty;
+        }
+      }
       return ((a.orderQty && a.orderQty > 0) || (a.wishList && a.wishList > 0));
     });
     let index = this.orders.findIndex(a => a.orderQty > a.availableQty);
     if (index != -1) {
       this.alert.show = true;
       this.alert.message = this.appService.getValidationErrorMessage('someExcessOrder');
-    } else {
+    } 
+    else {
       if (ords.length > 0) {
-        this.alert.show = false;
-        this.alert.message = '';
-        this.orders.isholidayGift=this.isholidayGift;
-        this.appService.reply('orders', this.orders);        
-        //this.appService.reply('holidaygift', this.isholidayGift);
-        this.router.navigate(['approve/order']);
+        if(totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0) ){
+          this.alert.show = false;
+          this.alert.message = '';
+          this.orders.isholidayGift=this.isholidayGift;
+          this.appService.reply('orders', this.orders);        
+          //this.appService.reply('holidaygift', this.isholidayGift);
+          this.router.navigate(['approve/order']);
+        }else{
+          //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
+          this.alert.show = true;
+          this.alert.message = "Invalid request. Minimum request should be " + this.minOrderBottles + " bottles or " + this.minOrderPackages+" 6-bottle package";
+        }
       } else {
         this.alert.show = true;
         this.alert.message = this.appService.getValidationErrorMessage('emptyOrder');

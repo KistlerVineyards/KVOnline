@@ -5,8 +5,8 @@ var router = express.Router();
 var config, def, messages, data;
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
-// var requestIp = require('request-ip');
-var ipaddr = require('ipaddr.js');
+var requestIp = require('request-ip');
+//var ipaddr = require('ipaddr.js');
 //var lodash = require('lodash');
 router.init = function (app) {
     config = app.get('config');
@@ -93,8 +93,10 @@ router.post('/api/authenticate', function (req, res, next) {
         let err;
         if (auth) {
             //let clientIp = handler.getClientIp(req);
-            //let remoteIp = ipaddr.process(clientIp).toString();
-            let remoteIp="::1";    
+            //let remoteIp1 = ipaddr.process(clientIp).toString();
+            //let remoteIp="::1";    
+            var remoteIp = requestIp.getClientIp(req);
+            
             var data = { action: 'authenticate', auth: auth, remoteIp:remoteIp };
             handler.edgePush(res, next, 'authenticate', data);
         }
