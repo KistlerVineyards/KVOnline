@@ -133,7 +133,7 @@ export class ChangePassword {
   changePassword(oldPwd, newPwd1, newPwd2) {
     let credential = this.appService.getCredential();
     if (credential) {
-      let email = credential.email;
+      let email = credential.user.email;
       if (email) {
         if (newPwd1 === newPwd2) {
           let base64Encoded = this.appService.encodeBase64(email + ':' + md5(oldPwd) + ':' + md5(newPwd1));

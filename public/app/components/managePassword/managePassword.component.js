@@ -152,7 +152,7 @@ var ChangePassword = (function () {
     ChangePassword.prototype.changePassword = function (oldPwd, newPwd1, newPwd2) {
         var credential = this.appService.getCredential();
         if (credential) {
-            var email = credential.email;
+            var email = credential.user.email;
             if (email) {
                 if (newPwd1 === newPwd2) {
                     var base64Encoded = this.appService.encodeBase64(email + ':' + md5_1.md5(oldPwd) + ':' + md5_1.md5(newPwd1));
