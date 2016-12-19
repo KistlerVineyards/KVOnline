@@ -110,6 +110,7 @@ var ChangePassword = (function () {
             else {
                 _this.appService.resetCredential();
                 _this.appService.showAlert(_this.alert, true, '', 'success');
+                _this.router.navigate(['/login']);
             }
         });
     }

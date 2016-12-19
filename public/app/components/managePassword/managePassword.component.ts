@@ -93,6 +93,7 @@ export class ChangePassword {
         } else {
           this.appService.resetCredential();
           this.appService.showAlert(this.alert,true,'','success');
+          this.router.navigate(['/login']);
         }
       });
   };
