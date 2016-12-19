@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs/subscription';
 import { AppService } from '../services/app.service';
 import { viewBoxConfig } from '../config';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core'
-//import {DialogModule} from 'primeng/primeng';
 
 @Component({
   selector: 'my-app',
@@ -22,7 +21,7 @@ export class AppComponent {
 
  showMenu: boolean = false;
   myAccountshowMenu: boolean = false;
-  currentUser: string = "";
+  currentEmail: string = "";
   needHelpText: string = "";
   //needHelpDisplay:boolean=false;
 
@@ -56,19 +55,25 @@ export class AppComponent {
     }
   };
   ngOnInit() {
+    let credential = this.appService.getCredential();
+
     this.appService.httpGet('get:init:data');
     //request / reply mecanism to start inactivity timer at successful login
     this.appService.reply('login:success', this.setInactivityTimeout);
-    //this.setInactivityTimeout();
+    this.setInactivityTimeout();
   };
 
-  //Total timeout period is secs * 2
-  setInactivityTimeout = (secs) => {
+  setInactivityTimeout = () => {
     //set current user to be displayed to nav bar
+    let secs;
     let credential = this.appService.getCredential();
-    if (credential) {
-      this.currentUser = credential.email;
+    if (!credential) {
+      return;
     }
+
+    this.currentEmail = credential.user.email;
+    secs = credential.inactivityTimeoutSecs || 300;
+
     if (this.idle.isIdling() || this.idle.isRunning()) {
       this.idle.stop();
     }

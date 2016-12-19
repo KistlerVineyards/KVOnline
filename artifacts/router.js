@@ -51,40 +51,6 @@ router.get('/api/all/master', function (req, res, next) {
     }
 });
 
-//authenticate with code or email
-router.post('/api/authenticate/code/email', function (req, res, next) {
-    try {
-        let auth = req.body.auth;
-        let err;
-        //var string = "SGVsbG8gV29ybGQ=";
-        var buffer = new Buffer(auth, 'base64');
-        var ascii = buffer.toString('ascii');
-        let items = ascii.split(':');
-        let item0, item1;
-        if (items && items.length == 2) {
-            item0 = items[0];
-            item1 = items[1];
-        }
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (re.test(item0)) {
-            console.log('Valid email');
-        }
-
-        if (auth) {
-            let clientIp = handler.getClientIp(req);
-            let remoteIp = ipaddr.process(clientIp).toString();
-            var data = { action: 'authenticate', auth: auth, remoteIp: remoteIp };
-            handler.edgePush(res, next, 'authenticate', data);
-        }
-        else {
-            let err = new def.NError(404, messages.errAuthStringNotFound, messages.messAuthStringinPostRequest);
-            next(err);
-        }
-    } catch (error) {
-        let err = new def.NError(500, messages.errInternalServerError, error.message);
-        next(err);
-    }
-});
 
 //authenticate
 router.post('/api/authenticate', function (req, res, next) {
@@ -362,7 +328,8 @@ router.post('/api/shipping/address', function (req, res, next) {
                 phone: req.body.address.phone,
                 isoCode: req.body.address.isoCode,
                 country: req.body.address.country,
-                userId: req.user.userId
+                userId: req.user.userId,
+                isAddressVerified:req.body.address.isAddressVerified
             }
         };
         handler.edgePush(res, next, 'common:result:no:data', data);
@@ -389,7 +356,8 @@ router.put('/api/shipping/address', function (req, res, next) {
                 phone: req.body.address.phone,
                 isoCode: req.body.address.isoCode,
                 country: req.body.address.country,
-                userId: req.user.userId
+                userId: req.user.userId,
+                isAddressVerified:req.body.address.isAddressVerified
             }
         };
         handler.edgePush(res, next, 'common:result:no:data', data);

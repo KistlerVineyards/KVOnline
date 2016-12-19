@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var app_service_1 = require('../../services/app.service');
+var core_1 = require("@angular/core");
+var app_service_1 = require("../../services/app.service");
 var PaymentMethod = (function () {
     function PaymentMethod(appService) {
         var _this = this;
@@ -85,13 +85,13 @@ var PaymentMethod = (function () {
         this.setDefaultCardSubscription.unsubscribe();
     };
     ;
-    PaymentMethod = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/paymentMethod/paymentMethod.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService])
-    ], PaymentMethod);
     return PaymentMethod;
 }());
+PaymentMethod = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/paymentMethod/paymentMethod.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService])
+], PaymentMethod);
 exports.PaymentMethod = PaymentMethod;
 //# sourceMappingURL=paymentMethod.component.js.map

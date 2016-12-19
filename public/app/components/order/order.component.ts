@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 //import { CustomValidators } from '../../services/customValidators';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
 import { AppService } from '../../services/app.service';
-import { AlertModule } from 'ng2-bootstrap';
+import { AlertModule } from 'ng2-bootstrap/components/alert';
 
 @Component({
   templateUrl: 'app/components/order/order.component.html'
@@ -134,9 +134,9 @@ export class Order {
         if(totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0) ){
           this.alert.show = false;
           this.alert.message = '';
-          this.orders.isholidayGift=this.isholidayGift;
+          //this.orders.isholidayGift=this.isholidayGift;
           this.appService.reply('orders', this.orders);        
-          //this.appService.reply('holidaygift', this.isholidayGift);
+          this.appService.reply('holidaygift', this.isholidayGift);
           this.router.navigate(['approve/order']);
         }else{
           //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
@@ -153,7 +153,8 @@ export class Order {
     let ords = this.appService.request('orders');
     if (ords) {
       this.orders = ords;
-      this.isholidayGift = this.orders.isholidayGift;
+      //this.isholidayGift = this.orders.isholidayGift;
+      this.isholidayGift = this.appService.request('holidaygift');
     } else {
       this.appService.httpGet('get:current:offer');
     }

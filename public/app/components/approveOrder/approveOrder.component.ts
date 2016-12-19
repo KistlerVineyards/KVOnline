@@ -5,7 +5,7 @@ import { AppService } from '../../services/app.service';
 import { Router } from '@angular/router';
 import { messages } from '../../config';
 import { ModalModule, Modal } from "ng2-modal";
-import { AlertModule } from 'ng2-bootstrap';
+//import { AlertModule } from 'ng2-bootstrap';
 @Component({
     templateUrl: 'app/components/approveOrder/approveOrder.component.html'
 })
@@ -13,6 +13,7 @@ export class ApproveOrder {
     approveArtifactsSub: Subscription;
     postApproveSubscription: Subscription;
     shippingandSalesTaxSub:Subscription;
+    getProfileSubscription: Subscription;
     selectedAddress: any = {};
     selectedCard: any = {};
     allTotals: {} = {};
@@ -33,21 +34,32 @@ export class ApproveOrder {
     approveHeading: string = messages['mess:approve:heading'];
 
     allAddresses: [any] = [{}];
-    allCards: [any] = [{}];
+    // allCards: [any] = [{}];
+    payMethods:[any]=[{}];
     orders: any[];
     holidaygift:boolean = false;
     isChangeAddress:boolean=false;
     shippingBottles:any={};
     //orderBundle: any = {};
-    isAlert: boolean;
-    alert: any = { type: "success" };
+    profile: any = {};
     isApproveButtonDisabled:boolean = true;
-
     constructor(private appService: AppService, private location: Location, private router: Router) {
         let ords = appService.request('orders');
         if (!ords) {
             router.navigate(['order']);
         }
+        this.getProfileSubscription = appService.filterOn('get:user:profile')
+            .subscribe(d => {
+                if (d.data.error) {
+                    console.log(d.data.error);
+                } else {
+                    let profileArray = JSON.parse(d.data).Table;
+                    if (profileArray.length > 0) {
+                        this.profile = profileArray[0];
+                        //this.selectedCountryName = profileArray[0].mailingCountry
+                    }
+                }
+            });
         this.postApproveSubscription = appService.filterOn('post:save:approve:request').subscribe(d => {
             if (d.data.error) {
                 console.log(d.data.error);
@@ -63,10 +75,8 @@ export class ApproveOrder {
                 let artifacts = JSON.parse(d.data);
                 if (artifacts.Table.length > 0) {
                     this.selectedCard = artifacts.Table[0];
-                    this.isApproveButtonDisabled=false;
                 } else {
-                    this.selectedCard = null;
-                    this.isApproveButtonDisabled=true;
+                    this.selectedCard = {};
                 }
                 if (artifacts.Table1.length > 0) {
                     if(!this.isChangeAddress){
@@ -77,8 +87,12 @@ export class ApproveOrder {
                         this.isApproveButtonDisabled=false;
                     }
                 } else {
-                    this.selectedAddress = null;
+                    //this.selectedAddress = null;
+                    this.selectedAddress.salesTaxPerc=0;
+                    this.selectedAddress.shippingCharges=0;
+                    this.selectedAddress.addlshippingCharges=0;
                     this.isApproveButtonDisabled=true;
+
                 }
                 if (artifacts.Table2.length > 0) {
                     this.footer.prevBalance = artifacts.Table2[0] / 1;
@@ -96,11 +110,11 @@ export class ApproveOrder {
                 this.allAddresses = JSON.parse(d.data).Table;
             }
         });
-        this.allCardSubscription = appService.filterOn('get:all:credit:cards').subscribe(d => {
+        this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
             if (d.data.error) {
                 console.log(d.data.error);
             } else {
-                this.allCards = JSON.parse(d.data).Table;
+                this.payMethods = JSON.parse(d.data).Table;
             }
         });
         this.shippingandSalesTaxSub=appService.filterOn('get:approve:artifacts:ShippingandSalesTax').subscribe(d => {
@@ -132,7 +146,6 @@ export class ApproveOrder {
     };
     @ViewChild('addrModal') addrModal: Modal;
     changeSelectedAddress() {
-        this.isAlert = false;
         this.isChangeAddress=true;
         this.appService.httpGet('get:shipping:address');
         this.addrModal.open();
@@ -151,11 +164,14 @@ export class ApproveOrder {
             this.selectedAddress.salesTaxPerc=0;
             this.computeTotals();
         }
+        this.isApproveButtonDisabled=false;
     };
 
     @ViewChild('cardModal') cardModal: Modal;
     changeSelectedCard() {
-        this.appService.httpGet('get:all:credit:cards');
+        let body: any = {};
+        body.data = JSON.stringify({ sqlKey: 'GetAllPaymentMethods' });
+        this.appService.httpGet('get:payment:method', body);
         this.cardModal.open();
     };
     selectCard(card) {
@@ -169,8 +185,9 @@ export class ApproveOrder {
     };
     approve() {
         let orderBundle: any = {};
+        let paymentType = this.selectedCard == null ? "Credit Card" : "Pay Later";
         orderBundle.orderMaster = {
-            TaxRate:this.selectedAddress.salesTaxPerc,
+            TaxRate:this.selectedAddress.salesTaxPerc/100,
             PreviousBalance:this.footer.prevBalances.wine,
             Status:"pending",
             ShipName: this.selectedAddress.name,
@@ -183,33 +200,33 @@ export class ApproveOrder {
             ShipCountry: this.selectedAddress.country,
             ShipISOCode:this.selectedAddress.isoCode,
             ShipPhone: this.selectedAddress.phone,
-            PaymentType:"CC",
-            CCFirstName:this.selectedCard.CCFirstName,
-            CCLastName: this.selectedCard.CCLastName,
-            CCType:this.selectedCard.CCType,
-            CCNumber: this.selectedCard.CCNumber,
-            CCExpiryMonth:this.selectedCard.CCExpiryMonth,
-            CCExpiryYear: this.selectedCard.CCExpiryYear,
-            CCSecurityCode:this.selectedCard.CCSecurityCode,
+            PaymentType: paymentType,
+            CCFirstName:this.selectedCard.ccFirstName,
+            CCLastName: this.selectedCard.ccLastName,
+            CCType:this.selectedCard.ccType,
+            CCNumber: this.selectedCard.ccNumberActual,
+            CCExpiryMonth:this.selectedCard.ccExpiryMonth,
+            CCExpiryYear: this.selectedCard.ccExpiryYear,
+            CCSecurityCode:this.selectedCard.ccSecurityCode,
             BillingName: this.selectedCard.Name,
             BillingCo:this.selectedCard.Co,
-            BillingStreet1: this.selectedCard.Street1,
-            BillingStreet2:this.selectedCard.Street2,
-            BillingCity: this.selectedCard.City,
-            BillingState: this.selectedCard.State,
-            BillingZip:this.selectedCard.Zip,
-            BillingCountry: this.selectedCard.Country,
-            BillingISOCode:this.selectedCard.ISOCode,
-            DayPhone: this.selectedCard.Phone,
-            MailName: this.selectedCard.Name,
-            MailCo:this.selectedCard.Co,
-            MailStreet1: this.selectedCard.Street1,
-            MailStreet2:this.selectedCard.Street2,
-            MailCity: this.selectedCard.City,
-            MailState: this.selectedCard.State,
-            MailZip:this.selectedCard.Zip,
-            MailCountry: this.selectedCard.Country,
-            MailISOCode:this.selectedCard.ISOCode,
+            BillingStreet1: this.selectedCard.street1,
+            BillingStreet2:this.selectedCard.street2,
+            BillingCity: this.selectedCard.city,
+            BillingState: this.selectedCard.state,
+            BillingZip:this.selectedCard.zip,
+            BillingCountry: this.selectedCard.country,
+            BillingISOCode:this.selectedCard.isoCode,
+            DayPhone: this.selectedCard.phone,
+            MailName: this.profile.firstName,
+            MailCo:this.profile.Co,
+            MailStreet1: this.profile.mailingAddress1,
+            MailStreet2:this.profile.mailingAddress2,
+            MailCity: this.profile.mailingCity,
+            MailState: this.profile.mailingState,
+            MailZip:this.profile.mailingZip,
+            MailCountry: this.profile.mailingCountry,
+            MailISOCode:this.profile.mailingISOCode,
             HolidayGift:this.holidaygift
         };
         let master = orderBundle.orderMaster;
@@ -232,6 +249,10 @@ export class ApproveOrder {
             });       
         //orderBundle.orderImpDetails = { AddressId: this.selectedAddress.id, CreditCardId: this.selectedCard.id };
         this.appService.httpPost('post:save:approve:request', orderBundle);
+    };
+
+    removePayMethod(){
+        this.selectedCard={};
     };
 
     computeTotals() {
@@ -259,11 +280,13 @@ export class ApproveOrder {
         this.computeShipping();
 
         //grand totals
-        this.footer.grandTotals = {
-            wine: this.footer.wineTotals.wine/1 + this.footer.salesTaxTotals.wine/1 + this.footer.shippingTotals.wine/1
-            + this.footer.prevBalances.wine/1
-            , addl: this.footer.wineTotals.addl / 1 + this.footer.salesTaxTotals.addl / 1 + this.footer.shippingTotals.addl / 1
-            + this.footer.prevBalances.addl / 1
+          let totWineCost = this.footer.wineTotals.wine/1 + this.footer.salesTaxTotals.wine/1 + this.footer.shippingTotals.wine/1
+            + this.footer.prevBalances.wine/1;
+          let totWineaddlCost = this.footer.wineTotals.wine/1 + this.footer.salesTaxTotals.wine/1 + this.footer.shippingTotals.wine/1
+            + this.footer.prevBalances.wine/1;
+         this.footer.grandTotals = {
+            wine: totWineCost
+            , addl: totWineaddlCost
         };
     };
 
@@ -308,6 +331,7 @@ export class ApproveOrder {
     };
     ngOnInit() {
         this.getArtifact();
+        this.appService.httpGet('get:user:profile');
         //this.appService.httpGet('get:approve:artifacts')
     };
     ngOnDestroy() {
@@ -318,7 +342,8 @@ export class ApproveOrder {
     };
     getArtifact(){
        this.orders = this.appService.request('orders');
-       this.holidaygift=this.orders.isholidayGift;
+       //this.holidaygift=this.orders.isholidayGift;
+       this.holidaygift=this.appService.request('holidaygift');
        this.shippingBottles = this.orders.reduce(function (a, b, c) {
             return ({
                 requestedShippingBottle: a.requestedShippingBottle + b.shippingBottles * b.orderQty
@@ -357,22 +382,4 @@ export class ApproveOrder {
         //this.appService.httpGet('get:approve:artifacts', body)
        // this.appService.httpGet('get:approve:artifacts')
    }
-    public alerts: Array<Object> = [
-        {
-            type: 'danger',
-            msg: 'Oh snap! Change a few things up and try submitting again.'
-        },
-        {
-            type: 'success',
-            msg: 'Well done! You successfully read this important alert message.',
-            closable: true
-        }
-    ];
-    public closeAlert(i: number): void {
-        this.alerts.splice(i, 1);
-    };
-
-    public addAlert(): void {
-        this.alerts.push({ msg: 'Another alert!', type: 'warning', closable: true });
-    };
 }

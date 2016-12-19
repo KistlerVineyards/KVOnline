@@ -3,11 +3,12 @@ import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, Validators, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomValidators } from '../../services/customValidators';
 import { AppService } from '../../services/app.service';
-import { AlertModule } from 'ng2-bootstrap';
+import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
-// import { DatepickerModule } from 'ng2-bootstrap';
-// import { MyDatePickerModule } from 'mydatepicker/dist/my-date-picker.module';
-import { CalendarModule, InputMaskModule, GrowlModule, Message } from 'primeng/primeng';
+import { CalendarModule } from 'primeng/components/calendar/calendar';
+import { Message } from 'primeng/components/common/api';
+import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
+import { GrowlModule } from 'primeng/components/growl/growl';
 import { Util } from '../../services/util'
 @Component({
     templateUrl: 'app/components/profile/profile.component.html'
@@ -26,11 +27,12 @@ export class Profile {
     // };
     primeDate: any;
     countries: [any];
-    selectedCountryName: string = '';
+    selectedCountryName: string = 'United States';
     messages: Message[] = [];
     isDataReady: boolean = false;
+    user: any = {};
     constructor(private appService: AppService, private fb: FormBuilder) {
-        //this.myDatePickerOptions={};
+        this.user = appService.getCredential().user;
         this.initProfileForm();
 	this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
             this.countries = this.appService.getCountries();
@@ -44,15 +46,12 @@ export class Profile {
                     let profileArray = JSON.parse(d.data).Table;
                     if (profileArray.length > 0) {
                         this.profile = profileArray[0];
-                        if(this.profile.mailingCountry == null)
-                        {
-                            this.profile.mailingCountry="United States";
-                        }
+                        //this.selectedCountryName = profileArray[0].mailingCountry
                     }
                     this.initProfileForm();
                 }
             });
-	this.smartyStreetSubscription = appService.filterOn('get:smartyStreet')
+        this.smartyStreetSubscription = appService.filterOn('get:smartyStreet')
             .subscribe(d => {
                 if (d.data.error) {
                     console.log(d.data.error);
@@ -90,7 +89,6 @@ export class Profile {
             });
     };
     ngOnInit() {
-        // let token = this.appService.getToken();        
         this.appService.httpGet('get:user:profile');
     };
     onDateChanged(event) {
@@ -99,6 +97,7 @@ export class Profile {
     initProfileForm() {
         let mDate = Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
+            id: [this.profile.id],
             firstName: [this.profile.firstName, Validators.required]
             //, lastName: [this.profile.lastName, Validators.required]
             , phone: [this.profile.phone, [Validators.required, CustomValidators.phoneValidator]]
@@ -120,7 +119,6 @@ export class Profile {
         pr.phone = this.profileForm.controls['phone'].value;
         pr.birthDay = mDate;
         pr.mailingAddress1 = this.profileForm.controls['mailingAddress1'].value;
-        pr.mailingAddress2 = this.profileForm.controls['mailingAddress2'].value;
         pr.mailingAddress2 = pr.mailingAddress2 ? pr.mailingAddress2 :'';
         pr.mailingCity = this.profileForm.controls['mailingCity'].value;
         pr.mailingState = this.profileForm.controls['mailingState'].value;
@@ -138,7 +136,7 @@ export class Profile {
     ngOnDestroy() {
         this.getProfileSubscription.unsubscribe();
         this.saveProfileSubscription.unsubscribe();
-	this.smartyStreetSubscription.unsubscribe();
+        this.smartyStreetSubscription.unsubscribe();
         this.dataReadySubs.unsubscribe();
     };
 }

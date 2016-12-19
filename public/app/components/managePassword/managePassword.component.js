@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var forms_1 = require('@angular/forms');
-var customValidators_1 = require('../../services/customValidators');
-var app_service_1 = require('../../services/app.service');
-var md5_1 = require('../../vendor/md5');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var forms_1 = require("@angular/forms");
+var customValidators_1 = require("../../services/customValidators");
+var app_service_1 = require("../../services/app.service");
+var md5_1 = require("../../vendor/md5");
 var ForgotPassword = (function () {
     function ForgotPassword(appService, router, fb) {
         var _this = this;
@@ -48,14 +48,14 @@ var ForgotPassword = (function () {
     ForgotPassword.prototype.ngOnDestroy = function () {
         this.subscription.unsubscribe();
     };
-    ForgotPassword = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/managePassword/forgotPassword.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router, forms_1.FormBuilder])
-    ], ForgotPassword);
     return ForgotPassword;
 }());
+ForgotPassword = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/managePassword/forgotPassword.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router, forms_1.FormBuilder])
+], ForgotPassword);
 exports.ForgotPassword = ForgotPassword;
 //send password component
 var SendPassword = (function () {
@@ -83,14 +83,14 @@ var SendPassword = (function () {
     SendPassword.prototype.ngOnDestroy = function () {
         this.subscription.unsubscribe();
     };
-    SendPassword = __decorate([
-        core_1.Component({
-            template: "\n  <button (click)=\"sendPassword()\">Send Password</button>\n  "
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router])
-    ], SendPassword);
     return SendPassword;
 }());
+SendPassword = __decorate([
+    core_1.Component({
+        template: "\n  <button (click)=\"sendPassword()\">Send Password</button>\n  "
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router])
+], SendPassword);
 exports.SendPassword = SendPassword;
 //change password component
 var ChangePassword = (function () {
@@ -168,13 +168,13 @@ var ChangePassword = (function () {
     ChangePassword.prototype.ngOnDestroy = function () {
         this.subscription.unsubscribe();
     };
-    ChangePassword = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/managePassword/changePassword.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router, forms_1.FormBuilder])
-    ], ChangePassword);
     return ChangePassword;
 }());
+ChangePassword = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/managePassword/changePassword.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router, forms_1.FormBuilder])
+], ChangePassword);
 exports.ChangePassword = ChangePassword;
 //# sourceMappingURL=managePassword.component.js.map

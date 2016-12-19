@@ -8,13 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var app_service_1 = require('../../services/app.service');
-var forms_1 = require('@angular/forms');
-var customValidators_1 = require('../../services/customValidators');
+var core_1 = require("@angular/core");
+var app_service_1 = require("../../services/app.service");
+var forms_1 = require("@angular/forms");
+var customValidators_1 = require("../../services/customValidators");
 var ng2_modal_1 = require("ng2-modal");
-var primeng_1 = require('primeng/primeng');
-// import {SpinnerModule} from 'primeng/primeng';
+var api_1 = require("primeng/components/common/api");
 var PaymentMethod = (function () {
     function PaymentMethod(appService, fb, confirmationService) {
         var _this = this;
@@ -35,7 +34,6 @@ var PaymentMethod = (function () {
             }
             else {
                 _this.payMethods = JSON.parse(d.data).Table;
-                console.log(_this.payMethods);
             }
         });
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
@@ -67,7 +65,6 @@ var PaymentMethod = (function () {
                 console.log("Error occured");
             }
             else {
-                //this.payMethods.splice(d.body.index, 1);
                 _this.getPaymentMethod();
             }
         });
@@ -95,10 +92,6 @@ var PaymentMethod = (function () {
     PaymentMethod.prototype.initPayMethodForm = function () {
         this.year = (new Date()).getFullYear();
         this.month = (new Date()).getMonth() + 1;
-        var addr = {
-            country: "United States",
-            isoCode: "US",
-        };
         this.payMethodForm = this.fb.group({
             id: [''],
             cardName: ['', forms_1.Validators.required],
@@ -116,14 +109,15 @@ var PaymentMethod = (function () {
             city: ['', forms_1.Validators.required],
             state: ['', forms_1.Validators.required],
             zip: ['', forms_1.Validators.required],
-            countryName: [addr.country || '', forms_1.Validators.required],
-            isoCode: [addr.isoCode || ''],
+            countryName: ['', forms_1.Validators.required],
+            isoCode: [''],
             phone: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
             isDefault: [false]
         });
     };
     PaymentMethod.prototype.addPayMethod = function () {
         this.initPayMethodForm();
+        this.payMethodForm.controls["countryName"].setValue("US");
         this.payMethodModal.open();
     };
     ;
@@ -162,10 +156,11 @@ var PaymentMethod = (function () {
     };
     ;
     PaymentMethod.prototype.setDefault = function (card) {
+        this.payMethods.forEach(function (value, i) { return value.isDefault = false; });
+        card.isDefault = true;
         this.appService.httpPost('post:set:default:payment:method', { sqlKey: 'SetDefaultPaymentMethod', sqlParms: { id: card.id } });
     };
     PaymentMethod.prototype.ngOnInit = function () {
-        // this.appService.httpGet('get:credit:card', { token: token });
         this.getPaymentMethod();
     };
     ;
@@ -179,20 +174,19 @@ var PaymentMethod = (function () {
         this.dataReadySubs.unsubscribe();
         this.postPayMethodSub.unsubscribe();
         this.deletePayMethodSub.unsubscribe();
-        // this.setDefaultCardSubscription.unsubscribe();
     };
     ;
-    __decorate([
-        core_1.ViewChild('payMethodModal'), 
-        __metadata('design:type', ng2_modal_1.Modal)
-    ], PaymentMethod.prototype, "payMethodModal", void 0);
-    PaymentMethod = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/paymentMethod/paymentMethod.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, forms_1.FormBuilder, primeng_1.ConfirmationService])
-    ], PaymentMethod);
     return PaymentMethod;
 }());
+__decorate([
+    core_1.ViewChild('payMethodModal'),
+    __metadata("design:type", ng2_modal_1.Modal)
+], PaymentMethod.prototype, "payMethodModal", void 0);
+PaymentMethod = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/paymentMethod/paymentMethod.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, forms_1.FormBuilder, api_1.ConfirmationService])
+], PaymentMethod);
 exports.PaymentMethod = PaymentMethod;
 //# sourceMappingURL=paymentMethod.component.js.map

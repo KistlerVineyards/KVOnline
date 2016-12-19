@@ -31,7 +31,7 @@
         </div>
 </div>
 
-        <div class="orderDetailsPanel"  style="padding:15px; background-color:#ddd;">
+        <div class="orderDetailsPanel">
             <div class="arrow-up"></div>
 
 <div class="panel panel-default orderDetailsPaneltbl" name="requestTotal">
@@ -49,39 +49,39 @@
             </thead>
              <tbody>
             <tr *ngFor="let order of orderDetails.details">
-                <td class="producTitle">{{order.item}}</td>
-                <td class="text-center">{{order.orderQty}}</td>
-                <td class="productPrice priceFldAlign">${{(order.orderQty * order.price) | number : '1.2-2'}}</td>
-                <td class="text-center">{{order.wishList}}</td>
-                <td class="productPrice priceFldAlign">${{(order.wishList * order.price) | number : '1.2-2'}}</td>
+                <td class="producTitle">{{order.item}}&nbsp;</td>
+                <td class="text-center">{{order.orderQty}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(order.orderQty * order.price) | number : '1.2-2'}}&nbsp;</td>
+                <td class="text-center">{{order.wishList}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(order.wishList * order.price) | number : '1.2-2'}}&nbsp;</td>
             </tr>
-            <tr>
+            <tr  class="totalaWineCosts">
                 <td class="subTotalTtitle">Total wine costs</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceWine | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceAddl | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceAddl | number : '1.2-2'}}&nbsp;</td>
             </tr>
-            <tr>
-                <td class="subTotalTtitle">Sales Tax</td>
+            <tr  class="mobSalesTax">
+                <td class="subTotalTtitle">Sales Tax @{{selectedOrder.salesTaxPerc}}%</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxWine | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxAddl | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxAddl | number : '1.2-2'}}&nbsp;</td>
             </tr>
-            <tr>
+            <tr  class="mobShipping">
                 <td class="subTotalTtitle">Shipping</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.shippingWine | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.shippingWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.shippingAddl | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.shippingAddl | number : '1.2-2'}}&nbsp;</td>
             </tr>
             <tr class="grandTotals">
                 <td class="subTotalTtitle">Grand Total</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.grandTotalWine | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.grandTotalWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.grandTotalAddl | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.grandTotalAddl | number : '1.2-2'}}&nbsp;</td>
             </tr>
              </tbody>
 
@@ -152,7 +152,7 @@
             <div class="panel-heading">Payment Details</div>
         <div class="panel-body">
         <form class="form-horizontal">
-            <div class="panelPaymentGap">Card Name: <span class="cardname">{{orderDetails.card.CCFirstName + orderDetails.card.CCLastName}}</span></div>
+            <div class="panelPaymentGap">Card Name: <span class="cardname">{{orderDetails.card.CardName}}</span></div>
             <div class="panelPaymentGap">Card Type: <span class="cardNumber">{{orderDetails.card.CCType}}</span></div>
             <div class="panelPaymentGap">Card Number: <span class="cardNumber">{{orderDetails.card.CCNumber}}</span></div>
         </form>

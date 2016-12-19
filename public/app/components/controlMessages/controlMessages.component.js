@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var forms_1 = require('@angular/forms');
-var app_service_1 = require('../../services/app.service');
+var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+var app_service_1 = require("../../services/app.service");
 var ControlMessages = (function () {
     function ControlMessages(appService) {
         this.appService = appService;
@@ -28,19 +28,19 @@ var ControlMessages = (function () {
         return (ret);
     };
     ;
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', forms_1.FormControl)
-    ], ControlMessages.prototype, "control", void 0);
-    ControlMessages = __decorate([
-        core_1.Component({
-            selector: 'control-messages',
-            template: "<div class='validation' *ngIf=\"!isValid()\">{{errorMessage}}</div>",
-            styles: ["\n    .validation { \n        color: #e80c4d;\n        font-weight: 700;\n        font-size: .9em; \n        margin-top:6px;\n    }   \n    "]
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService])
-    ], ControlMessages);
     return ControlMessages;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", forms_1.FormControl)
+], ControlMessages.prototype, "control", void 0);
+ControlMessages = __decorate([
+    core_1.Component({
+        selector: 'control-messages',
+        template: "<div class='validation' *ngIf=\"!isValid()\">{{errorMessage}}</div>",
+        styles: ["\n    .validation { \n        color: #e80c4d;\n        font-weight: 700;\n        font-size: .9em; \n        margin-top:6px;\n    }   \n    "]
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService])
+], ControlMessages);
 exports.ControlMessages = ControlMessages;
 //# sourceMappingURL=controlMessages.component.js.map

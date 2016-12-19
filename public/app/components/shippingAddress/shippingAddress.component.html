@@ -1,32 +1,30 @@
 <div class="container mainContainer">
+    <p-confirmDialog header="Confirmation" style="z-index:10000;position:relative;" icon="fa fa-question-circle" width="300"></p-confirmDialog>
     <h2>Shipping Addresses</h2>
-<div class="panel panel-default kistlarShippingAddress">
-
-  <ul class="list-group">
-
-    <li class="list-group-item" *ngFor="let address of addresses; let i=index"> 
-                        <!--<span><input type="radio" name = "selected"></span>-->
-                        <span class="name-shipping-address">{{address.name}}</span>
-                        <span>, {{address.street1}}</span>
-                        <span *ngIf="address.street2">, {{address.street2}}</span>
-                        <span>, {{address.city}}</span>
-                        <span>, {{address.state}}</span>
-                        <span>, {{address.zip}}</span>
-                        <span>, {{address.country}}</span>
-                        <span>, {{address.phone}}</span>
-                        <span *ngIf="address.isDefault">, Default</span>
-                        <button *ngIf="isDataReady" type="button" class="btn btn-link" (click)="edit(address)">Edit</button></li>
-
-
-  </ul>
-   <div class="row panelAddSubmit">
-                <div class="col-xs-12 pull-left">
-                    <button *ngIf='isDataReady' (click)="addAddress()" class="btn btn-md btn-kistler"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Address</button>
-                </div>
+    <div class="panel panel-default kistlarShippingAddress">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let address of addresses; let i=index" (click)="click(radioButton,i)"> 
+                <span><input type="radio" name = "selected" #radioButton [checked]=address.isSelected ></span>
+                <span class="name-shipping-address">{{address.name}}</span>
+                <span>, {{address.street1}}</span>
+                <span *ngIf="address.street2">, {{address.street2}}</span>
+                <span>, {{address.city}}</span>
+                <span>, {{address.state}}</span>
+                <span>, {{address.zip}}</span>
+                <span>, {{address.country}}</span>
+                <span>, {{address.phone}}</span>
+                <span *ngIf="address.isDefault" class="DefaultColor">Default</span>
+                <!--<span *ngIf="address.isDefault">, <i>Default</i>-->
+                <!--<input type="checkbox" [checked]="address.isDefault" [disabled]="true" name="isDefault">-->
+                <!--</span>-->
+                <button *ngIf="isDataReady" type="button" class="btn btn-link" (click)="edit(address)">Edit</button></li>
+        </ul>
+        <div class="row panelAddSubmit">
+            <div class="col-xs-12 pull-left">
+                <button *ngIf='isDataReady' (click)="addAddress()" class="btn btn-md btn-kistler"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Address</button>
             </div>
-</div>
-
-
+        </div>
+    </div>
     <div class="row">
         <modal #shippingModal>
 
@@ -35,14 +33,7 @@
             </modal-header>
 
             <modal-content>
-                <form [formGroup]="shippingForm" novalidate (ngSubmit)="submitting()" class="form-horizontal">
-                    <!--<div class="form-group">
-                        <label class="control-label col-sm-2" for="kvCo">Co:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="kvCo" placeholder=" Enter company" formControlName="co">
-                            <control-messages [control]="shippingForm.controls.co"></control-messages>
-                        </div>
-                    </div>-->
+                <form [formGroup]="shippingForm" novalidate (ngSubmit)="verifyOrSubmit()" class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-sm-3" for="kvName">Full name:</label>
                         <div class="col-sm-9">
@@ -86,19 +77,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-3" for="kvCountry">Country:</label>                        
-                        <div class="col-sm-9">                            
+                        <label class="control-label col-sm-3" for="kvCountry">Country:</label>
+                        <div class="col-sm-9">
                             <select formControlName='countryName' [(ngModel)]='selectedCountryName' class="form-control" id="kvCountry">
                                 <option *ngFor="let countryObj of countries" [value]="countryObj.countryName">{{countryObj.countryName}}</option>
                             </select>
                             <control-messages [control]="shippingForm.controls.countryName"></control-messages>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-sm-3" for="kvPhone">Phone number:</label>
                         <div class="col-sm-9">
                             <!--<input type="text" class="form-control" id="kvPhone" placeholder="Enter shipping phone number" formControlName="phone">-->
-							<p-inputMask mask="(999) 999-9999" id="kvPhone" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
+                            <p-inputMask mask="(999) 999-9999" id="kvPhone" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
                             <control-messages [control]="shippingForm.controls.phone"></control-messages>
                         </div>
                     </div>
@@ -113,7 +104,8 @@
                     <div class="row">
                         <alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
                         <div class=" col-sm-offset-3 col-xs-9">
-                            <button *ngIf="isDataReady" type="submit" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid || !shippingForm.valueChanges">Submit</button>
+                            <button *ngIf="isDataReady" type="submit" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid || !shippingForm.valueChanges || isSaving">Submit</button>
+                            <!--<button type="button" (click)="verify()">Verify</button>-->
                             <button type="button" class="btn btn-md btn-kistler" (click)="cancel()">Cancel</button>
                         </div>
                     </div>

@@ -63,7 +63,7 @@ border-radius: 5px 5px 5px 5px;
 }
 .introText .welcomeTxt{ font-size:1.2em; margin-bottom:1px;}
 .introText .welcomeTxt .username{ color:#a65a02;}
-
+.brandColor{color:#a65a02;}
 
 .orderWith{ width:60px; display:inline-block;}
 
@@ -83,14 +83,18 @@ box-shadow: 0 0 2px 2px #dddddd;}
 
 .ProductPanel .showproductDetails .tastingNotesPanel{ border-top:solid 1px #dddddd; padding-top:15px;}
 .ProductPanel .showproductDetails .orderDescPanel .review1{ font-family: serif; font-weight: 700;}
-.orderDescPanel ul{list-style-type: none; margin-left: -29px;}
-
+.orderDescPanel ul{list-style-type: none; margin-left: -29px; margin-bottom: 0px;}
+.DefaultColor{background-color: #f0ad4e; color: #fff; padding: 2px 5px; display: inline-block; font-size: 11px; -webkit-border-radius: 5px 5px 5px 5px;
+border-radius: 5px 5px 5px 5px;} 
+.ui-inputtext{width: 100%; padding: 6px;}
+.helpLink{cursor: pointer;}
 
 .ProductPanel .requestPanel{padding:15px 0px;}
 .ProductPanel .requestPanel .btn{ text-align: right;}
 
 .hidefieldvalidationMsg{display: none; }
 .showfieldvalidationMsg{color: #94070d; display:block; }
+
 
 
 .Loadbox{ width: 40px; height: 40px; margin-left:-20px; margin-top:-20px; top:50%; left:50%; position: absolute; background-image:url(Preloader.gif); background-repeat: no-repeat;}
@@ -230,6 +234,12 @@ input.ng-valid{
 	background: red;
 }
 
+.ui-confirmdialog-message {
+    white-space: pre-line;
+}
+
+.profileCode{ line-height: 30px; color: #a75b02; font-family: serif; font-weight: 600; }
+
 	/*==========  Mobile First Method  ==========*/
 
 	/* Custom, iPhone Retina */
@@ -333,13 +343,13 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			top: -9999px;
 			left: -9999px;
 		}
-		
-		.mobileviewOrderHistory tr { border: 1px solid #eee; }
+	
+		.mobileviewOrderHistory tr { border: 1px solid #eee; } 
 		
 		.mobileviewOrderHistory td { 
 			/* Behave  like a "row" */
 			border: none;
-			border-bottom: 1px solid #fcfcfc; 
+			border-bottom: 1px solid #fff; 
 			position: relative;
 			padding-left: 50%!important; 
             width: 100%; 
@@ -361,10 +371,10 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		/*
 		Label the data
 		*/
-		.mobileviewOrderHistory td:nth-of-type(1):before { content: "Date"; }
-		.mobileviewOrderHistory td:nth-of-type(2):before { content: "Invoice"; }
-		.mobileviewOrderHistory td:nth-of-type(3):before { content: "Order Summary"; }
-		.mobileviewOrderHistory td:nth-of-type(4):before { content: "Amount"; }
+		.mobileviewOrderHistory td:nth-of-type(1):before { content: "Date:"; }
+		.mobileviewOrderHistory td:nth-of-type(2):before { content: "Invoice:"; }
+		.mobileviewOrderHistory td:nth-of-type(3):before { content: "Order Summary:"; }
+		.mobileviewOrderHistory td:nth-of-type(4):before { content: "Amount:"; }
         .mobileviewOrderHistory td:nth-of-type(5):before { content: " "; }
 
 
@@ -386,7 +396,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		.orderDetailsPaneltbl td { 
 			/* Behave  like a "row" */
 			border: none;
-		/*	border-bottom: 1px solid #fcfcfc; */
+			border-bottom: 1px solid #fff; 
 			position: relative;
 			padding-left: 50%!important; 
             width: 100%;
@@ -408,11 +418,11 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		/*
 		Label the data
 		*/
-		.orderDetailsPaneltbl td:nth-of-type(1):before { content: "Wine Request"; }
-		.orderDetailsPaneltbl td:nth-of-type(2):before { content: "Request"; }
-		.orderDetailsPaneltbl td:nth-of-type(3):before { content: "Total"; }
-		.orderDetailsPaneltbl td:nth-of-type(4):before { content: "Wish List"; }
-        .orderDetailsPaneltbl td:nth-of-type(5):before { content: "Additional"; }
+		.orderDetailsPaneltbl td:nth-of-type(1):before { content: "Wine Request:"; }
+		.orderDetailsPaneltbl td:nth-of-type(2):before { content: "Request:"; }
+		.orderDetailsPaneltbl td:nth-of-type(3):before { content: "Total:"; }
+		.orderDetailsPaneltbl td:nth-of-type(4):before { content: "Wish List:"; }
+        .orderDetailsPaneltbl td:nth-of-type(5):before { content: "Additional:"; }
 
 
 
@@ -429,12 +439,12 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			left: -9999px;
 		}
 		
-		.movieViewApproveOrder tr { border: 1px solid #eee; }
+		 .movieViewApproveOrder tr { border: 1px solid #eee; }
 		
 		.movieViewApproveOrder td { 
 			/* Behave  like a "row" */
 			border: none;
-			border-bottom: 1px solid #fcfcfc; 
+			border-bottom: 1px solid #fff; 
 			position: relative;
 			padding-left: 50%!important; 
             width: 100%;
@@ -456,11 +466,46 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		/*
 		Label the data
 		*/
-		.movieViewApproveOrder td:nth-of-type(1):before { content: "Wine Request"; }
-		.movieViewApproveOrder td:nth-of-type(2):before { content: "Request"; }
-		.movieViewApproveOrder td:nth-of-type(3):before { content: "Total"; }
-		.movieViewApproveOrder td:nth-of-type(4):before { content: "Wish List"; }
-        .movieViewApproveOrder td:nth-of-type(5):before { content: "Additional"; }
+		.movieViewApproveOrder td:nth-of-type(1):before { content: "Wine Request:"; }
+		.movieViewApproveOrder td:nth-of-type(2):before { content: "Request:"; }
+		.movieViewApproveOrder td:nth-of-type(3):before { content: "Total:"; }
+		.movieViewApproveOrder td:nth-of-type(4):before { content: "Wish List:"; }
+        .movieViewApproveOrder td:nth-of-type(5):before { content: "Additional:"; }
+
+.totalaWineCosts, .mobBalance-Credit, .mobShipping, .mobSalesTax{ background-color: #fffdfa;}
+
+
+.grandTotals td:nth-of-type(4){ display: none;}
+.grandTotals td:nth-of-type(2){ display: none;}
+
+.grandTotals td:nth-of-type(1):before { content: " "; }
+.grandTotals td:nth-of-type(1){	padding-left: 1%!important;  }
+
+
+
+.mobBalance-Credit td:nth-of-type(4){ display: none;}
+.mobBalance-Credit td:nth-of-type(2){ display: none;}
+.mobBalance-Credit td:nth-of-type(1):before { content: " "; }
+.mobBalance-Credit td:nth-of-type(1){	padding-left: 1%!important;  }
+
+.mobShipping td:nth-of-type(4){ display: none;}
+.mobShipping td:nth-of-type(2){ display: none;}
+.mobShipping td:nth-of-type(1):before { content: " "; }
+.mobShipping td:nth-of-type(1){	padding-left: 1%!important;  }
+
+
+.mobSalesTax td:nth-of-type(4){ display: none;}
+.mobSalesTax td:nth-of-type(2){ display: none;}
+.mobSalesTax td:nth-of-type(1):before { content: " "; }
+.mobSalesTax td:nth-of-type(1){	padding-left: 1%!important;  }
+
+.totalaWineCosts td:nth-of-type(4){ display: none;}
+.totalaWineCosts td:nth-of-type(2){ display: none;}
+.totalaWineCosts td:nth-of-type(1):before { content: " "; }
+.totalaWineCosts td:nth-of-type(1){	padding-left: 1%!important;  }
+
+
+.table>tbody>tr>td{ border-top: 1px solid #f8f8f8;}
 
 	}
 

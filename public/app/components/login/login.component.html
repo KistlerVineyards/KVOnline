@@ -3,7 +3,7 @@
   <div class="loginSummText">Welcome to your Kistler Vineyards Member Portal</div>
   <form [formGroup]="loginForm" novalidate (ngSubmit)="authenticate(loginForm.controls.password.value)">
     <div class="form-group">
-      <label for="InputEmail1">Email address</label>
+      <label for="InputEmail1">Email address or Customer code</label>
       <input type="email" class="form-control" id="InputEmail1" placeholder="Email" formControlName="email">
       <control-messages [control]="loginForm.controls.email"></control-messages>
     </div>

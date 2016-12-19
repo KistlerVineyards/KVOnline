@@ -1,6 +1,5 @@
 export var urlHash = {
     'post:authenticate': '/api/authenticate',
-    'post:authenticate:code:email':'/api/authenticate/code/email',
     'post:validate:token': '/api/validate/token',
     'post:forgot:password': '/api/forgot/password',
     'post:send:password': '/api/send/password',
@@ -47,7 +46,9 @@ export var messages = {
     'mess:order:bottom:notes': '*Wines in 6 bottle packages are subject to change',
     'mess:approve:heading': 'Please review your shipping address & payment method information for your order.',
     'mess:receipt:heading': 'Thank you for your Kistler Fall 2016 Request.',
-    'mess:receipt:info': 'An acknowledgement email has been sent to @email. If you do not receive the email within 10 minutes, please check your Spam / Junk mail folder. Otherwise, contact us for assistance. '
+    'mess:receipt:info': 'An acknowledgement email has been sent to @email. If you do not receive the email within 10 minutes, please check your Spam / Junk mail folder. Otherwise, contact us for assistance. ',
+    'mess:confirm:save:invalid:address':'This address could not be verified. Do you still want to proceed with this unverified address? ',
+    'mess:confirm:save:edited:address':'This address is verified and maybe some changes are done. Please confirm the edited address as follows: \n\n'
 };
 export var validationErrorMessages = {
     'required': 'Value is required',

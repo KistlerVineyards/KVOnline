@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var app_service_1 = require('../../services/app.service');
+var core_1 = require("@angular/core");
+var app_service_1 = require("../../services/app.service");
 var OrderHistory = (function () {
     function OrderHistory(appService) {
         var _this = this;
@@ -78,13 +78,13 @@ var OrderHistory = (function () {
         this.orderDetailsSub.unsubscribe();
     };
     ;
-    OrderHistory = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/orderHistory/orderHistory.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService])
-    ], OrderHistory);
     return OrderHistory;
 }());
+OrderHistory = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/orderHistory/orderHistory.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService])
+], OrderHistory);
 exports.OrderHistory = OrderHistory;
 //# sourceMappingURL=orderHistory.component.js.map

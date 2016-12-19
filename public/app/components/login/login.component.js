@@ -11,13 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /*
 This software developed by Sushant Agrawal, India, 92/2A Bidhan Nagar Road, Kol 700067, email: capitalch@gmail.com, sagarwal@netwoven.com
 */
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-require('rxjs/add/operator/take');
-var forms_1 = require('@angular/forms');
-var customValidators_1 = require('../../services/customValidators');
-var app_service_1 = require('../../services/app.service');
-var md5_1 = require('../../vendor/md5');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+require("rxjs/add/operator/take");
+var forms_1 = require("@angular/forms");
+var app_service_1 = require("../../services/app.service");
+var md5_1 = require("../../vendor/md5");
 var Login = (function () {
     function Login(appService, router, fb, activatedRoute) {
         var _this = this;
@@ -31,7 +30,7 @@ var Login = (function () {
             message: this.appService.getValidationErrorMessage('loginFailed')
         };
         this.loginForm = fb.group({
-            email: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.emailValidator]],
+            email: ['', [forms_1.Validators.required]],
             password: ['', forms_1.Validators.required]
         });
         this.subscription = appService.filterOn('post:authenticate')
@@ -43,11 +42,12 @@ var Login = (function () {
                 _this.alert.show = true;
             }
             else {
-                console.log('token:' + d.data.token);
+                //console.log('token:' + d.data.token);
                 _this.alert.show = false;
-                appService.setCredential(_this.loginForm.controls["email"].value, d.data.token);
+                // appService.setCredential(this.loginForm.controls["email"].value, d.data.token);
+                appService.setCredential(d.data.user, d.data.token, d.data.inactivityTimeoutSecs);
                 //start inactivity timeout using request / reply mecanism
-                var ret = appService.request('login:success', d.data.inactivityTimeoutSecs || 300);
+                appService.request('login:success')();
                 router.navigate(['order']);
             }
         });
@@ -81,13 +81,13 @@ var Login = (function () {
         this.subscription.unsubscribe();
         //this.loginFormChangesSubscription.unsubscribe();
     };
-    Login = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/login/login.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router, forms_1.FormBuilder, router_1.ActivatedRoute])
-    ], Login);
     return Login;
 }());
+Login = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/login/login.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router, forms_1.FormBuilder, router_1.ActivatedRoute])
+], Login);
 exports.Login = Login;
 //# sourceMappingURL=login.component.js.map

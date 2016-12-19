@@ -1,11 +1,13 @@
 import { Http, Response, Headers, RequestOptionsArgs, ResponseContentType } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs/Rx';
-
+import {Subject} from 'rxjs/subject';
+import {Observable} from 'rxjs/observable';
+import {BehaviorSubject} from 'rxjs/behaviorsubject';
 import {
     CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot
 } from '@angular/router';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 //import * as _ from 'lodash';
@@ -22,8 +24,8 @@ export class AppService {
     countries: [{ any }];
     creditCardTypes: [string];
     smartyStreetApiKey: string;
-    smartyStreetAuthId:string;
-    smartyStreetAuthToken:string;
+    smartyStreetAuthId: string;
+    smartyStreetAuthToken: string;
     needHelpText: string;
     constructor(private http: Http) {
         this.subject = new Subject();
@@ -74,13 +76,13 @@ export class AppService {
         return (validationErrorMessages[key]);
     };
 
-    setCredential(email, token) {
-        let credential = { email: email, token: token };
+    setCredential(user, token, inactivityTimeoutSecs) {
+        let credential = { user: user, token: token,inactivityTimeoutSecs:inactivityTimeoutSecs };
         localStorage.setItem('credential', JSON.stringify(credential));
     };
     getCredential(): any {
         let credentialString = localStorage.getItem('credential');
-        let credential = null;
+        let credential;
         if (credentialString) {
             credential = JSON.parse(credentialString);
         }

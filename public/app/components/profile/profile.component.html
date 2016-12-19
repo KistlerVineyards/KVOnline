@@ -4,8 +4,10 @@
         <div class="panel-body">
             <form [formGroup]="profileForm" novalidate (ngSubmit)="submit()" class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="code">Code:</label>
-                    <label  class="control-label">{{profile.id}}</label>
+                    <label class="control-label col-sm-4" for="code1">Code:</label>
+                    <div class="col-sm-4">
+                        <input [readonly]="true" type="text" class="form-control" id="code1" name="code" formControlName="id">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="firstName">Name:</label>

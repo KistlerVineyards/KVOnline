@@ -5,25 +5,27 @@
         <div class="panel-body">
             <ul class="list-group">
                 <li class="list-group-item" *ngFor="let card of payMethods; let i=index">
-                    <span><input type="radio" [checked]="card.isDefault" 
-                        name="isDefault" (click)="setDefault(card)"> Default</span>
-                    <span class="name-shipping-address">{{card.cardName}}</span>
+                    <span><input type="radio" [checked]="card.isDefault" #default
+                        name="isDefault" (click)="setDefault(card)">                        
+                    </span>
+                    <span class="name-shipping-address">{{card.cardName}}</span>                    
                     <!--<span>, {{card.ccFirstName}}</span>
                     <span>, {{card.ccLastName}}</span>
                     <span>, {{card.ccType}}</span>-->
                     <span>, {{card.ccNumber}}</span>
+                    <span *ngIf="card.isDefault" class="DefaultColor">Default</span>
                     <!--<span>, {{card.name}}</span>
                     <span>, {{card.street1}}</span>
                     <span>, {{card.street2}}</span>
                     <span>, {{card.city}}</span>
                     <span>, {{card.state}}</span>
                     <span>, {{card.zip}}</span>
-                    <span>, {{card.country}}</span>-->                    
+                    <span>, {{card.country}}</span>-->
                     <button *ngIf="isDataReady" type="button" class="btn btn-link" (click)="confirm(card)"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Remove</button></li>
             </ul>
             <button type="button" class="btn btn-md btn-kistler" *ngIf="isDataReady" (click)="addPayMethod()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Card</button>
         </div>
-        
+
     </div>
     <div class="row">
         <modal #payMethodModal>
@@ -38,11 +40,11 @@
                             <input type="text" class="form-control" id="kvCardName" placeholder="Enter card name" formControlName="cardName">
                             <control-messages [control]="payMethodForm.controls.cardName"></control-messages>
                         </div>
-                         
+
                     </div>
-                  
+
                     <div class="row">
-                         <div class="col-sm-6 formGap">
+                        <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccFirstName">First name:</label>
                             <input type="text" class="form-control" id="ccFirstName" placeholder="Enter first name" formControlName="ccFirstName">
                             <control-messages [control]="payMethodForm.controls.ccFirstName"></control-messages>
@@ -62,7 +64,7 @@
                             <select formControlName='ccType' [(ngModel)]='selectedCreditCardType' class="form-control" id="ccType">
                                 <option *ngFor="let cardType of creditCardTypes" [value]="cardType">{{cardType}}</option>
                             </select>
-                            
+
                             <control-messages [control]="payMethodForm.controls.ccType"></control-messages>
                         </div>
                         <div class="col-sm-6 formGap">
@@ -71,97 +73,100 @@
                             <control-messages [control]="payMethodForm.controls.ccNumber"></control-messages>
                         </div>
                     </div>
-                  
+
                     <div class="row">
-                        
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccExpiryMonth">Expiry month:</label>
                             <!--<p-spinner size="12" [(ngModel)]="month" [min]="01" [max]="12" id="ccExpiryMonth" placeholder="Enter expiry month" formControlName="ccExpiryMonth"></p-spinner>-->
-                            <input type="number" class="form-control" id="ccExpiryMonth" formControlName="ccExpiryMonth" placeholder="Month" [min]="1" [max]="12">
+                            <input type="number" class="form-control" id="ccExpiryMonth" formControlName="ccExpiryMonth" placeholder="Month" [min]="1"
+                                [max]="12">
                             <control-messages [control]="payMethodForm.controls.ccExpiryMonth"></control-messages>
                         </div>
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccExpiryYear">Expiry year:</label>
                             <!--<p-spinner size="20" [(ngModel)]="year" [min]="currentYear" [max]="currentYear + 10" id="ccExpiryYear" placeholder="Year" formControlName="ccExpiryYear" thousandSeparator="" [maxlength]="4"></p-spinner>-->
-                            <input type="number" class="form-control" id="ccExpiryYear" formControlName="ccExpiryYear" placeholder="Year" [min]="year" [max]="year + 20">
+                            <input type="number" class="form-control" id="ccExpiryYear" formControlName="ccExpiryYear" placeholder="Year" [min]="year"
+                                [max]="year + 20">
                             <control-messages [control]="payMethodForm.controls.ccExpiryYear"></control-messages>
                         </div>
                     </div>
-                
+
                     <div class="row">
-                        
+
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccSecurityCode">Security code:</label>
                             <input type="text" class="form-control" id="ccSecurityCode" formControlName="ccSecurityCode" placeholder="Enter security code">
                             <control-messages [control]="payMethodForm.controls.ccSecurityCode"></control-messages>
                         </div>
-                        <div class="col-sm-6 formGap">
+                        <!--  <div class="col-sm-6 formGap">
                             <label class="control-label" for="bName">Billing name:</label>
                             <input type="text" id="bName" class="form-control" formControlName="name" placeholder="Enter billing name">
                             <control-messages [control]="payMethodForm.controls.name"></control-messages>
-                        </div>
-                    </div>
-                   
-
-                    <div class="row">
+                        </div> -->
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bStreet1">Billing address 1:</label>
                             <input type="text" id="bStreet1" class="form-control" formControlName="street1" placeholder="Enter billing address 1">
                             <control-messages [control]="payMethodForm.controls.street1"></control-messages>
                         </div>
+                    </div>
+
+
+                    <div class="row">
+
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bStreet2">Billing Address 2:</label>
-                            <input type="text" id="bStreet2" class="form-control"  placeholder="Enter billing address 2" formControlName="street2">
+                            <input type="text" id="bStreet2" class="form-control" placeholder="Enter billing address 2" formControlName="street2">
                             <control-messages [control]="payMethodForm.controls.street2"></control-messages>
                         </div>
-                    </div>
-                   
-                    <div class="row">
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bCity">Billing City:</label>
                             <input type="text" class="form-control" id="bCity" placeholder="Enter billing city" formControlName="city">
                             <control-messages [control]="payMethodForm.controls.city"></control-messages>
                         </div>
+                    </div>
+
+                    <div class="row">
+
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bState">Billing State/Province/Region:</label>
                             <input type="text" class="form-control" id="bState" placeholder="Enter billing state/province/region" formControlName="state">
                             <control-messages [control]="payMethodForm.controls.state"></control-messages>
                         </div>
-
-                    </div>
-                  
-                    <div class="row">
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bZip">Billing zip:</label>
                             <input type="text" class="form-control" id="bZip" placeholder="Enter billing zip" formControlName="zip">
                             <control-messages [control]="payMethodForm.controls.zip"></control-messages>
                         </div>
 
+                    </div>
+
+                    <div class="row">
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="bCountry">Billing Country:</label>
                             <select formControlName='countryName' [(ngModel)]='selectedISOCode' class="form-control" id="bCountry">
-                                <option *ngFor="let countryObj of countries" [value]="countryObj.countryName">{{countryObj.countryName}}</option>
+                                <option *ngFor="let country of countries" [value]="country.isoCode">{{country.countryName}}</option>
                             </select>
                             <control-messages [control]="payMethodForm.controls.countryName"></control-messages>
                         </div>
-                    </div>
-              
-
-                    <div class="row paymentPageFixGap">
                         <div class="col-sm-6 formGap">
-                            <label class="control-label" for="bPhone">Billing phone:</label>
+                            <label class="control-label" for="bPhone">Billing phone:</label><br/>
                             <!--<input type="text" id="bPhone" formControlName="phone" placeholder="Enter billing phone" class="form-control">-->
                             <p-inputMask id="bPhone" mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
                             <control-messages [control]="payMethodForm.controls.phone"></control-messages>
                         </div>
-                    <div class="col-sm-6 formGap">
+                    </div>
+
+
+                    <div class="row paymentPageFixGap">
+
+                        <div class="col-sm-6 formGap">
                             <div class="checkbox">
                                 <label><input type="checkbox" formControlName="isDefault"> Use as default card</label>
                             </div>
                         </div>
 
                     </div>
-                   
+
                     <div class="row paymentSubmit">
                         <alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
                         <div class="text-center ">

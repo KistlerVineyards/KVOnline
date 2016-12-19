@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms'
 import { CustomValidators } from '../../services/customValidators';
 import { Subscription } from 'rxjs/Subscription';
 import { AppService } from '../../services/app.service';
-import { AlertModule } from 'ng2-bootstrap';
+import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
 import { md5 } from '../../vendor/md5';
 

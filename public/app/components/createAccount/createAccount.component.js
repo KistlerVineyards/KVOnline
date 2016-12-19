@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var forms_1 = require('@angular/forms');
-var customValidators_1 = require('../../services/customValidators');
-var app_service_1 = require('../../services/app.service');
-var md5_1 = require('../../vendor/md5');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var forms_1 = require("@angular/forms");
+var customValidators_1 = require("../../services/customValidators");
+var app_service_1 = require("../../services/app.service");
+var md5_1 = require("../../vendor/md5");
 var CreateAccount = (function () {
     function CreateAccount(appService, router, fb) {
         var _this = this;
@@ -54,13 +54,13 @@ var CreateAccount = (function () {
         this.subscription.unsubscribe();
     };
     ;
-    CreateAccount = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/createAccount/createAccount.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router, forms_1.FormBuilder])
-    ], CreateAccount);
     return CreateAccount;
 }());
+CreateAccount = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/createAccount/createAccount.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router, forms_1.FormBuilder])
+], CreateAccount);
 exports.CreateAccount = CreateAccount;
 //# sourceMappingURL=createAccount.component.js.map

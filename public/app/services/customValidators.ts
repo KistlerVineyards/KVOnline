@@ -5,11 +5,13 @@ export class CustomValidators {
             return { 'invalidEmail': true };
         }
     };
+
     static usZipCodeValidator(control:FormControl){
         if(!control.value.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)){
             return({'invalidZipCode':true});
         }
     };
+
     static phoneValidator(control: FormControl) {
         let ret;
         let international = /^\(?[+]?(\d{1})\)?[- ]?\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;

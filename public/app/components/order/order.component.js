@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var app_service_1 = require('../../services/app.service');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var app_service_1 = require("../../services/app.service");
 var Order = (function () {
     function Order(appService, router) {
         var _this = this;
@@ -130,9 +130,9 @@ var Order = (function () {
                 if (totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0)) {
                     this.alert.show = false;
                     this.alert.message = '';
-                    this.orders.isholidayGift = this.isholidayGift;
+                    //this.orders.isholidayGift=this.isholidayGift;
                     this.appService.reply('orders', this.orders);
-                    //this.appService.reply('holidaygift', this.isholidayGift);
+                    this.appService.reply('holidaygift', this.isholidayGift);
                     this.router.navigate(['approve/order']);
                 }
                 else {
@@ -151,7 +151,8 @@ var Order = (function () {
         var ords = this.appService.request('orders');
         if (ords) {
             this.orders = ords;
-            this.isholidayGift = this.orders.isholidayGift;
+            //this.isholidayGift = this.orders.isholidayGift;
+            this.isholidayGift = this.appService.request('holidaygift');
         }
         else {
             this.appService.httpGet('get:current:offer');
@@ -164,13 +165,13 @@ var Order = (function () {
         this.saveOrderSubscription.unsubscribe();
         this.currentSettingsSubscription.unsubscribe();
     };
-    Order = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/order/order.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router])
-    ], Order);
     return Order;
 }());
+Order = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/order/order.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router])
+], Order);
 exports.Order = Order;
 //# sourceMappingURL=order.component.js.map

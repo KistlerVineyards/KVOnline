@@ -8,16 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var app_service_1 = require('../../services/app.service');
-var forms_1 = require('@angular/forms');
-var customValidators_1 = require('../../services/customValidators');
+var core_1 = require("@angular/core");
+var app_service_1 = require("../../services/app.service");
+var forms_1 = require("@angular/forms");
+var customValidators_1 = require("../../services/customValidators");
 var ng2_modal_1 = require("ng2-modal");
+var api_1 = require("primeng/components/common/api");
 var ShippingAddress = (function () {
-    function ShippingAddress(appService, fb) {
+    function ShippingAddress(appService, fb, confirmationService) {
         var _this = this;
         this.appService = appService;
         this.fb = fb;
+        this.confirmationService = confirmationService;
         this.alert = {
             show: false,
             type: 'danger',
@@ -28,30 +30,24 @@ var ShippingAddress = (function () {
         this.selectedCountryObj = {};
         this.isDataReady = false;
         this.messages = [];
-        this.isSaving = false;
+        this.isVerifying = false;
         this.initShippingForm({});
-        this.validateAddressSub = this.appService.filterOn('get:smartyStreet').subscribe(function (d) {
+        this.verifyAddressSub = this.appService.filterOn('get:smartyStreet').subscribe(function (d) {
             if (d.data.error) {
+                //Authorization of vendor at smartyStreet failed. Maybe purchase of new slot required
                 appService.showAlert(_this.alert, true, 'addressValidationUnauthorized');
-                _this.isSaving = false;
+                _this.isVerifying = false;
             }
             else {
                 if (d.data.length == 0) {
-                    appService.showAlert(_this.alert, true, 'invalidAddress');
-                    _this.isSaving = false;
+                    // Verification failed since there is no return
+                    _this.isVerifying = false;
+                    _this.invalidAddressConfirmBeforeSave();
                 }
                 else {
+                    //verification succeeded with maybe corrected address as return
                     var data = d.data[0].components;
-                    var street = (data.street_predirection || '').concat(' ', data.primary_number, ' ', data.street_name, ' ', data.street_suffix); //, ' ', data.street_postdirection);
-                    if (data.street_postdirection) {
-                        street = street.concat(' ', data.street_postdirection);
-                    }
-                    _this.shippingForm.controls["street1"].setValue(street);
-                    _this.shippingForm.controls["city"].setValue(data.city_name);
-                    _this.shippingForm.controls["state"].setValue(data.state_abbreviation);
-                    _this.shippingForm.controls["zip"].setValue(data.zipcode);
-                    _this.appService.showAlert(_this.alert, false);
-                    _this.submit();
+                    _this.editedAddressConfirmBeforeSave(data);
                 }
             }
         });
@@ -61,50 +57,38 @@ var ShippingAddress = (function () {
         });
         this.getSubscription = appService.filterOn("get:shipping:address")
             .subscribe(function (d) {
-            _this.isSaving = false;
+            _this.isVerifying = false;
             _this.addresses = JSON.parse(d.data).Table;
+            _this.addresses[_this.radioIndex || 0].isSelected = true;
             console.log(d);
         });
         this.postSubscription = appService.filterOn("post:shipping:address")
             .subscribe(function (d) {
-            _this.isSaving = false;
-            if (d.data.error) {
-                _this.appService.showAlert(_this.alert, true, 'addressSaveFailed');
-            }
-            else {
-                _this.appService.httpGet('get:shipping:address');
-                _this.initShippingForm({});
-                //this.appService.showAlert(this.alert, false);
-                _this.messages = [];
-                _this.messages.push({
-                    severity: 'success',
-                    summary: 'Saved',
-                    detail: 'Data saved successfully'
-                });
-                _this.shippingModal.close();
-            }
+            _this.showMessage(d);
         });
         this.putSubscription = appService.filterOn("put:shipping:address")
             .subscribe(function (d) {
-            _this.isSaving = false;
-            if (d.data.error) {
-                _this.appService.showAlert(_this.alert, true, 'addressSaveFailed');
-            }
-            else {
-                _this.appService.httpGet('get:shipping:address');
-                _this.initShippingForm({});
-                _this.messages = [];
-                _this.messages.push({
-                    severity: 'success',
-                    summary: 'Saved',
-                    detail: 'Data saved successfully'
-                });
-                //this.appService.showAlert(this.alert, false);
-                _this.shippingModal.close();
-            }
+            _this.showMessage(d);
         });
     }
     ;
+    ShippingAddress.prototype.showMessage = function (d) {
+        this.isVerifying = false;
+        if (d.data.error) {
+            this.appService.showAlert(this.alert, true, 'addressSaveFailed');
+        }
+        else {
+            this.appService.httpGet('get:shipping:address');
+            this.initShippingForm({});
+            this.messages = [];
+            this.messages.push({
+                severity: 'success',
+                summary: 'Saved',
+                detail: 'Data saved successfully'
+            });
+            this.shippingModal.close();
+        }
+    };
     ShippingAddress.prototype.initShippingForm = function (address) {
         this.shippingForm = this.fb.group({
             id: [address.shippid || ''],
@@ -114,7 +98,7 @@ var ShippingAddress = (function () {
             street2: [address.street2 || ''],
             city: [address.city || '', forms_1.Validators.required],
             state: [address.state || ''],
-            zip: [address.zip || '', [forms_1.Validators.required, customValidators_1.CustomValidators.usZipCodeValidator]],
+            zip: [address.zip || '', forms_1.Validators.required],
             countryName: [address.country || '', forms_1.Validators.required],
             isoCode: [address.isoCode || ''],
             phone: [address.phone || '', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
@@ -130,19 +114,6 @@ var ShippingAddress = (function () {
     ShippingAddress.prototype.edit = function (address) {
         this.selectedISOCode = address.isoCode;
         this.initShippingForm(address);
-        // this.shippingForm.patchValue({
-        //     id: address.id,
-        //     name: address.name,
-        //     street1: address.street1,
-        //     street2: address.street2,
-        //     city: address.city,
-        //     state: address.state,
-        //     zip: address.zip,
-        //     countryName: address.country,
-        //     isoCode: address.isoCode,
-        //     phone: address.phone,
-        //     isDefault: address.isDefault
-        // });        
         this.shippingModal.open();
     };
     ;
@@ -155,16 +126,16 @@ var ShippingAddress = (function () {
         }
     };
     ;
-    ShippingAddress.prototype.submitting = function () {
-        if (this.selectedCountryName == "United States") {
-            this.verifybysmartyStreet();
+    ShippingAddress.prototype.verifyOrSubmit = function () {
+        if (this.selectedCountryName == 'United States') {
+            this.verify();
         }
         else {
             this.submit();
         }
     };
     ;
-    ShippingAddress.prototype.verifybysmartyStreet = function () {
+    ShippingAddress.prototype.verify = function () {
         var usAddress = {
             street: this.shippingForm.controls["street1"].value,
             street2: this.shippingForm.controls["street2"].value,
@@ -172,11 +143,11 @@ var ShippingAddress = (function () {
             state: this.shippingForm.controls["state"].value,
             zipcode: this.shippingForm.controls["zip"].value
         };
-        this.isSaving = true;
+        this.isVerifying = true;
         this.appService.httpGet('get:smartyStreet', { usAddress: usAddress });
     };
     ;
-    ShippingAddress.prototype.submit = function () {
+    ShippingAddress.prototype.submit = function (isVerified) {
         var _this = this;
         var addr = {
             id: this.shippingForm.controls['id'].value,
@@ -189,11 +160,10 @@ var ShippingAddress = (function () {
             country: this.selectedCountryName,
             isoCode: '',
             phone: this.shippingForm.controls['phone'].value,
-            isDefault: this.shippingForm.controls['isDefault'].value
+            isDefault: this.shippingForm.controls['isDefault'].value,
+            isAddressVerified: isVerified || false
         };
-        //addr.isoCode = this.selectedISOCode;
         addr.isoCode = this.countries.filter(function (d) { return d.countryName == _this.selectedCountryName; })[0].isoCode;
-        //addr.country = this.countries.filter(d => d.isoCode == this.selectedISOCode)[0].countryName;
         if (addr.id) {
             this.appService.httpPut('put:shipping:address', { address: addr });
         }
@@ -203,11 +173,7 @@ var ShippingAddress = (function () {
     };
     ;
     ShippingAddress.prototype.addAddress = function () {
-        var addr = {
-            country: this.countries.filter(function (d) { return d.isoCode == "US"; })[0].countryName,
-            isoCode: "US",
-        };
-        this.initShippingForm(addr);
+        this.initShippingForm({ country: 'United States' });
         this.shippingModal.open();
     };
     ;
@@ -216,25 +182,58 @@ var ShippingAddress = (function () {
         this.shippingModal.close();
     };
     ;
+    ShippingAddress.prototype.click = function (radioButton, index) {
+        radioButton.checked = true;
+        this.radioIndex = index;
+    };
+    ;
+    ShippingAddress.prototype.invalidAddressConfirmBeforeSave = function () {
+        var _this = this;
+        this.confirmationService.confirm({
+            message: this.appService.getMessage('mess:confirm:save:invalid:address'),
+            accept: function () {
+                _this.submit(false);
+            }
+        });
+    };
+    ;
+    ShippingAddress.prototype.editedAddressConfirmBeforeSave = function (data) {
+        var _this = this;
+        var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+        this.confirmationService.confirm({
+            message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
+            accept: function () {
+                // let street = (data.street_predirection || '').concat(' ', data.primary_number, ' ', data.street_name, ' ', data.street_suffix, ' ', data.street_postdirection);
+                _this.shippingForm.controls["street1"].setValue(street);
+                _this.shippingForm.controls["city"].setValue(data.city_name);
+                _this.shippingForm.controls["state"].setValue(data.state_abbreviation);
+                _this.shippingForm.controls["zip"].setValue(data.zipcode);
+                _this.appService.showAlert(_this.alert, false);
+                _this.submit(true);
+            }
+        });
+    };
+    ;
     ShippingAddress.prototype.ngOnDestroy = function () {
         this.getSubscription.unsubscribe();
         this.postSubscription.unsubscribe();
         this.putSubscription.unsubscribe();
         this.dataReadySubs.unsubscribe();
-        this.validateAddressSub.unsubscribe();
+        this.verifyAddressSub.unsubscribe();
     };
     ;
-    __decorate([
-        core_1.ViewChild('shippingModal'), 
-        __metadata('design:type', ng2_modal_1.Modal)
-    ], ShippingAddress.prototype, "shippingModal", void 0);
-    ShippingAddress = __decorate([
-        core_1.Component({
-            templateUrl: 'app/components/shippingAddress/shippingAddress.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, forms_1.FormBuilder])
-    ], ShippingAddress);
     return ShippingAddress;
 }());
+__decorate([
+    core_1.ViewChild('shippingModal'),
+    __metadata("design:type", ng2_modal_1.Modal)
+], ShippingAddress.prototype, "shippingModal", void 0);
+ShippingAddress = __decorate([
+    core_1.Component({
+        templateUrl: 'app/components/shippingAddress/shippingAddress.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, forms_1.FormBuilder, api_1.ConfirmationService])
+], ShippingAddress);
 exports.ShippingAddress = ShippingAddress;
 //# sourceMappingURL=shippingAddress.component.js.map

@@ -8,12 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var app_service_1 = require('../services/app.service');
-var config_1 = require('../config');
-var core_2 = require('@ng-idle/core');
-//import {DialogModule} from 'primeng/primeng';
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var app_service_1 = require("../services/app.service");
+var config_1 = require("../config");
+var core_2 = require("@ng-idle/core");
 var AppComponent = (function () {
     //needHelpDisplay:boolean=false;
     function AppComponent(appService, router, idle) {
@@ -26,7 +25,7 @@ var AppComponent = (function () {
         this.viewBox = config_1.viewBoxConfig['/login'];
         this.showMenu = false;
         this.myAccountshowMenu = false;
-        this.currentUser = "";
+        this.currentEmail = "";
         this.needHelpText = "";
         this.logout = function () {
             _this.appService.resetCredential();
@@ -34,13 +33,15 @@ var AppComponent = (function () {
                 _this.idle.stop();
             }
         };
-        //Total timeout period is secs * 2
-        this.setInactivityTimeout = function (secs) {
+        this.setInactivityTimeout = function () {
             //set current user to be displayed to nav bar
+            var secs;
             var credential = _this.appService.getCredential();
-            if (credential) {
-                _this.currentUser = credential.email;
+            if (!credential) {
+                return;
             }
+            _this.currentEmail = credential.user.email;
+            secs = credential.inactivityTimeoutSecs || 300;
             if (_this.idle.isIdling() || _this.idle.isRunning()) {
                 _this.idle.stop();
             }
@@ -93,10 +94,11 @@ var AppComponent = (function () {
     }
     ;
     AppComponent.prototype.ngOnInit = function () {
+        var credential = this.appService.getCredential();
         this.appService.httpGet('get:init:data');
         //request / reply mecanism to start inactivity timer at successful login
         this.appService.reply('login:success', this.setInactivityTimeout);
-        //this.setInactivityTimeout();
+        this.setInactivityTimeout();
     };
     ;
     AppComponent.prototype.ngOnDestroy = function () {
@@ -127,14 +129,14 @@ var AppComponent = (function () {
         this.initMenu(event.target.innerWidth);
     };
     ;
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            templateUrl: 'app/components/app.component.html'
-        }), 
-        __metadata('design:paramtypes', [app_service_1.AppService, router_1.Router, core_2.Idle])
-    ], AppComponent);
     return AppComponent;
 }());
+AppComponent = __decorate([
+    core_1.Component({
+        selector: 'my-app',
+        templateUrl: 'app/components/app.component.html'
+    }),
+    __metadata("design:paramtypes", [app_service_1.AppService, router_1.Router, core_2.Idle])
+], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

@@ -1,5 +1,5 @@
 "use strict";
-var moment = require('moment');
+var moment = require("moment");
 var Util = (function () {
     function Util(appService) {
         this.appService = appService;

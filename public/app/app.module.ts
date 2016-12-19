@@ -19,17 +19,14 @@ import { CustomValidators } from './services/customValidators';
 import { ControlMessages } from './components/controlMessages/controlMessages.component';
 import { CreatePassword } from './components/managePassword/createPassword.component';
 import { ModalModule } from 'ng2-modal';
-import { PaginationModule } from 'ng2-bootstrap';
-import { AlertModule } from 'ng2-bootstrap';
-import {NgIdleModule} from '@ng-idle/core';
-// import { MyDatePickerModule } from 'mydatepicker/dist/my-date-picker.module';
-import {
-  CalendarModule, ConfirmDialogModule,
-  ConfirmationService, InputMaskModule, GrowlModule, Message
-  //, DialogModule
-} from 'primeng/primeng';
-// import { SpinnerModule } from 'primeng/primeng';
-//import { jquery } from 'jquery';
+import { PaginationModule } from 'ng2-bootstrap/components/pagination';
+import { AlertModule } from 'ng2-bootstrap/components/alert';
+import { NgIdleModule } from '@ng-idle/core';
+import { CalendarModule } from 'primeng/components/calendar/calendar';
+import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
+import { GrowlModule } from 'primeng/components/growl/growl';
+import { Message, ConfirmationService } from 'primeng/components/common/api';
+import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, Routing, FormsModule
@@ -38,15 +35,11 @@ import {
     , PaginationModule
     , ReactiveFormsModule
     , FormsModule
-    // , DatepickerModule,
-    // , MyDatePickerModule
     , CalendarModule
     , ConfirmDialogModule
     , InputMaskModule
     , GrowlModule
     , NgIdleModule.forRoot()
-    //, DialogModule
-    //,DialogModule
   ]
   , declarations: [AppComponent, Login, Order, ForgotPassword
     , SendPassword, ChangePassword, CreateAccount,

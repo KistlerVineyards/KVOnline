@@ -1,12 +1,16 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AppService } from '../../services/app.service';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { CustomValidators } from '../../services/customValidators';
 import { Modal, ModalModule } from "ng2-modal"
 import { AlertModule } from 'ng2-bootstrap/components/alert';
-import {InputMaskModule, GrowlModule, Message } from 'primeng/primeng';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
+import { Message, ConfirmationService } from 'primeng/components/common/api';
+import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
+import { GrowlModule } from 'primeng/components/growl/growl';
+import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
+
 @Component({
     templateUrl: 'app/components/shippingAddress/shippingAddress.component.html'
 })
@@ -14,8 +18,8 @@ export class ShippingAddress {
     getSubscription: Subscription;
     postSubscription: Subscription;
     putSubscription: Subscription;
-    dataReadySubs:Subscription;
-    validateAddressSub: Subscription;
+    dataReadySubs: Subscription;
+    verifyAddressSub: Subscription;
     shippingForm: FormGroup;
     alert: any = {
         show: false,
@@ -28,31 +32,29 @@ export class ShippingAddress {
     selectedCountryObj: any = {};
     isDataReady:boolean=false;
     messages: Message[] = [];
-    isSaving=false;
+    isVerifying = false;
+    radioIndex:number;
+    // selectedRadio:any;
+    // myRadio:any;
+    //@ViewChild('selectedRadio') selectedRadio:any
     @ViewChild('shippingModal') shippingModal: Modal;
-    addresses: [{}];
-    constructor(private appService: AppService, private fb: FormBuilder) {
+    addresses: [any];
+    constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         this.initShippingForm({});
-        this.validateAddressSub = this.appService.filterOn('get:smartyStreet').subscribe(d => {
+        this.verifyAddressSub = this.appService.filterOn('get:smartyStreet').subscribe(d => {            
             if (d.data.error) {
+                //Authorization of vendor at smartyStreet failed. Maybe purchase of new slot required
                 appService.showAlert(this.alert, true, 'addressValidationUnauthorized');
-                this.isSaving=false;
+                this.isVerifying = false;
             } else {
                 if (d.data.length == 0) {
-                    appService.showAlert(this.alert, true, 'invalidAddress');
-                    this.isSaving=false;
+                    // Verification failed since there is no return
+                    this.isVerifying = false;
+                    this.invalidAddressConfirmBeforeSave();
                 } else {
+                    //verification succeeded with maybe corrected address as return
                     let data = d.data[0].components;
-                    let street = (data.street_predirection || '').concat(' ', data.primary_number, ' ', data.street_name, ' ', data.street_suffix);//, ' ', data.street_postdirection);
-                    if(data.street_postdirection){
-                        street = street.concat(' ', data.street_postdirection);
-                    }
-                    this.shippingForm.controls["street1"].setValue(street);
-                    this.shippingForm.controls["city"].setValue(data.city_name);
-                    this.shippingForm.controls["state"].setValue(data.state_abbreviation);
-                    this.shippingForm.controls["zip"].setValue(data.zipcode);
-                    this.appService.showAlert(this.alert, false);
-                    this.submit();
+                    this.editedAddressConfirmBeforeSave(data);
                 }
             }
         });
@@ -62,47 +64,38 @@ export class ShippingAddress {
         });
         this.getSubscription = appService.filterOn("get:shipping:address")
             .subscribe(d => {
-                this.isSaving=false;
+                this.isVerifying = false;
                 this.addresses = JSON.parse(d.data).Table;
+		this.addresses[this.radioIndex || 0].isSelected = true;
                 console.log(d);
             });
         this.postSubscription = appService.filterOn("post:shipping:address")
             .subscribe(d => {
-                this.isSaving=false;
-                if (d.data.error) {
-                    this.appService.showAlert(this.alert, true, 'addressSaveFailed');
-                } else {
-                    this.appService.httpGet('get:shipping:address');
-                    this.initShippingForm({});
-                    //this.appService.showAlert(this.alert, false);
-                    this.messages = [];
-                    this.messages.push({
-                        severity: 'success'
-                        , summary: 'Saved'
-                        , detail: 'Data saved successfully'
-                    });
-                    this.shippingModal.close();
-                }
+                this.showMessage(d);
             });
         this.putSubscription = appService.filterOn("put:shipping:address")
             .subscribe(d => {
-                this.isSaving=false;
-                if (d.data.error) {
-                    this.appService.showAlert(this.alert, true, 'addressSaveFailed');
-                } else {
-                    this.appService.httpGet('get:shipping:address');
-                    this.initShippingForm({});
-                    this.messages = [];
-                    this.messages.push({
-                        severity: 'success'
-                        , summary: 'Saved'
-                        , detail: 'Data saved successfully'
-                    });
-                    //this.appService.showAlert(this.alert, false);
-                    this.shippingModal.close();
-                }
+                this.showMessage(d);
             });
     };
+
+    showMessage(d) {
+        this.isVerifying = false;
+        if (d.data.error) {
+            this.appService.showAlert(this.alert, true, 'addressSaveFailed');
+        } else {
+            this.appService.httpGet('get:shipping:address');
+            this.initShippingForm({});
+            this.messages = [];
+            this.messages.push({
+                severity: 'success'
+                , summary: 'Saved'
+                , detail: 'Data saved successfully'
+            });
+            this.shippingModal.close();
+        }
+    }
+
     initShippingForm(address) {
         this.shippingForm = this.fb.group({
             id: [address.shippid || ''],
@@ -112,16 +105,12 @@ export class ShippingAddress {
             street2: [address.street2 || ''],
             city: [address.city || '', Validators.required],
             state: [address.state || ''],
-            zip: [address.zip || '', [Validators.required, CustomValidators.usZipCodeValidator]],
+            zip: [address.zip || '', Validators.required],
             countryName: [address.country || '', Validators.required],
             isoCode: [address.isoCode || ''],
             phone: [address.phone || '', [Validators.required, CustomValidators.phoneValidator]],
             isDefault: [address.isDefault || false]
-        }
-            // , {
-            //     asyncValidator: this.validateUSAddressAsync.bind(this)
-            // }
-        );
+        });
         this.selectedCountryName = address.country;
     };
     ngOnInit() {        
@@ -130,19 +119,7 @@ export class ShippingAddress {
     edit(address) {
         this.selectedISOCode = address.isoCode;
         this.initShippingForm(address);
-        // this.shippingForm.patchValue({
-        //     id: address.id,
-        //     name: address.name,
-        //     street1: address.street1,
-        //     street2: address.street2,
-        //     city: address.city,
-        //     state: address.state,
-        //     zip: address.zip,
-        //     countryName: address.country,
-        //     isoCode: address.isoCode,
-        //     phone: address.phone,
-        //     isDefault: address.isDefault
-        // });        
+        
         this.shippingModal.open();
     };
     delete(address) {
@@ -152,15 +129,16 @@ export class ShippingAddress {
             console.log(false);
         }
     };
-    submitting() {
-        if(this.selectedCountryName == "United States"){
-            this.verifybysmartyStreet();
-        }
-        else{
+
+    verifyOrSubmit() {
+        if (this.selectedCountryName == 'United States') {
+            this.verify();
+        } else {
             this.submit();
         }
     };
-    verifybysmartyStreet(){
+
+    verify() {
         let usAddress = {
             street: this.shippingForm.controls["street1"].value,
             street2: this.shippingForm.controls["street2"].value,
@@ -168,11 +146,12 @@ export class ShippingAddress {
             state: this.shippingForm.controls["state"].value,
             zipcode: this.shippingForm.controls["zip"].value
         };
-        this.isSaving=true;
+        this.isVerifying = true;
         this.appService.httpGet('get:smartyStreet', { usAddress: usAddress });
 
     };
-    submit() {
+
+    submit(isVerified?: boolean) {
         let addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,
@@ -184,11 +163,10 @@ export class ShippingAddress {
             country: this.selectedCountryName,
             isoCode: '',
             phone: this.shippingForm.controls['phone'].value,
-            isDefault: this.shippingForm.controls['isDefault'].value
+            isDefault: this.shippingForm.controls['isDefault'].value,
+            isAddressVerified: isVerified || false
         };
-        //addr.isoCode = this.selectedISOCode;
         addr.isoCode = this.countries.filter(d => d.countryName == this.selectedCountryName)[0].isoCode;
-        //addr.country = this.countries.filter(d => d.isoCode == this.selectedISOCode)[0].countryName;
         if (addr.id) {
             this.appService.httpPut('put:shipping:address', { address: addr });
         } else {
@@ -196,22 +174,50 @@ export class ShippingAddress {
         }
     };
     addAddress() {
-        let addr = {
-           country : this.countries.filter(d => d.isoCode == "US")[0].countryName,
-           isoCode : "US",
-        };
-        this.initShippingForm(addr);
+        this.initShippingForm({ country: 'United States' });
         this.shippingModal.open();
     };
     cancel() {
         this.appService.showAlert(this.alert, false);
         this.shippingModal.close();
     };
+    
+    click(radioButton,index){
+        radioButton.checked=true;
+        this.radioIndex = index;
+    };
+
+    invalidAddressConfirmBeforeSave() {
+        this.confirmationService.confirm({
+            message: this.appService.getMessage('mess:confirm:save:invalid:address'),
+            accept: () => {
+                this.submit(false);
+            }
+        });
+    };
+
+    editedAddressConfirmBeforeSave(data) {
+        let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+        this.confirmationService.confirm({
+            message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
+            accept: () => {
+                // let street = (data.street_predirection || '').concat(' ', data.primary_number, ' ', data.street_name, ' ', data.street_suffix, ' ', data.street_postdirection);
+                this.shippingForm.controls["street1"].setValue(street);
+                this.shippingForm.controls["city"].setValue(data.city_name);
+                this.shippingForm.controls["state"].setValue(data.state_abbreviation);
+                this.shippingForm.controls["zip"].setValue(data.zipcode);
+                this.appService.showAlert(this.alert, false);
+                this.submit(true);                
+            }
+        });
+    };
+
     ngOnDestroy() {
         this.getSubscription.unsubscribe();
         this.postSubscription.unsubscribe();
         this.putSubscription.unsubscribe();
         this.dataReadySubs.unsubscribe();
-        this.validateAddressSub.unsubscribe();
+        this.verifyAddressSub.unsubscribe();
     };
 }

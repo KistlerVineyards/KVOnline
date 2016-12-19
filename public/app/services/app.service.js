@@ -8,21 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var http_1 = require('@angular/http');
-var core_1 = require('@angular/core');
-var Rx_1 = require('rxjs/Rx');
-var router_1 = require('@angular/router');
-require('rxjs/add/operator/map');
-require('rxjs/add/operator/filter');
+var http_1 = require("@angular/http");
+var core_1 = require("@angular/core");
+var subject_1 = require("rxjs/subject");
+var observable_1 = require("rxjs/observable");
+var behaviorsubject_1 = require("rxjs/behaviorsubject");
+var router_1 = require("@angular/router");
+require("rxjs/add/operator/map");
+require("rxjs/add/observable/of");
+require("rxjs/add/operator/filter");
 //import * as _ from 'lodash';
-var config_1 = require('../config');
+var config_1 = require("../config");
 var AppService = (function () {
     function AppService(http) {
         var _this = this;
         this.http = http;
         this.globalHash = {};
-        this.subject = new Rx_1.Subject();
-        this.behSubject = new Rx_1.BehaviorSubject({ id: '1', data: {} });
+        this.subject = new subject_1.Subject();
+        this.behSubject = new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} });
         this.channel = {};
         this.masterSubscription = this.filterOn('get:all:masters').take(1).subscribe(function (d) {
             if (d.data.error) {
@@ -70,14 +73,14 @@ var AppService = (function () {
         return (config_1.validationErrorMessages[key]);
     };
     ;
-    AppService.prototype.setCredential = function (email, token) {
-        var credential = { email: email, token: token };
+    AppService.prototype.setCredential = function (user, token, inactivityTimeoutSecs) {
+        var credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };
         localStorage.setItem('credential', JSON.stringify(credential));
     };
     ;
     AppService.prototype.getCredential = function () {
         var credentialString = localStorage.getItem('credential');
-        var credential = null;
+        var credential;
         if (credentialString) {
             credential = JSON.parse(credentialString);
         }
@@ -308,12 +311,12 @@ var AppService = (function () {
     AppService.prototype.ngOnDestroy = function () {
         this.masterSubscription.unsubscribe();
     };
-    AppService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], AppService);
     return AppService;
 }());
+AppService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], AppService);
 exports.AppService = AppService;
 ;
 var LoginGuard = (function () {
@@ -350,7 +353,7 @@ var LoginGuard = (function () {
                 .map(function (result) { return result.json(); });
         }
         catch (err) {
-            obs = Rx_1.Observable.of(false);
+            obs = observable_1.Observable.of(false);
         }
         return obs
             .map(function (success) {
@@ -361,11 +364,11 @@ var LoginGuard = (function () {
             return success;
         });
     };
-    LoginGuard = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [AppService, http_1.Http, router_1.Router])
-    ], LoginGuard);
     return LoginGuard;
 }());
+LoginGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [AppService, http_1.Http, router_1.Router])
+], LoginGuard);
 exports.LoginGuard = LoginGuard;
 //# sourceMappingURL=app.service.js.map

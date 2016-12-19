@@ -13,8 +13,9 @@
             <li class="active"><a [href]="home">Home</a></li>
         </ul>-->
         <ul class="nav navbar-nav navbar-right">
-            <li *ngIf="viewBox.logout"><a>{{currentUser}}</a></li>
-            <li *ngIf="viewBox.needHelp"><button type="button" class="btn btn-link" (click)="needHelpModal.open()">Need Help?</button></li>
+            <li *ngIf="viewBox.logout"><a>{{currentEmail}}</a></li>
+            <!--<li *ngIf="viewBox.needHelp"><a routerLink="#">Need Help?</a></li>-->
+            <li *ngIf="viewBox.needHelp"><a class="helpLink" (click)="needHelpModal.open()">Need Help?</a></li>
             <li *ngIf="viewBox.order"><a routerLink="/order">Order</a></li>
             <li *ngIf="viewBox.myAccount"><a routerLink="/profile">My Account</a></li>
             <li *ngIf="viewBox.logout"><a routerLink="/login" (click)="logout()">Log Out</a></li>
