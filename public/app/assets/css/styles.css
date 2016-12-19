@@ -70,10 +70,10 @@ border-radius: 5px 5px 5px 5px;
 .ProductPanel .productTitle{font-size:1.2em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top: 5px; }
 .ProductPanel .productTitle a{ cursor: pointer; color: #a0090a;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 50%; float: left; padding-top: 7px; }
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; }
 .productPrice{color: #a75b02; }
 
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 50%; float: left; padding-top: 7px;}
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
 .ProductPanel .notesOrderAvailPanel .availPack .availableQtyColor{ color: #858585;}
 
 
