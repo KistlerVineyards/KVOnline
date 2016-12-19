@@ -1,6 +1,6 @@
 {
   "name": "kistlerecommerce",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "E-Commerce project for Kistler Wineries",
   "main": "index.js",
   "scripts": {
@@ -9,32 +9,33 @@
   "author": "Sushant Agrawal, sagarwal@netwoven.com",
   "license": "ISC",
   "dependencies": {
-    "@angular/common": "^2.1.0",
-    "@angular/compiler": "^2.1.0",
-    "@angular/core": "^2.1.0",
-    "@angular/forms": "^2.1.0",
-    "@angular/http": "^2.1.0",
-    "@angular/platform-browser": "^2.1.0",
-    "@angular/platform-browser-dynamic": "^2.1.0",
-    "@angular/router": "^3.1.0",
-    "@angular/upgrade": "^2.1.0",
+    "@angular/common": "2.3.1",
+    "@angular/compiler": "2.3.1",
+    "@angular/compiler-cli": "2.3.1",
+    "@angular/core": "2.3.1",
+    "@angular/forms": "2.3.1",
+    "@angular/http": "2.3.1",
+    "@angular/platform-browser": "2.3.1",
+    "@angular/platform-browser-dynamic": "2.3.1",
+    "@angular/router": "3.3.1",
+    "@angular/upgrade": "2.3.1",
     "@ng-idle/core": "^2.0.0-beta.4",
     "@types/jquery": "^2.0.34",
     "@types/moment": "^2.13.0",
-    "angular-in-memory-web-api": "^0.1.9",
+    "angular-in-memory-web-api": "^0.2.1",
     "body-parser": "^1.15.2",
     "core-js": "^2.4.1",
     "moment": "^2.16.0",
     "ng2-bootstrap": "^1.1.16",
-    "ng2-modal": "0.0.22",
+    "ng2-modal": "0.0.24",
     "primeng": "^1.0.1",
     "reflect-metadata": "^0.1.8",
     "rxjs": "^5.0.0-rc.1",
     "systemjs": "^0.19.39",
-    "zone.js": "^0.6.26"
+    "zone.js": "^0.7.2"
   },
   "devDependencies": {
     "typescript": "*",
-    "typings": "^1.4.0"
+    "typings": "^2.0.0"
   }
 }
