@@ -120,6 +120,7 @@ export class PaymentMethod {
     }
     addPayMethod() {
         this.initPayMethodForm();
+        this.selectedISOCode="US";
         this.payMethodForm.controls["countryName"].setValue("US");
         this.payMethodModal.open();
     };

@@ -117,6 +117,7 @@ var PaymentMethod = (function () {
     };
     PaymentMethod.prototype.addPayMethod = function () {
         this.initPayMethodForm();
+        this.selectedISOCode = "US";
         this.payMethodForm.controls["countryName"].setValue("US");
         this.payMethodModal.open();
     };
