@@ -29,24 +29,7 @@ export class Login {
         this.loginForm = fb.group({
             email: ['', [Validators.required]]
             , password: ['', Validators.required]
-        });
-        this.subscription = appService.filterOn('post:authenticate')
-            .subscribe(d => {
-                console.log(d);
-                if (d.data.error) {
-                    console.log(d.data.error.status)
-                    appService.resetCredential();
-                    this.alert.show = true;
-                } else {
-                    //console.log('token:' + d.data.token);
-                    this.alert.show = false;
-                    // appService.setCredential(this.loginForm.controls["email"].value, d.data.token);
-                    appService.setCredential(d.data.user, d.data.token, d.data.inactivityTimeoutSecs);
-                    //start inactivity timeout using request / reply mecanism
-                    appService.request('login:success')();
-                    router.navigate(['order']);
-                }
-            });
+        });        
     };
 
     authenticate(pwd) {
@@ -54,8 +37,7 @@ export class Login {
             let base64Encoded = this.appService.encodeBase64(this.loginForm.controls["email"].value + ':' + md5(pwd));
             console.log('md5:' + md5(pwd));
             console.log(base64Encoded);
-            this.appService.httpPost('post:authenticate', { auth: base64Encoded });
-            // this.appService.httpPost('post:authenticate:code:email', { auth: base64Encoded });
+            this.appService.httpPost('post:authenticate', { auth: base64Encoded });            
         }
         else {
             this.alert.show = true;
@@ -72,6 +54,23 @@ export class Login {
         this.loginFormChangesSubscription = this.loginForm.valueChanges.take(1).subscribe(x => {
             this.alert.show = false;
         });
+	this.subscription = this.appService.filterOn('post:authenticate')
+            .subscribe(d => {
+                console.log(d);
+                if (d.data.error) {
+                    console.log(d.data.error.status)
+                    this.appService.resetCredential();
+                    this.alert.show = true;
+                } else {
+                    //console.log('token:' + d.data.token);
+                    this.alert.show = false;                    
+                    this.appService.setCredential(d.data.user, d.data.token, d.data.inactivityTimeoutSecs);
+                    //start inactivity timeout using request / reply mecanism
+                    this.appService.request('login:success')();
+                    this.appService.loadSettings();                    
+                    this.router.navigate(['order']);
+                }
+            });
     }
     ngOnDestroy() {
         this.subscription.unsubscribe();

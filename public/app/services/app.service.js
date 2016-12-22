@@ -17,54 +17,87 @@ var router_1 = require("@angular/router");
 require("rxjs/add/operator/map");
 require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
+// import { GrowlModule } from 'primeng/components/growl/growl';
 //import * as _ from 'lodash';
 var config_1 = require("../config");
 var AppService = (function () {
     function AppService(http) {
         var _this = this;
         this.http = http;
-        this.globalHash = {};
+        this.globalSettings = {};
         this.subject = new subject_1.Subject();
-        this.behSubject = new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} });
+        this.behaviorSubjects = {
+            'masters:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
+            'settings:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} })
+        };
         this.channel = {};
-        this.masterSubscription = this.filterOn('get:all:masters').take(1).subscribe(function (d) {
+        this.mastersSubscription = this.filterOn('get:all:masters').subscribe(function (d) {
             if (d.data.error) {
                 console.log(d.data.error);
             }
             else {
                 var data = JSON.parse(d.data);
                 _this.countries = data.Table;
-                if (data.Table1) {
-                    _this.smartyStreetApiKey = data.Table1[0].smartyStreetApiKey;
-                    _this.smartyStreetAuthId = data.Table1[0].smartyStreetAuthId;
-                    _this.smartyStreetAuthToken = data.Table1[0].smartyStreetAuthToken;
-                    _this.creditCardTypes = data.Table1[0].creditCardTypes.split(",").map(function (item) {
-                        return item.trim();
-                    });
-                    _this.needHelpText = data.Table2[0].HelpText;
-                }
                 _this.behEmit('masters:download:success');
             }
         });
         setTimeout(function () {
             _this.httpGet('get:all:masters');
         }, 2000);
+        this.settingsSubscription = this.filterOn('get:all:settings').subscribe(function (d) {
+            if (d.data.error) {
+                console.log(d.data.error);
+            }
+            else {
+                var data = JSON.parse(d.data);
+                if (data.Table) {
+                    _this.globalSettings.smartyStreetApiKey = data.Table[0].smartyStreetApiKey;
+                    _this.globalSettings.smartyStreetAuthId = data.Table[0].smartyStreetAuthId;
+                    _this.globalSettings.smartyStreetAuthToken = data.Table[0].smartyStreetAuthToken;
+                    _this.globalSettings.creditCardTypes = data.Table[0].creditCardTypes.split(",").map(function (item) {
+                        return item.trim();
+                    });
+                    _this.globalSettings.needHelpText = data.Table[0].needHelpText;
+                    _this.globalSettings.onlineOrder = {};
+                    //this.globalSettings.onlineOrder.disableOnlineOrderForm = data.Table[0].disableOnlineOrderForm;
+                    _this.globalSettings.onlineOrder.disableOnlineOrderText = data.Table[0].disableOnlineOrderText;
+                }
+                _this.behEmit('settings:download:success');
+            }
+        });
     }
     ;
-    AppService.prototype.getCreditCardTypes = function () {
-        return (this.creditCardTypes);
+    AppService.prototype.behEmit = function (id, options) {
+        this.behaviorSubjects[id].next({ id: id, data: options });
+    };
+    ;
+    AppService.prototype.behFilterOn = function (id) {
+        return (this.behaviorSubjects[id]);
+    };
+    ;
+    AppService.prototype.loadSettings = function () {
+        if (Object.keys(this.globalSettings).length === 0) {
+            var body = {};
+            body.data = JSON.stringify({ sqlKey: "GetSiteSettings" });
+            this.httpGet('get:all:settings', body);
+        }
+        else {
+            this.behEmit('settings:download:success');
+        }
+    };
+    ;
+    AppService.prototype.clearSettings = function () {
+        this.globalSettings = {};
+    };
+    ;
+    AppService.prototype.getSetting = function (GlobalSettingsKey) {
+        return (this.globalSettings[GlobalSettingsKey]);
     };
     ;
     AppService.prototype.getCountries = function () {
         return (this.countries);
     };
     ;
-    AppService.prototype.getNeedHelpText = function () { return (this.needHelpText); };
-    // getTestAsync(){
-    //     setTimeout(function(){ 
-    //         return('testError'); 
-    //     }, 3000);
-    // };
     AppService.prototype.getMessage = function (messageKey) {
         return (config_1.messages[messageKey]);
     };
@@ -95,6 +128,7 @@ var AppService = (function () {
         }
         return (token);
     };
+    ;
     AppService.prototype.resetCredential = function () {
         localStorage.removeItem('credential');
     };
@@ -146,8 +180,8 @@ var AppService = (function () {
             }
             if (body.usAddress) {
                 headers.delete('x-access-token');
-                url = url.replace(':authId', this.smartyStreetAuthId)
-                    .replace(':authToken', this.smartyStreetAuthToken)
+                url = url.replace(':authId', this.globalSettings.smartyStreetAuthId)
+                    .replace(':authToken', this.globalSettings.smartyStreetAuthToken)
                     .replace(':street', encodeURIComponent(body.usAddress.street))
                     .replace(':street2', encodeURIComponent(body.usAddress.street2))
                     .replace(':city', encodeURIComponent(body.usAddress.city))
@@ -216,15 +250,11 @@ var AppService = (function () {
             id: id, data: options
         });
     };
-    AppService.prototype.behEmit = function (id, options) {
-        this.behSubject.next({ id: id, data: options });
-    };
+    ;
     AppService.prototype.filterOn = function (id) {
         return (this.subject.filter(function (d) { return (d.id === id); }));
     };
-    AppService.prototype.behFilterOn = function (id) {
-        return (this.behSubject.filter(function (d) { return (d.id === id); }));
-    };
+    ;
     AppService.prototype.reply = function (key, value) {
         this.channel[key] = value;
     };
@@ -243,6 +273,7 @@ var AppService = (function () {
     AppService.prototype.reset = function (key) {
         delete this.channel[key];
     };
+    ;
     AppService.prototype.encodeBase64 = function (inputString) {
         var Base64 = { _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) { var t = ""; var n, r, i, s, o, u, a; var f = 0; e = Base64._utf8_encode(e); while (f < e.length) {
                 n = e.charCodeAt(f++);
@@ -308,9 +339,12 @@ var AppService = (function () {
             } return t; } };
         return (Base64.encode(inputString));
     };
+    ;
     AppService.prototype.ngOnDestroy = function () {
-        this.masterSubscription.unsubscribe();
+        this.mastersSubscription.unsubscribe();
+        this.settingsSubscription.unsubscribe();
     };
+    ;
     return AppService;
 }());
 AppService = __decorate([

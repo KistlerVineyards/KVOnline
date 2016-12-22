@@ -25,9 +25,10 @@ var OrderHistory = (function () {
                 console.log(d.data.error);
             }
             else {
-                _this.orderDetails.details = JSON.parse(d.data).Table;
-                _this.orderDetails.address = JSON.parse(d.data).Table1[0];
-                _this.orderDetails.card = JSON.parse(d.data).Table1[0];
+                var tables = JSON.parse(d.data);
+                _this.orderDetails.details = tables.Table;
+                _this.orderDetails.address = tables.Table1[0];
+                _this.orderDetails.card = tables.Table1[0];
                 //to escape from null values
                 _this.orderDetails.details = _this.orderDetails.details ? _this.orderDetails.details : [{}];
                 _this.orderDetails.address = _this.orderDetails.address ? _this.orderDetails.address : {};

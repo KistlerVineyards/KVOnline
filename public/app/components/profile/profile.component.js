@@ -115,6 +115,7 @@ var Profile = (function () {
         pr.phone = this.profileForm.controls['phone'].value;
         pr.birthDay = mDate;
         pr.mailingAddress1 = this.profileForm.controls['mailingAddress1'].value;
+        pr.mailingAddress2 = this.profileForm.controls['mailingAddress2'].value;
         pr.mailingAddress2 = pr.mailingAddress2 ? pr.mailingAddress2 : '';
         pr.mailingCity = this.profileForm.controls['mailingCity'].value;
         pr.mailingState = this.profileForm.controls['mailingState'].value;

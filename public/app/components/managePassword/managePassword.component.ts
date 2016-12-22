@@ -5,6 +5,8 @@ import { CustomValidators } from '../../services/customValidators';
 import { Subscription } from 'rxjs/Subscription';
 import { AppService } from '../../services/app.service';
 import { AlertModule } from 'ng2-bootstrap/components/alert';
+import { Message } from 'primeng/components/common/api';
+import { GrowlModule } from 'primeng/components/growl/growl';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
 import { md5 } from '../../vendor/md5';
 
@@ -82,6 +84,7 @@ export class ChangePassword {
   changePwdForm: FormGroup;
   subscription: Subscription;
   alert: any = {};
+  messages: Message[] = [];
   constructor(private appService: AppService, private router: Router, private fb: FormBuilder) {
     this.subscription = appService.filterOn('post:change:password')
       .subscribe(d => {
@@ -92,7 +95,13 @@ export class ChangePassword {
 
         } else {
           this.appService.resetCredential();
-          this.appService.showAlert(this.alert,true,'','success');
+          this.appService.showAlert(this.alert, false)
+          this.messages = [];
+          this.messages.push({
+            severity: 'success'
+            , summary: 'Saved'
+            , detail: 'Data saved successfully'
+          });
           this.router.navigate(['/login']);
         }
       });

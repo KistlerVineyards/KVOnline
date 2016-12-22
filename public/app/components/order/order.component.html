@@ -4,25 +4,32 @@
         <div class="welcomeTxt">Welcome <label class="username"> {{staticTexts.salutation}}</label></div>
         <summary [innerHTML]=staticTexts.introText></summary>
     </div>
+	<div *ngIf="!disableOnlineOrderForm">
     <div class="panel-group">
         <div class="panel panel-default ProductPanel" *ngFor="let order of orders">
             <div class="panel-heading">
-                <div class="row">
-                    <div class="col-sm-5 col-xs-12 productTitle">
+                <div class="productInfoPanel">
+                    <div class="productTitle">
                         <a (click)="toggleDetails(order)">{{order.item }}</a>
                     </div>
-                    <div class="col-sm-3 col-xs-12 notesOrderAvailPanel">
+                    <div class="notesOrderAvailPanel">
                         <!-- <div class="testingNotes"><a (click)="toggleDetails(order)">Tasting Notes</a></div>-->
                         <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.prodtype}}</div>
                         <div class="availPack">Avail:<span class="availableQtyColor"> {{order.allocationDescription}}</span></div>
                     </div>
-                    <div class="col-sm-2 col-xs-6 ">
-                        <span>Request: </span><input class="form-control orderWith" type="number" min="0" onfocus="this.select()"
-                            [(ngModel)]="order.orderQty">
+                    <div class="requestListOrder">
+						 <div class="requestPanelOrder">
+                        <span>Request: </span><input class="form-control orderWith" type="number" min="0" onfocus="this.select()" [(ngModel)]="order.orderQty">
                     </div>
-                    <div class="col-sm-2 col-xs-6 ">Wish List: <input class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList"></div>
+                    <div class="requestWishOrder">Wish List: 
+					 	<input class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList">
+					 </div>
                 </div>
-                <div *ngIf="order.orderQty > order.availableQty" class="alertExcesOrder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{excessOrder}}</div>
+				</div>
+                <div *ngIf="order.orderQty > order.availableQty" class="alertExcesOrder">
+					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
+					{{excessOrder}}
+				</div>
                 <div class=" showproductDetails" *ngIf="order.isShowDetails || order.packing !='b'">
                     <div class="row orderDescPanel">
                         <div *ngIf="order.imageUrl" class="col-sm-2"><img [src]="order.imageUrl" class="img-thumbnail"></div>
@@ -49,4 +56,8 @@
     <alert *ngIf="alert.show" [type]="alert.type" dismissable="true"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{alert.message}}</alert>
     <label>{{staticTexts.minimumRequest}}</label>
     <div><label><span class="glyphicon glyphicon-asterisk brandColor" aria-hidden="true"></span>{{staticTexts.bottomNotes}}</label></div>
+</div>
+    <div *ngIf="disableOnlineOrderForm">
+        {{disableOnlineOrderText}}
+    </div>
 </div>

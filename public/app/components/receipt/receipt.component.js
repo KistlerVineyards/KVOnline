@@ -15,7 +15,7 @@ var Receipt = (function () {
         this.appService = appService;
         this.staticTexts = {};
         this.staticTexts.header = appService.getMessage('mess:receipt:heading');
-        var email = this.appService.getCredential().email;
+        var email = this.appService.getCredential().user.email;
         this.staticTexts.info = appService.getMessage('mess:receipt:info').replace('@email', email);
     }
     ;

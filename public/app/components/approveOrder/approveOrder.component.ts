@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Location } from '@angular/common';
+//import { Location } from '@angular/common';
 import { AppService } from '../../services/app.service';
 import { Router } from '@angular/router';
 import { messages } from '../../config';
 import { ModalModule, Modal } from "ng2-modal";
-//import { AlertModule } from 'ng2-bootstrap';
+import { AlertModule } from 'ng2-bootstrap/components/alert';
 @Component({
     templateUrl: 'app/components/approveOrder/approveOrder.component.html'
 })
@@ -16,6 +16,7 @@ export class ApproveOrder {
     getProfileSubscription: Subscription;
     selectedAddress: any = {};
     selectedCard: any = {};
+    defaultCard: any = {};
     allTotals: {} = {};
     footer: any = {
         wineTotals: {
@@ -42,8 +43,16 @@ export class ApproveOrder {
     shippingBottles:any={};
     //orderBundle: any = {};
     profile: any = {};
-    isApproveButtonDisabled:boolean = true;
-    constructor(private appService: AppService, private location: Location, private router: Router) {
+    isAlert: boolean;
+    alert: any = { type: "success" };
+    payLater:any=()=>{
+        if(!this.selectedCard || this.selectedCard==''){
+            return('Pay later');
+        } else{
+            return('');
+        }
+    };
+    constructor(private appService: AppService, private router: Router) {
         let ords = appService.request('orders');
         if (!ords) {
             router.navigate(['order']);
@@ -74,7 +83,7 @@ export class ApproveOrder {
             } else {
                 let artifacts = JSON.parse(d.data);
                 if (artifacts.Table.length > 0) {
-                    this.selectedCard = artifacts.Table[0];
+                    this.selectedCard = this.defaultCard = artifacts.Table[0];
                 } else {
                     this.selectedCard = {};
                 }
@@ -84,14 +93,12 @@ export class ApproveOrder {
                         this.selectedAddress.salesTaxPerc=this.selectedAddress.isoCode !="US" ? 0 : this.selectedAddress.salesTaxPerc;
                         this.selectedAddress.shippingCharges=this.selectedAddress.isoCode !="US" ? 0 : this.selectedAddress.shippingCharges;
                         this.selectedAddress.addlshippingCharges=this.selectedAddress.isoCode !="US" ? 0 : this.selectedAddress.addlshippingCharges;
-                        this.isApproveButtonDisabled=false;
                     }
                 } else {
-                    //this.selectedAddress = null;
+                    this.selectedAddress = {};
                     this.selectedAddress.salesTaxPerc=0;
                     this.selectedAddress.shippingCharges=0;
                     this.selectedAddress.addlshippingCharges=0;
-                    this.isApproveButtonDisabled=true;
 
                 }
                 if (artifacts.Table2.length > 0) {
@@ -146,6 +153,7 @@ export class ApproveOrder {
     };
     @ViewChild('addrModal') addrModal: Modal;
     changeSelectedAddress() {
+        this.isAlert = false;
         this.isChangeAddress=true;
         this.appService.httpGet('get:shipping:address');
         this.addrModal.open();
@@ -164,7 +172,6 @@ export class ApproveOrder {
             this.selectedAddress.salesTaxPerc=0;
             this.computeTotals();
         }
-        this.isApproveButtonDisabled=false;
     };
 
     @ViewChild('cardModal') cardModal: Modal;
@@ -217,7 +224,7 @@ export class ApproveOrder {
             BillingZip:this.selectedCard.zip,
             BillingCountry: this.selectedCard.country,
             BillingISOCode:this.selectedCard.isoCode,
-            DayPhone: this.selectedCard.phone,
+            DayPhone: this.profile.phone,
             MailName: this.profile.firstName,
             MailCo:this.profile.Co,
             MailStreet1: this.profile.mailingAddress1,
@@ -246,7 +253,24 @@ export class ApproveOrder {
                         ,Allocation: a.availableQty
                         ,SortOrder:0
                     });
-            });       
+            });
+        orderBundle.productDetails = this.orders.filter((a) => {
+            return ((a.orderQty && a.orderQty > 0) || (a.wishList && a.wishList > 0));
+        }).map(
+            (a) => {
+                return (
+                    {
+                        ProductId: a.id
+                        , NumOrdered: a.orderQty
+                        , AdditionalRequested: a.wishList
+                        , Price: a.price
+                        ,Allocation: a.availableQty
+                        ,SortOrder:0,
+                        item: a.item,
+                        descr:a.descr,
+                        productType:a.productType
+                    });
+            });   
         //orderBundle.orderImpDetails = { AddressId: this.selectedAddress.id, CreditCardId: this.selectedCard.id };
         this.appService.httpPost('post:save:approve:request', orderBundle);
     };

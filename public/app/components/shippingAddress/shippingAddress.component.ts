@@ -20,6 +20,7 @@ export class ShippingAddress {
     putSubscription: Subscription;
     dataReadySubs: Subscription;
     verifyAddressSub: Subscription;
+    postDeleteSubscription: Subscription;
     shippingForm: FormGroup;
     alert: any = {
         show: false,
@@ -28,7 +29,7 @@ export class ShippingAddress {
     };
     countries: [any];
     selectedISOCode: string = '';
-    selectedCountryName: string = '';
+    selectedCountryName: string = 'United States';
     selectedCountryObj: any = {};
     isDataReady:boolean=false;
     messages: Message[] = [];
@@ -41,10 +42,12 @@ export class ShippingAddress {
     addresses: [any];
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         this.initShippingForm({});
+    };
+    initSubscriptions() {
         this.verifyAddressSub = this.appService.filterOn('get:smartyStreet').subscribe(d => {            
             if (d.data.error) {
                 //Authorization of vendor at smartyStreet failed. Maybe purchase of new slot required
-                appService.showAlert(this.alert, true, 'addressValidationUnauthorized');
+                this.appService.showAlert(this.alert, true, 'addressValidationUnauthorized');
                 this.isVerifying = false;
             } else {
                 if (d.data.length == 0) {
@@ -58,25 +61,64 @@ export class ShippingAddress {
                 }
             }
         });
-        this.dataReadySubs=appService.behFilterOn('masters:download:success').subscribe(d=>{
+        this.dataReadySubs=this.appService.behFilterOn('masters:download:success').subscribe(d=>{
             this.countries = this.appService.getCountries();
             this.isDataReady=true;
         });
-        this.getSubscription = appService.filterOn("get:shipping:address")
+        this.getSubscription = this.appService.filterOn("get:shipping:address")
             .subscribe(d => {
                 this.isVerifying = false;
                 this.addresses = JSON.parse(d.data).Table;
-		this.addresses[this.radioIndex || 0].isSelected = true;
-                console.log(d);
+                if (this.addresses.length > 0) {
+                    if (this.radioIndex > (this.addresses.length-1)) {
+                        this.radioIndex = this.addresses.length-1;
+                    }
+                    this.addresses[this.radioIndex || 0].isSelected = true;
+                }
             });
-        this.postSubscription = appService.filterOn("post:shipping:address")
+        this.postSubscription = this.appService.filterOn("post:shipping:address")
             .subscribe(d => {
                 this.showMessage(d);
             });
-        this.putSubscription = appService.filterOn("put:shipping:address")
+        this.putSubscription = this.appService.filterOn("put:shipping:address")
             .subscribe(d => {
                 this.showMessage(d);
             });
+        this.postDeleteSubscription = this.appService.filterOn("post:delete:shipping:address")
+            .subscribe(d => {
+                if (d.data.error) {
+                    console.log(d.data.error);
+                    // this.appService.doGrowl(this.messages, 'error', 'Error', 'Deletion of address failed at server')
+                    this.messages = [];
+                    this.messages.push({
+                        severity: 'error'
+                        , summary: 'Error'
+                        , detail: 'Address could not be deleted'
+                    });
+                    // this.appService.showAlert(this.alert, true, 'addressDeleteFailed');
+                } else {
+                    //this.addresses.splice(this.radioIndex);
+                    // this.appService.showAlert(this.alert, false);
+                    // this.appService.doGrowl(this.messages, 'success', 'Success', 'Data saved successfully');
+                    this.appService.httpGet('get:shipping:address');
+                    this.messages = [];
+                    this.messages.push({
+                        severity: 'success'
+                        , summary: 'Success'
+                        , detail: 'Data saved successfully'
+                    });
+
+                }
+            });
+    };
+
+    confirmRemove(address) {
+        this.confirmationService.confirm({
+            message: 'Are you sure to delete this address?',
+            accept: () => {
+                this.appService.httpPost('post:delete:shipping:address', { sqlKey: 'DeleteShippingAddress', sqlParms: { id: address.shippid } });
+            }
+        });
     };
 
     showMessage(d) {
@@ -84,6 +126,7 @@ export class ShippingAddress {
         if (d.data.error) {
             this.appService.showAlert(this.alert, true, 'addressSaveFailed');
         } else {
+            this.appService.showAlert(this.alert, false);
             this.appService.httpGet('get:shipping:address');
             this.initShippingForm({});
             this.messages = [];
@@ -112,8 +155,13 @@ export class ShippingAddress {
             isDefault: [address.isDefault || false]
         });
         this.selectedCountryName = address.country;
+        if(!address.phone){
+            //separate reset is required to clear the input mask control
+            this.shippingForm.controls['phone'].reset();
+        }
     };
     ngOnInit() {        
+	this.initSubscriptions();
         this.appService.httpGet('get:shipping:address');
     };
     edit(address) {
@@ -122,13 +170,14 @@ export class ShippingAddress {
         
         this.shippingModal.open();
     };
-    delete(address) {
-        if (confirm('Are you sure to delete this address')) {
-            console.log('true');
-        } else {
-            console.log(false);
-        }
-    };
+
+    // delete(address) {
+    //     if (confirm('Are you sure to delete this address')) {
+    //         console.log('true');
+    //     } else {
+    //         console.log(false);
+    //     }
+    // };
 
     verifyOrSubmit() {
         if (this.selectedCountryName == 'United States') {
@@ -155,6 +204,7 @@ export class ShippingAddress {
         let addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,
+           // co: this.shippingForm.controls['name'].value,
             street1: this.shippingForm.controls['street1'].value,
             street2: this.shippingForm.controls['street2'].value ? this.shippingForm.controls['street2'].value : '',
             city: this.shippingForm.controls['city'].value,

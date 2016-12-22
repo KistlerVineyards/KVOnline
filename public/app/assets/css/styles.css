@@ -69,12 +69,9 @@ border-radius: 5px 5px 5px 5px;
 
 .ProductPanel .productTitle{font-size:1.2em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top: 5px; }
 .ProductPanel .productTitle a{ cursor: pointer; color: #a0090a;}
-.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; }
 .productPrice{color: #a75b02; }
-
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
 .ProductPanel .notesOrderAvailPanel .availPack .availableQtyColor{ color: #858585;}
+.productInfoPanel:after {display: table; clear: both; content: " ";}
 
 
 .ProductPanel .showproductDetails{padding: 15px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
@@ -162,7 +159,7 @@ background: -webkit-linear-gradient(top,  #261e15 0%,#473418 100%); /* Chrome10-
 background: linear-gradient(to bottom,  #261e15 0%,#473418 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#261e15', endColorstr='#473418',GradientType=0 ); /* IE6-9 */
 }
-.approveOrderAddress .panel-heading, .approveOrderPayment .panel-heading{ font-size: 1.1em; color: #a75b02;}
+.approveOrderAddress .panel-heading, .approveOrderPayment .panel-heading{ font-size: 1.2em; /* color: #a75b02; */}
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
     z-index: 2;
     color: #fff;
@@ -239,6 +236,12 @@ input.ng-valid{
 }
 
 .profileCode{ line-height: 30px; color: #a75b02; font-family: serif; font-weight: 600; }
+.additionalRequestCont{ width: 100px;}
+.totalaWineCosts td{ border-top: solid 1px #000!important;}
+.noRecord{ color: #e80c4d;}
+.btnApprovedpayment button, .btnApprovedOrder button{float: right; margin-left: 10px;}
+
+
 
 	/*==========  Mobile First Method  ==========*/
 
@@ -253,12 +256,23 @@ input.ng-valid{
 	}
 
 	/* Small Devices, Tablets */
-	@media only screen and (min-width : 768px){
+	@media only screen and (min-width : 769px){
+
+.ProductPanel .productTitle{ width: 45%; float: left;  }
+.ProductPanel .notesOrderAvailPanel{ width: 25%; float: left;}
+.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
+.requestListOrder{ width: 30%; float: left;}
+.requestPanelOrder, .requestWishOrder{ width: 49%; float: left; }
 
 	}
 
 	/* Medium Devices, Desktops */
 	@media only screen and (min-width : 992px){
+
+
+
 
 	}
 
@@ -282,20 +296,19 @@ input.ng-valid{
 	}
 
 	/* Small Devices, Tablets */
-	@media only screen and (max-width : 767px){
-		.ProductPanel .showproductDetails .orderDescPanel {
-     padding-bottom: 0px; 
-    font-size: .9em;
-}
-.ProductPanel .showproductDetails{padding: 10px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
-border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
-box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
+	@media only screen and (max-width : 768px){
+
+.shippingAddressButtonPanel{ display: block;}
+.shippingAddressButtonPanel button{ float: left; margin-right: 10px;}
+.ProductPanel .productTitle{ width:100%; float: none; text-align: center; border-bottom: solid 1px #ddd; padding-bottom: 5px; margin-bottom: 5px; padding-top: 0px; }
+.ProductPanel .notesOrderAvailPanel{ width: 45%; float: left;}
+.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
+.requestListOrder{ width: 55%; float: left;}
+.requestPanelOrder, .requestWishOrder{ width: 49%; float: left; }
 
 
-.ProductPanel .productTitle{ text-align: center; margin-bottom: 10px;}
-.orderDescPanel .col-sm-2{ padding-bottom: 10px; text-align: center;}
- .notesOrderAvailPanel{margin-bottom: 10px; text-align: center; border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
-.ProductPanel .col-xs-6{ text-align: center;}
 
 
  .KistlerSubMenu .navbar-toggle {
@@ -325,7 +338,28 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 
 	@media only screen and (max-width: 480px) {
-	.subTotalTtitle{ font-weight: 700; font-size: 1.1em;}
+
+.totalaWineCosts td{ border-top: solid 0px #ddd!important;}
+
+.ProductPanel .productTitle{ width:100%; float: none; border-bottom: solid 0px #ddd; text-align: center; margin-bottom: 0px; padding-top: 0px; padding-right: 0px;  }
+.ProductPanel .notesOrderAvailPanel{ width: 100%; display: table; float: none; margin-bottom: 10px; text-align: center; border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
+.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
+.requestListOrder{ width: 100%; float: none; display: table;}
+.requestPanelOrder, .requestWishOrder{ width: 49%; float: left; }
+
+
+
+
+.ProductPanel .showproductDetails{padding: 10px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
+border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
+box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
+
+
+.orderDescPanel .col-sm-2{ padding-bottom: 10px; text-align: center;}
+
+	.subTotalTtitle{ font-weight: 700; font-size: 1.1em; }
 	.grandTotals{ background-color: #f5f5f5; font-weight:700; font-size: 1.1em;}
 
 /* ------------- Order History ---------------- */
@@ -351,7 +385,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 50%!important; 
+			padding-left: 55%!important; 
             width: 100%; 
 		}
 		
@@ -398,7 +432,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 50%!important; 
+			padding-left: 55%!important; 
             width: 100%;
 		}
 		
@@ -421,8 +455,8 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		.orderDetailsPaneltbl td:nth-of-type(1):before { content: "Wine Request:"; }
 		.orderDetailsPaneltbl td:nth-of-type(2):before { content: "Request:"; }
 		.orderDetailsPaneltbl td:nth-of-type(3):before { content: "Total:"; }
-		.orderDetailsPaneltbl td:nth-of-type(4):before { content: "Wish List:"; }
-        .orderDetailsPaneltbl td:nth-of-type(5):before { content: "Additional:"; }
+		.orderDetailsPaneltbl td:nth-of-type(4):before { content: "Additional Requested:"; }
+        .orderDetailsPaneltbl td:nth-of-type(5):before { content: "Totals with Additional:"; }
 
 
 
@@ -446,7 +480,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 50%!important; 
+			padding-left: 55%!important; 
             width: 100%;
 		}
 		
@@ -469,8 +503,8 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		.movieViewApproveOrder td:nth-of-type(1):before { content: "Wine Request:"; }
 		.movieViewApproveOrder td:nth-of-type(2):before { content: "Request:"; }
 		.movieViewApproveOrder td:nth-of-type(3):before { content: "Total:"; }
-		.movieViewApproveOrder td:nth-of-type(4):before { content: "Wish List:"; }
-        .movieViewApproveOrder td:nth-of-type(5):before { content: "Additional:"; }
+		.movieViewApproveOrder td:nth-of-type(4):before { content: "Additional Requested:"; }
+        .movieViewApproveOrder td:nth-of-type(5):before { content: "Totals with Additional:"; }
 
 .totalaWineCosts, .mobBalance-Credit, .mobShipping, .mobSalesTax{ background-color: #fffdfa;}
 
@@ -489,7 +523,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 .mobBalance-Credit td:nth-of-type(1){	padding-left: 1%!important;  }
 
 .mobShipping td:nth-of-type(4){ display: none;}
-.mobShipping td:nth-of-type(2){ display: none;}
+/* .mobShipping td:nth-of-type(2){ display: none;} */
 .mobShipping td:nth-of-type(1):before { content: " "; }
 .mobShipping td:nth-of-type(1){	padding-left: 1%!important;  }
 
@@ -500,7 +534,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 .mobSalesTax td:nth-of-type(1){	padding-left: 1%!important;  }
 
 .totalaWineCosts td:nth-of-type(4){ display: none;}
-.totalaWineCosts td:nth-of-type(2){ display: none;}
+ .totalaWineCosts td:nth-of-type(2){ display: none;}
 .totalaWineCosts td:nth-of-type(1):before { content: " "; }
 .totalaWineCosts td:nth-of-type(1){	padding-left: 1%!important;  }
 

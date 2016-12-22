@@ -31,9 +31,10 @@ export class OrderHistory {
                 if (d.data.error) {
                     console.log(d.data.error);
                 } else {
-                    this.orderDetails.details = JSON.parse(d.data).Table;
-                    this.orderDetails.address = JSON.parse(d.data).Table1[0];
-                    this.orderDetails.card = JSON.parse(d.data).Table1[0];
+		    let tables = JSON.parse(d.data);
+                    this.orderDetails.details = tables.Table;
+                    this.orderDetails.address = tables.Table1[0];
+                    this.orderDetails.card = tables.Table1[0];
                     //to escape from null values
                     this.orderDetails.details = this.orderDetails.details ? this.orderDetails.details : [{}];
                     this.orderDetails.address = this.orderDetails.address ? this.orderDetails.address : {};

@@ -100,6 +100,7 @@ var ChangePassword = (function () {
         this.router = router;
         this.fb = fb;
         this.alert = {};
+        this.messages = [];
         this.subscription = appService.filterOn('post:change:password')
             .subscribe(function (d) {
             if (d.data.error) {
@@ -109,7 +110,13 @@ var ChangePassword = (function () {
             }
             else {
                 _this.appService.resetCredential();
-                _this.appService.showAlert(_this.alert, true, '', 'success');
+                _this.appService.showAlert(_this.alert, false);
+                _this.messages = [];
+                _this.messages.push({
+                    severity: 'success',
+                    summary: 'Saved',
+                    detail: 'Data saved successfully'
+                });
                 _this.router.navigate(['/login']);
             }
         });

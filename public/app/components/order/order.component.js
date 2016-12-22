@@ -33,6 +33,8 @@ var Order = (function () {
         };
         this.isholidayGift = false;
         this.isShowHolidayGiftOption = false;
+        this.disableOnlineOrderForm = false;
+        //this.onlineOrder = appService.getSetting('onlineOrder');
         this.currentOfferSubscription = appService.filterOn('get:current:offer')
             .subscribe(function (d) {
             if (d.data.error) {
@@ -65,6 +67,7 @@ var Order = (function () {
                 console.log(d.data.error);
             }
             else {
+                _this.onlineOrder = {};
                 var settingsData = JSON.parse(d.data);
                 if (settingsData.Table.length > 0) {
                     var settings = settingsData.Table[0];
@@ -75,9 +78,13 @@ var Order = (function () {
                     _this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox; // == "true" ? true : false;
                     //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);
                     _this.staticTexts.introText = settings.WelcomeNote;
+                    _this.disableOnlineOrderForm = settings.DisableOnlineOrderForm;
                 }
                 if (settingsData.Table1.length > 0) {
                     _this.staticTexts.salutation = settingsData.Table1[0].name;
+                }
+                if (settingsData.Table2.length > 0) {
+                    _this.disableOnlineOrderText = settingsData.Table2[0].disableOnlineOrderText;
                 }
             }
         });

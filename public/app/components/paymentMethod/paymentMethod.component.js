@@ -38,7 +38,7 @@ var PaymentMethod = (function () {
         });
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
             _this.countries = _this.appService.getCountries();
-            _this.creditCardTypes = _this.appService.getCreditCardTypes();
+            _this.creditCardTypes = _this.appService.getSetting('creditCardTypes');
             _this.isDataReady = true;
         });
         this.postPayMethodSub = appService.filterOn("post:payment:method")
@@ -103,7 +103,6 @@ var PaymentMethod = (function () {
             ccExpiryYear: [this.year, forms_1.Validators.required],
             ccSecurityCode: ['', forms_1.Validators.required],
             co: [''],
-            name: [''],
             street1: ['', forms_1.Validators.required],
             street2: [''],
             city: ['', forms_1.Validators.required],
@@ -114,6 +113,8 @@ var PaymentMethod = (function () {
             phone: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
             isDefault: [false]
         });
+        //input mask requires separate initialization
+        this.payMethodForm.controls['phone'].reset();
     };
     PaymentMethod.prototype.addPayMethod = function () {
         this.initPayMethodForm();
@@ -131,6 +132,8 @@ var PaymentMethod = (function () {
     // };
     PaymentMethod.prototype.submit = function () {
         var _this = this;
+        var firstName = this.payMethodForm.controls['ccFirstName'].value || '';
+        var lastName = this.payMethodForm.controls['ccLastName'].value || '';
         var payMethod = {
             cardName: this.payMethodForm.controls['cardName'].value,
             ccFirstName: this.payMethodForm.controls['ccFirstName'].value,
@@ -140,7 +143,7 @@ var PaymentMethod = (function () {
             ccExpiryMonth: this.payMethodForm.controls['ccExpiryMonth'].value,
             ccExpiryYear: this.payMethodForm.controls['ccExpiryYear'].value,
             ccSecurityCode: this.payMethodForm.controls['ccSecurityCode'].value,
-            name: this.payMethodForm.controls['ccFirstName'].value + ' ' + this.payMethodForm.controls['ccLastName'].value,
+            name: firstName.concat(' ', lastName),
             street1: this.payMethodForm.controls['street1'].value,
             street2: this.payMethodForm.controls['street2'].value ? this.payMethodForm.controls['street2'].value : '',
             city: this.payMethodForm.controls['city'].value,

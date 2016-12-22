@@ -21,7 +21,7 @@
                     <span>, {{card.state}}</span>
                     <span>, {{card.zip}}</span>
                     <span>, {{card.country}}</span>-->
-                    <button *ngIf="isDataReady" type="button" class="btn btn-link" (click)="confirm(card)"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Remove</button></li>
+                    <button *ngIf="isDataReady" type="button" class="btn btn-link pull-right" (click)="confirm(card)" title="Remove Card"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button></li>
             </ul>
             <button type="button" class="btn btn-md btn-kistler" *ngIf="isDataReady" (click)="addPayMethod()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Card</button>
         </div>

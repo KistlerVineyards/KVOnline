@@ -19,7 +19,6 @@ var app_service_1 = require("../../services/app.service");
 var md5_1 = require("../../vendor/md5");
 var Login = (function () {
     function Login(appService, router, fb, activatedRoute) {
-        var _this = this;
         this.appService = appService;
         this.router = router;
         this.fb = fb;
@@ -32,24 +31,6 @@ var Login = (function () {
         this.loginForm = fb.group({
             email: ['', [forms_1.Validators.required]],
             password: ['', forms_1.Validators.required]
-        });
-        this.subscription = appService.filterOn('post:authenticate')
-            .subscribe(function (d) {
-            console.log(d);
-            if (d.data.error) {
-                console.log(d.data.error.status);
-                appService.resetCredential();
-                _this.alert.show = true;
-            }
-            else {
-                //console.log('token:' + d.data.token);
-                _this.alert.show = false;
-                // appService.setCredential(this.loginForm.controls["email"].value, d.data.token);
-                appService.setCredential(d.data.user, d.data.token, d.data.inactivityTimeoutSecs);
-                //start inactivity timeout using request / reply mecanism
-                appService.request('login:success')();
-                router.navigate(['order']);
-            }
         });
     }
     ;
@@ -75,6 +56,24 @@ var Login = (function () {
         });
         this.loginFormChangesSubscription = this.loginForm.valueChanges.take(1).subscribe(function (x) {
             _this.alert.show = false;
+        });
+        this.subscription = this.appService.filterOn('post:authenticate')
+            .subscribe(function (d) {
+            console.log(d);
+            if (d.data.error) {
+                console.log(d.data.error.status);
+                _this.appService.resetCredential();
+                _this.alert.show = true;
+            }
+            else {
+                //console.log('token:' + d.data.token);
+                _this.alert.show = false;
+                _this.appService.setCredential(d.data.user, d.data.token, d.data.inactivityTimeoutSecs);
+                //start inactivity timeout using request / reply mecanism
+                _this.appService.request('login:success')();
+                _this.appService.loadSettings();
+                _this.router.navigate(['order']);
+            }
         });
     };
     Login.prototype.ngOnDestroy = function () {

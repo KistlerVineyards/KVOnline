@@ -8,7 +8,7 @@ export class Receipt {
     staticTexts: any = {};
     constructor(private appService: AppService) {
         this.staticTexts.header = appService.getMessage('mess:receipt:heading');
-        let email = this.appService.getCredential().email;
+        let email = this.appService.getCredential().user.email;
         this.staticTexts.info = appService.getMessage('mess:receipt:info').replace('@email', email);
     };
 }

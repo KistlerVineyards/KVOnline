@@ -15,6 +15,7 @@ export class Order {
     type: 'danger',
     message: ''
   };
+  onlineOrder:any;
   excessOrder: string = this.appService.getValidationErrorMessage('excessOrder');
   email: string;
   minOrderBottles=0;
@@ -33,12 +34,15 @@ export class Order {
     salutation:""
   };
   isholidayGift:boolean=false;
-  isShowHolidayGiftOption:boolean = false;  
+  isShowHolidayGiftOption:boolean = false;
+  disableOnlineOrderForm :boolean = false;
+  disableOnlineOrderText:string;
   currentOfferSubscription: Subscription;
   saveOrderSubscription: Subscription;
   currentSettingsSubscription: Subscription;  
   orders: any[];
   constructor(private appService: AppService, private router: Router) {
+    //this.onlineOrder = appService.getSetting('onlineOrder');
     this.currentOfferSubscription = appService.filterOn('get:current:offer')
       .subscribe(d => {
         if (d.data.error) {
@@ -68,6 +72,7 @@ export class Order {
       if (d.data.error) {
         console.log(d.data.error);
       } else {
+                  this.onlineOrder = {};
                   let settingsData = JSON.parse(d.data);
                   if (settingsData.Table.length > 0) {
                         let settings = settingsData.Table[0];
@@ -78,9 +83,14 @@ export class Order {
                         this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox;// == "true" ? true : false;
                         //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);
                         this.staticTexts.introText = settings.WelcomeNote;
+                        
+                        this.disableOnlineOrderForm=settings.DisableOnlineOrderForm;
                   }
                   if (settingsData.Table1.length > 0) {
                       this.staticTexts.salutation = settingsData.Table1[0].name;
+                  }
+                  if (settingsData.Table2.length > 0) {
+                      this.disableOnlineOrderText=settingsData.Table2[0].disableOnlineOrderText;
                   }
       }
     });

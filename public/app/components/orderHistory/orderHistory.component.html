@@ -43,8 +43,8 @@
                     <th>Wine Request</th>
                     <th class="text-center">Request</th>
                     <th class="priceFldAlign">Total</th>
-                    <th class="text-center">Wish List</th>
-                    <th class="priceFldAlign">Additional</th>
+                    <th class="text-center">Additional Requested</th>
+                    <th class="priceFldAlign">Totals with Additional</th>
                 </tr>
             </thead>
              <tbody>
@@ -56,7 +56,7 @@
                 <td class="productPrice priceFldAlign">${{(order.wishList * order.price) | number : '1.2-2'}}&nbsp;</td>
             </tr>
             <tr  class="totalaWineCosts">
-                <td class="subTotalTtitle">Total wine costs</td>
+                <td class="subTotalTtitle">Total Wine Cost</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>

@@ -2,7 +2,7 @@
 var handler = require('./handler');
 var express = require('express');
 var router = express.Router();
-var config, def, messages, data;
+var config, def, messages, data, orderacknowledgementmailBody;
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 var requestIp = require('request-ip');
@@ -14,6 +14,7 @@ router.init = function (app) {
     messages = app.get('messages');
     data = { action: 'init', conn: config.connString.replace('@dbName', config.dbName), conn2: config.connString2.replace('@dbName2', config.dbName2) }
     handler.init(app, data);
+    orderacknowledgementmailBody = app.get('orderacknowledgementmailBody');
 }
 
 router.post('/api/validate/token', function (req, res, next) {
@@ -120,7 +121,8 @@ router.post('/api/forgot/password', function (req, res, next) {
     try {
         let auth = req.body.auth;
         if (auth) {
-            let email = Buffer.from(auth, 'base64').toString();
+            //let email = Buffer.from(auth, 'base64').toString();
+            let email = new Buffer(auth, 'base64').toString();
             var data = { action: 'isEmailExist', email: email};
             //verify email if it exists and then send url to the verified mail
             handler.edgePush(res, next, 'forgot:passowrd', data);
@@ -315,7 +317,7 @@ router.get('/api/shipping/address', function (req, res, next) {
 router.post('/api/shipping/address', function (req, res, next) {
     try {
         let data = {
-            action: 'sql:non:query',
+            action: 'sql:shipping:non:query',
             sqlKey: 'InsertShippingAddress',
             sqlParms: {
                 name: req.body.address.name,
@@ -329,6 +331,7 @@ router.post('/api/shipping/address', function (req, res, next) {
                 isoCode: req.body.address.isoCode,
                 country: req.body.address.country,
                 userId: req.user.userId,
+                release: req.user.role,
                 isAddressVerified:req.body.address.isAddressVerified
             }
         };
@@ -342,7 +345,7 @@ router.post('/api/shipping/address', function (req, res, next) {
 router.put('/api/shipping/address', function (req, res, next) {
     try {
         let data = {
-            action: 'sql:non:query',
+            action: 'sql:shipping:non:query',
             sqlKey: 'UpdateShippingAddress',
             sqlParms: {
                 id: req.body.address.id,
@@ -357,6 +360,7 @@ router.put('/api/shipping/address', function (req, res, next) {
                 isoCode: req.body.address.isoCode,
                 country: req.body.address.country,
                 userId: req.user.userId,
+                release: req.user.role,
                 isAddressVerified:req.body.address.isAddressVerified
             }
         };
@@ -498,7 +502,8 @@ router.post('/api/approve/request', function (req, res, next) {
         orderBundle.orderMaster.Code = req.user.userId;
         orderBundle.orderMaster.Release = req.user.role;
         let emailItem = config.sendMail;
-        emailItem.htmlBody = config.receipt.mailBody;
+        //emailItem.htmlBody = config.receipt.mailBody;
+        emailItem.htmlBody = orderacknowledgementmailBody;
         emailItem.subject = config.receipt.subject;
 
         let data = {
