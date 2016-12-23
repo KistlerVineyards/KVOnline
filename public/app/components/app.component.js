@@ -74,7 +74,7 @@ var AppComponent = (function () {
         };
         this.initMenu(window.innerWidth);
         this.needHelpSub = appService.behFilterOn('settings:download:success').subscribe(function (d) {
-            //this.needHelpText = this.appService.getSetting('needHelpText')
+            _this.needHelpText = _this.appService.getSetting('needHelpText');
             //this.needHelpText = this.appService.getNeedHelpText();
             //this.isDataReady = true;
         });

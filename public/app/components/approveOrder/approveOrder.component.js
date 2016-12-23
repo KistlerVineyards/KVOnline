@@ -370,9 +370,11 @@ var ApproveOrder = (function () {
         this.shippingBottles = this.orders.reduce(function (a, b, c) {
             return ({
                 requestedShippingBottle: a.requestedShippingBottle + b.shippingBottles * b.orderQty,
-                additinalShippingBottle: a.additinalShippingBottle + b.shippingBottles * b.wishList
+                additinalShippingBottle: a.additinalShippingBottle + b.shippingBottles * b.wishList,
+                totalRequestedBottles: a.totalRequestedBottles + b.orderQty,
+                totalWishlistBottles: a.totalWishlistBottles + b.wishList
             });
-        }, { requestedShippingBottle: 0, additinalShippingBottle: 0 });
+        }, { requestedShippingBottle: 0, additinalShippingBottle: 0, totalRequestedBottles: 0, totalWishlistBottles: 0 });
         var shippedState = this.selectedAddress.state == undefined ? "" : this.selectedAddress.state;
         var shippedZip = this.selectedAddress.zip == undefined ? "" : this.selectedAddress.zip;
         var body = {};

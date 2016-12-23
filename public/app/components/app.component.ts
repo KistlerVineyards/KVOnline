@@ -28,7 +28,7 @@ export class AppComponent {
   constructor(private appService: AppService, private router: Router, private idle: Idle) {
     this.initMenu(window.innerWidth);
     this.needHelpSub = appService.behFilterOn('settings:download:success').subscribe(d => {
-      //this.needHelpText = this.appService.getSetting('needHelpText')
+      this.needHelpText = this.appService.getSetting('needHelpText');
       //this.needHelpText = this.appService.getNeedHelpText();
       //this.isDataReady = true;
     });

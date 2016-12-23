@@ -73,7 +73,7 @@ var Order = (function () {
                     var settings = settingsData.Table[0];
                     _this.minOrderBottles = settings.MinOrderBottles;
                     _this.minOrderPackages = settings.MinOrderpackages;
-                    _this.staticTexts.minimumRequest = "Minimum request " + _this.minOrderBottles + " bottles or " + _this.minOrderPackages + " 6-bottle package";
+                    _this.staticTexts.minimumRequest = "Minimum request " + _this.minOrderBottles + " bottles or " + _this.minOrderPackages + " 6 - bottle package";
                     //this.staticTexts.bottomNotes = "Wines in " + settings.MinOrderBottles+ " bottle packages are subject to change";;
                     _this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox; // == "true" ? true : false;
                     //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);

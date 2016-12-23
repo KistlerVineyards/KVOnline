@@ -62,19 +62,18 @@
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceAddl | number : '1.2-2'}}&nbsp;</td>
             </tr>
-            <tr  class="mobSalesTax">
-                <td class="subTotalTtitle">Sales Tax @{{selectedOrder.salesTaxPerc}}%</td>
-                <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxWine | number : '1.2-2'}}&nbsp;</td>
-                <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxAddl | number : '1.2-2'}}&nbsp;</td>
-            </tr>
             <tr  class="mobShipping">
                 <td class="subTotalTtitle">Shipping</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.shippingWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.shippingAddl | number : '1.2-2'}}&nbsp;</td>
+            </tr>            <tr  class="mobSalesTax">
+                <td class="subTotalTtitle">Sales Tax @ {{selectedOrder.salesTaxPerc}}%</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxWine | number : '1.2-2'}}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxAddl | number : '1.2-2'}}&nbsp;</td>
             </tr>
             <tr class="grandTotals">
                 <td class="subTotalTtitle">Grand Total</td>
@@ -103,7 +102,7 @@
             
 
    <div class="panel panel-default" name="shippingAddress">
-          <div class="panel-heading">Address</div>
+          <div class="panel-heading">Shipping Address</div>
         <div class="panel-body">
             <table class="table">
             <tr>
