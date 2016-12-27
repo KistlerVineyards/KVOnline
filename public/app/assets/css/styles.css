@@ -258,14 +258,14 @@ input.ng-valid{
 	/* Small Devices, Tablets */
 	@media only screen and (min-width : 769px){
 
-.ProductPanel .productTitle{ width: 45%; float: left;  }
-.ProductPanel .notesOrderAvailPanel{ width: 25%; float: left;}
+.ProductPanel .productTitle{ width: 40%; float: left;  }
+.ProductPanel .notesOrderAvailPanel{ width: 30%; float: left;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
 .ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
 .ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
 .requestListOrder{ width: 30%; float: left;}
-.requestPanelOrder, .requestWishOrder{ width: 49%; float: left; }
-
+.requestPanelOrder{ width: 40%; float: left; }
+.requestWishOrder{ width: 60%; float: left; }
 	}
 
 	/* Medium Devices, Desktops */
@@ -301,13 +301,13 @@ input.ng-valid{
 .shippingAddressButtonPanel{ display: block;}
 .shippingAddressButtonPanel button{ float: left; margin-right: 10px;}
 .ProductPanel .productTitle{ width:100%; float: none; text-align: center; border-bottom: solid 1px #ddd; padding-bottom: 5px; margin-bottom: 5px; padding-top: 0px; }
-.ProductPanel .notesOrderAvailPanel{ width: 45%; float: left;}
+.ProductPanel .notesOrderAvailPanel{ width: 45%; float: left; text-align: center;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
 .ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
 .ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
-.requestListOrder{ width: 55%; float: left;}
-.requestPanelOrder, .requestWishOrder{ width: 49%; float: left; }
-
+.requestListOrder{ width: 55%; float: left; text-align: center;}
+.requestPanelOrder{ width: 40%; float: left; }
+.requestWishOrder{ width: 60%; float: left; }
 
 
 
@@ -344,11 +344,11 @@ input.ng-valid{
 .ProductPanel .productTitle{ width:100%; float: none; border-bottom: solid 0px #ddd; text-align: center; margin-bottom: 0px; padding-top: 0px; padding-right: 0px;  }
 .ProductPanel .notesOrderAvailPanel{ width: 100%; display: table; float: none; margin-bottom: 10px; text-align: center; border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-left: 5px;}
 .requestListOrder{ width: 100%; float: none; display: table;}
-.requestPanelOrder, .requestWishOrder{ width: 49%; float: left; }
-
+.requestPanelOrder{ width: 40%; float: left; text-align: center; }
+.requestWishOrder{ width: 60%; float: left; text-align: center; }
 
 
 
@@ -361,7 +361,8 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 	.subTotalTtitle{ font-weight: 700; font-size: 1.1em; }
 	.grandTotals{ background-color: #f5f5f5; font-weight:700; font-size: 1.1em;}
-
+	
+.orderDetailsPanel{ position: relative; padding:5px; background-color:#ddd;}
 /* ------------- Order History ---------------- */
 
 		/* Force table to not be like tables anymore */
@@ -385,7 +386,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 55%!important; 
+			padding-left: 58%!important; 
             width: 100%; 
 		}
 		
@@ -432,7 +433,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 55%!important; 
+			padding-left: 58%!important; 
             width: 100%;
 		}
 		
@@ -480,7 +481,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 55%!important; 
+			padding-left: 58%!important; 
             width: 100%;
 		}
 		

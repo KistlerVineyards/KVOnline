@@ -8,7 +8,7 @@
       <div class="col-sm-10">
 	            <span *ngIf = "!selectedAddress.name" class="noRecord">You must provide a shipping address</span>
 				<span *ngIf="selectedAddress.name">
-					  {{selectedAddress.name}}, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}
+					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}
 				</span>
 	  </div>
      <div class="col-sm-2 btnApprovedOrder"><button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedAddress()">Change</button></div>
@@ -61,13 +61,6 @@
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{(footer.wineTotals.wine + footer.wineTotals.addl) | number : '1.2-2'}}</td>
               </tr>
-              <tr  class="mobShipping">
-                <td class="subTotalTtitle">Shipping</td>
-                <td class="text-center" >{{shippingBottles.totalRequestedBottles}}</td>
-                <td class="productPrice priceFldAlign">${{footer.shippingTotals.wine | number : '1.2-2'}}</td>
-                <td class="text-center" >{{shippingBottles.totalWishlistBottles}}</td>
-                <td class="productPrice priceFldAlign">${{footer.shippingTotals.addl | number : '1.2-2'}}</td>
-              </tr>              
               <tr  class="mobSalesTax">
                 <td class="subTotalTtitle">Sales Tax @ {{footer.salesTaxPerc}}%</td>
                 <td>&nbsp;</td>
@@ -75,6 +68,13 @@
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{footer.salesTaxTotals.addl | number : '1.2-2'}}</td>
               </tr>
+              <tr  class="mobShipping">
+                <td class="subTotalTtitle">Shipping</td>
+                <td class="text-center" >{{shippingBottles.totalRequestedBottles}}</td>
+                <td class="productPrice priceFldAlign">${{footer.shippingTotals.wine | number : '1.2-2'}}</td>
+                <td class="text-center" >{{shippingBottles.totalWishlistBottles}}</td>
+                <td class="productPrice priceFldAlign">${{footer.shippingTotals.addl | number : '1.2-2'}}</td>
+              </tr>                            
               <tr  class="mobBalance-Credit">
                 <td class="subTotalTtitle">Previous Balance / Credit</td>
                 <td>&nbsp;</td>

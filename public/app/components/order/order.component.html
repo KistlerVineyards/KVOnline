@@ -15,13 +15,13 @@
                     <div class="notesOrderAvailPanel">
                         <!-- <div class="testingNotes"><a (click)="toggleDetails(order)">Tasting Notes</a></div>-->
                         <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.prodtype}}</div>
-                        <div class="availPack">Avail:<span class="availableQtyColor"> {{order.allocationDescription}}</span></div>
+                        <div class="availPack">Allocation:<span class="availableQtyColor"> {{order.allocationDescription}}</span></div>
                     </div>
                     <div class="requestListOrder">
 						 <div class="requestPanelOrder">
                         <span>Request: </span><input class="form-control orderWith" type="number" min="0" onfocus="this.select()" [(ngModel)]="order.orderQty">
                     </div>
-                    <div class="requestWishOrder">Wish List: 
+                    <div class="requestWishOrder">Additional Request: 
 					 	<input class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList">
 					 </div>
                 </div>
