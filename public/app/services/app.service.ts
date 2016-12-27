@@ -63,7 +63,7 @@ export class AppService {
                         this.globalSettings.creditCardTypes = data.Table[0].creditCardTypes.split(",").map(function (item) {
                             return item.trim();
                         });
-                        this.globalSettings.needHelpText = data.Table[0].needHelpText;
+                        this.globalSettings.needHelpText = data.Table1[0].HelpText;
                         this.globalSettings.onlineOrder = {};
                         //this.globalSettings.onlineOrder.disableOnlineOrderForm = data.Table[0].disableOnlineOrderForm;
                         this.globalSettings.onlineOrder.disableOnlineOrderText = data.Table[0].disableOnlineOrderText;

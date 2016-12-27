@@ -57,7 +57,7 @@ var AppService = (function () {
                     _this.globalSettings.creditCardTypes = data.Table[0].creditCardTypes.split(",").map(function (item) {
                         return item.trim();
                     });
-                    _this.globalSettings.needHelpText = data.Table[0].needHelpText;
+                    _this.globalSettings.needHelpText = data.Table1[0].HelpText;
                     _this.globalSettings.onlineOrder = {};
                     //this.globalSettings.onlineOrder.disableOnlineOrderForm = data.Table[0].disableOnlineOrderForm;
                     _this.globalSettings.onlineOrder.disableOnlineOrderText = data.Table[0].disableOnlineOrderText;
