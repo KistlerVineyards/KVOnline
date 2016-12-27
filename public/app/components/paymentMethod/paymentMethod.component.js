@@ -143,7 +143,7 @@ var PaymentMethod = (function () {
             ccExpiryMonth: this.payMethodForm.controls['ccExpiryMonth'].value,
             ccExpiryYear: this.payMethodForm.controls['ccExpiryYear'].value,
             ccSecurityCode: this.payMethodForm.controls['ccSecurityCode'].value,
-            name: firstName.concat(' ', lastName),
+            name: firstName + ' ' + lastName,
             street1: this.payMethodForm.controls['street1'].value,
             street2: this.payMethodForm.controls['street2'].value ? this.payMethodForm.controls['street2'].value : '',
             city: this.payMethodForm.controls['city'].value,

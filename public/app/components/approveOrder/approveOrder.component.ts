@@ -215,7 +215,7 @@ export class ApproveOrder {
             CCExpiryMonth:this.selectedCard.ccExpiryMonth,
             CCExpiryYear: this.selectedCard.ccExpiryYear,
             CCSecurityCode:this.selectedCard.ccSecurityCode,
-            BillingName: this.selectedCard.Name,
+            BillingName: this.selectedCard.ccFirstName + ' ' + this.selectedCard.ccLastName,
             BillingCo:this.selectedCard.Co,
             BillingStreet1: this.selectedCard.street1,
             BillingStreet2:this.selectedCard.street2,
