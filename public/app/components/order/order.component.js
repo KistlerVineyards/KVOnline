@@ -47,6 +47,13 @@ var Order = (function () {
                     if (value.packing == 'b') {
                         value.imageUrl = "2014_Cuvee_Cathleen_Chardonnay.jpg";
                     }
+                    var productType = value.productType;
+                    productType = productType.substr(0, 1).toUpperCase() + productType.substr(1);
+                    value.productType = productType;
+                    var allocationDesription = value.allocationDescription;
+                    allocationDesription = allocationDesription.toString().replace('Btls', 'Bottles');
+                    allocationDesription = allocationDesription.toString().replace('Pkg', 'Package');
+                    value.allocationDescription = allocationDesription;
                     value.imageUrl = value.imageUrl != null ? 'app/assets/img/' + value.imageUrl : null;
                     return (value);
                 });

@@ -10,11 +10,11 @@
             <div class="panel-heading">
                 <div class="productInfoPanel">
                     <div class="productTitle">
-                        <a (click)="toggleDetails(order)">{{order.item }}</a>
+                        <a title={{order.item}} (click)="toggleDetails(order)">{{order.item }}</a>
                     </div>
                     <div class="notesOrderAvailPanel">
                         <!-- <div class="testingNotes"><a (click)="toggleDetails(order)">Tasting Notes</a></div>-->
-                        <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.prodtype}}</div>
+                        <div class="orderPack"><span class="productPrice">${{order.price}}</span>/{{order.productType}}</div>
                         <div class="availPack">Allocation:<span class="availableQtyColor"> {{order.allocationDescription}}</span></div>
                     </div>
                     <div class="requestListOrder">

@@ -258,13 +258,13 @@ input.ng-valid{
 	/* Small Devices, Tablets */
 	@media only screen and (min-width : 769px){
 
-.ProductPanel .productTitle{ width: 40%; float: left;  }
+.ProductPanel .productTitle{ width: 40%; float: left;  padding-right: 10px; }
 .ProductPanel .notesOrderAvailPanel{ width: 30%; float: left;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-right: 10px;}
 .requestListOrder{ width: 30%; float: left;}
-.requestPanelOrder{ width: 40%; float: left; }
+.requestPanelOrder{ width: 40%; float: left;padding-right: 10px; }
 .requestWishOrder{ width: 60%; float: left; }
 	}
 
@@ -303,8 +303,8 @@ input.ng-valid{
 .ProductPanel .productTitle{ width:100%; float: none; text-align: center; border-bottom: solid 1px #ddd; padding-bottom: 5px; margin-bottom: 5px; padding-top: 0px; }
 .ProductPanel .notesOrderAvailPanel{ width: 45%; float: left; text-align: center;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 40%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 60%; float: left; padding-top: 7px; padding-left: 5px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-right: 10px;}
 .requestListOrder{ width: 55%; float: left; text-align: center;}
 .requestPanelOrder{ width: 40%; float: left; }
 .requestWishOrder{ width: 60%; float: left; }
@@ -345,7 +345,7 @@ input.ng-valid{
 .ProductPanel .notesOrderAvailPanel{ width: 100%; display: table; float: none; margin-bottom: 10px; text-align: center; border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
 .ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-left: 5px;}
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-left: 5px; padding-right: 0px;}
 .requestListOrder{ width: 100%; float: none; display: table;}
 .requestPanelOrder{ width: 40%; float: left; text-align: center; }
 .requestWishOrder{ width: 60%; float: left; text-align: center; }
