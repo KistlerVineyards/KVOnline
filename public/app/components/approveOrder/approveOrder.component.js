@@ -303,8 +303,8 @@ var ApproveOrder = (function () {
         //grand totals
         var totWineCost = this.footer.wineTotals.wine / 1 + this.footer.salesTaxTotals.wine / 1 + this.footer.shippingTotals.wine / 1
             + this.footer.prevBalances.wine / 1;
-        var totWineaddlCost = this.footer.wineTotals.wine / 1 + this.footer.salesTaxTotals.wine / 1 + this.footer.shippingTotals.wine / 1
-            + this.footer.prevBalances.wine / 1;
+        var totWineaddlCost = this.footer.wineTotals.addl / 1 + this.footer.salesTaxTotals.addl / 1 + this.footer.shippingTotals.addl / 1
+            + this.footer.prevBalances.addl / 1;
         this.footer.grandTotals = {
             wine: totWineCost,
             addl: totWineaddlCost

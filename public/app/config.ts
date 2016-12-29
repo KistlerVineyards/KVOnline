@@ -45,8 +45,8 @@ export var urlHash = {
 export var messages = {
     'mess:order:intro:text': '',
     'mess:order:holiday:gift': 'Holiday Gift - Yes I\'m interested, please contact me',
-    'mess:order:minimum:request': 'Minimum request 6 bottles',
-    'mess:order:bottom:notes': 'Wines in 6 bottle packages are subject to change',
+    'mess:order:minimum:request': '',
+    'mess:order:bottom:notes': 'Wines in 6-bottle packages are subject to change',
     'mess:approve:heading': 'Please review your shipping address & payment method information for your order.',
     'mess:receipt:heading': 'Thank you for your Kistler Fall 2016 Request.',
     'mess:receipt:info': 'An acknowledgement email has been sent to @email. If you do not receive the email within 10 minutes, please check your Spam / Junk mail folder. Otherwise, contact us for assistance. ',

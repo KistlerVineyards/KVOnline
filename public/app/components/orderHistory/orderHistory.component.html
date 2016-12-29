@@ -17,7 +17,7 @@
                     <td scope="row">{{order.mDate}}<!--  | date:'MM/dd/yyyy'}}--></td>
                     <td>{{order.invoice}}</td>
                     <td>{{order.status}}</td>
-                    <td  class="productPrice priceFldAlign">{{order.amount | currency:'USD':true}}</td>
+                    <td  class="productPrice priceFldAlign">${{(order.totalPriceWine + order.totalPriceAddl + order.salesTaxWine + order.salesTaxAddl + order.shippingWine + order.shippingAddl) | number : '1.2-2'}}</td><!-- currency:'USD':true-->
                     <td class="text-center"><input type="radio" name="showDetails" [checked]="order.checked"><span class="Chkshowdetails"> View Details</span></td>
                 </tr>
             </tbody>
@@ -53,35 +53,35 @@
                 <td class="text-center">{{order.orderQty}}&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{(order.orderQty * order.price) | number : '1.2-2'}}&nbsp;</td>
                 <td class="text-center">{{order.wishList}}&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{(order.wishList * order.price) | number : '1.2-2'}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{((order.orderQty + order.wishList) * order.price) | number : '1.2-2'}}&nbsp;</td>
             </tr>
             <tr  class="totalaWineCosts">
                 <td class="subTotalTtitle">Total Wine Cost</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.totalPriceAddl | number : '1.2-2'}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(selectedOrder.totalPriceWine + selectedOrder.totalPriceAddl) | number : '1.2-2'}}&nbsp;</td>
             </tr>
             <tr  class="mobSalesTax">
                 <td class="subTotalTtitle">Sales Tax @ {{selectedOrder.salesTaxPerc}}%</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.salesTaxAddl | number : '1.2-2'}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(selectedOrder.salesTaxWine + selectedOrder.salesTaxAddl) | number : '1.2-2'}}&nbsp;</td>
             </tr>            
             <tr  class="mobShipping">
                 <td class="subTotalTtitle">Shipping</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.shippingWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.shippingAddl | number : '1.2-2'}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(selectedOrder.shippingWine + selectedOrder.shippingAddl) | number : '1.2-2'}}&nbsp;</td>
             </tr>            
             <tr class="grandTotals">
                 <td class="subTotalTtitle">Grand Total</td>
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.grandTotalWine | number : '1.2-2'}}&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{selectedOrder.grandTotalAddl | number : '1.2-2'}}&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(selectedOrder.grandTotalWine + selectedOrder.grandTotalAddl) | number : '1.2-2'}}&nbsp;</td>
             </tr>
              </tbody>
 

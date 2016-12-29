@@ -256,13 +256,13 @@ input.ng-valid{
 	}
 
 	/* Small Devices, Tablets */
-	@media only screen and (min-width : 769px){
+	@media only screen and (min-width : 1025px){
 
-.ProductPanel .productTitle{ width: 40%; float: left;  padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel{ width: 30%; float: left;}
+.ProductPanel .productTitle{ width: 42%; float: left;  padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel{ width: 28%; float: left;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-right: 10px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 34%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 66%; float: left; padding-top: 7px; padding-right: 10px;}
 .requestListOrder{ width: 30%; float: left;}
 .requestPanelOrder{ width: 40%; float: left;padding-right: 10px; }
 .requestWishOrder{ width: 60%; float: left; }
@@ -270,7 +270,6 @@ input.ng-valid{
 
 	/* Medium Devices, Desktops */
 	@media only screen and (min-width : 992px){
-
 
 
 
@@ -296,16 +295,16 @@ input.ng-valid{
 	}
 
 	/* Small Devices, Tablets */
-	@media only screen and (max-width : 768px){
+	@media only screen and (max-width : 1024px){
 
 .shippingAddressButtonPanel{ display: block;}
 .shippingAddressButtonPanel button{ float: left; margin-right: 10px;}
-.ProductPanel .productTitle{ width:100%; float: none; text-align: center; border-bottom: solid 1px #ddd; padding-bottom: 5px; margin-bottom: 5px; padding-top: 0px; }
-.ProductPanel .notesOrderAvailPanel{ width: 45%; float: left; text-align: center;}
-.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-right: 10px;}
-.requestListOrder{ width: 55%; float: left; text-align: center;}
+.ProductPanel .productTitle{ width:100%; float: none; border-bottom: solid 1px #ddd; padding-bottom: 5px; margin-bottom: 5px; padding-top: 0px; }
+.ProductPanel .notesOrderAvailPanel{ width: 50%; float: left; }
+.ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 5px; padding-right: 10px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 33%; float: left; padding-top: 5px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 67%; float: left; padding-top: 5px; padding-right: 10px;}
+.requestListOrder{ width: 50%; float: left; }
 .requestPanelOrder{ width: 40%; float: left; }
 .requestWishOrder{ width: 60%; float: left; }
 
@@ -330,25 +329,41 @@ input.ng-valid{
 }
 
 .btnApprovedpayment, .btnApprovedOrder{ margin-top: 20px;}
+.productInfoPanel .form-control {
+		height: 30px;
+		padding: 3px 6px;
+		}
 
 	}
 
 	/* Extra Small Devices, Phones */
-	
+		@media only screen and (max-width : 640px){
+			.productInfoPanel .orderWith{ width: 46px;}
+			.requestListOrder {
+    width: 48%;
+   
+}
+.ProductPanel .notesOrderAvailPanel {
+    width: 52%;
+  
+}
+		}
 
 
 	@media only screen and (max-width: 480px) {
-
+.panel-heading {
+    padding: 10px 10px;
+}
 .totalaWineCosts td{ border-top: solid 0px #ddd!important;}
 
-.ProductPanel .productTitle{ width:100%; float: none; border-bottom: solid 0px #ddd; text-align: center; margin-bottom: 0px; padding-top: 0px; padding-right: 0px;  }
-.ProductPanel .notesOrderAvailPanel{ width: 100%; display: table; float: none; margin-bottom: 10px; text-align: center; border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
+.ProductPanel .productTitle{ width:100%; float: none; border-bottom: solid 0px #ddd;  margin-bottom: 0px; padding-top: 0px; padding-right: 0px;  }
+.ProductPanel .notesOrderAvailPanel{ width: 100%; display: table; float: none; margin-bottom: 10px;  border-bottom: solid 1px #ddd;  padding-bottom: 10px; border-top: solid 1px #ddd;}
 .ProductPanel .notesOrderAvailPanel .testingNotes{ width: 40%; float: left; padding-top: 7px; padding-right: 10px;}
-.ProductPanel .notesOrderAvailPanel .orderPack{ width: 35%; float: left; padding-top: 7px; padding-right: 10px; }
-.ProductPanel .notesOrderAvailPanel .availPack{ width: 65%; float: left; padding-top: 7px; padding-left: 5px; padding-right: 0px;}
+.ProductPanel .notesOrderAvailPanel .orderPack{ width: 38%; float: left; padding-top: 7px; padding-right: 10px; }
+.ProductPanel .notesOrderAvailPanel .availPack{ width: 62%; float: left; padding-top: 7px; padding-left:0px; padding-right: 0px;}
 .requestListOrder{ width: 100%; float: none; display: table;}
-.requestPanelOrder{ width: 40%; float: left; text-align: center; }
-.requestWishOrder{ width: 60%; float: left; text-align: center; }
+.requestPanelOrder{ width: 38%; float: left;  }
+.requestWishOrder{ width: 62%; float: left;  }
 
 
 
@@ -357,9 +372,9 @@ border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
 box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 
-.orderDescPanel .col-sm-2{ padding-bottom: 10px; text-align: center;}
+.orderDescPanel .col-sm-2{ padding-bottom: 10px;}
 
-	.subTotalTtitle{ font-weight: 700; font-size: 1.1em; }
+	.subTotalTtitle{  font-size: 1.3em; }
 	.grandTotals{ background-color: #f5f5f5; font-weight:700; font-size: 1.1em;}
 	
 .orderDetailsPanel{ position: relative; padding:5px; background-color:#ddd;}
@@ -523,7 +538,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 .mobBalance-Credit td:nth-of-type(1):before { content: " "; }
 .mobBalance-Credit td:nth-of-type(1){	padding-left: 1%!important;  }
 
-.mobShipping td:nth-of-type(4){ display: none;}
+/*.mobShipping td:nth-of-type(4){ display: none;}
 /* .mobShipping td:nth-of-type(2){ display: none;} */
 .mobShipping td:nth-of-type(1):before { content: " "; }
 .mobShipping td:nth-of-type(1){	padding-left: 1%!important;  }
@@ -550,5 +565,11 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 	/* Custom, iPhone Retina */
 	@media only screen and (max-width : 320px){
+		.orderDescPanel{ font-size: .9em;	}
 		.col-xs-6 span{display: block;}
+		.productInfoPanel .orderWith{    width: 40px;}
+		.productInfoPanel .form-control {
+		height: 28px;
+		padding: 3px 6px;
+		}
 	}

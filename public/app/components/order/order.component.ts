@@ -19,7 +19,7 @@ export class Order {
   excessOrder: string = this.appService.getValidationErrorMessage('excessOrder');
   email: string;
   minOrderBottles=0;
-  minOrderPackages=0;
+  minOrderPackages="";
   staticTexts: {
     introText: string,
     holidayGift: string,
@@ -84,8 +84,24 @@ export class Order {
                   if (settingsData.Table.length > 0) {
                         let settings = settingsData.Table[0];
                         this.minOrderBottles = settings.MinOrderBottles;
-                        this.minOrderPackages = settings.MinOrderpackages;
-                        this.staticTexts.minimumRequest = "Minimum request " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6 - bottle package";
+                        if(settings.MinOrderpackages == 1)
+                        {
+                          this.minOrderPackages = "One";
+                        }
+                        else if(settings.MinOrderpackages == 1)
+                        {
+                          this.minOrderPackages = "Two";
+                        }
+                        else if(settings.MinOrderpackages)
+                        {
+                          this.minOrderPackages = "Three";
+                        }
+                        else 
+                        {
+                          this.minOrderPackages = settings.MinOrderpackages;
+                        }
+                        
+                        this.staticTexts.minimumRequest = "Minimum request " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
                         //this.staticTexts.bottomNotes = "Wines in " + settings.MinOrderBottles+ " bottle packages are subject to change";;
                         this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox;// == "true" ? true : false;
                         //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);

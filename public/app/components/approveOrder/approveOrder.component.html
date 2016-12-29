@@ -66,14 +66,14 @@
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{footer.salesTaxTotals.wine | number : '1.2-2'}}</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{footer.salesTaxTotals.addl | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{(footer.salesTaxTotals.wine + footer.salesTaxTotals.addl) | number : '1.2-2'}}</td>
               </tr>
               <tr  class="mobShipping">
                 <td class="subTotalTtitle">Shipping</td>
-                <td class="text-center" >{{shippingBottles.totalRequestedBottles}}</td>
+                <td class="text-center" >{{shippingBottles.requestedShippingBottle}}</td>
                 <td class="productPrice priceFldAlign">${{footer.shippingTotals.wine | number : '1.2-2'}}</td>
-                <td class="text-center" >{{shippingBottles.totalWishlistBottles}}</td>
-                <td class="productPrice priceFldAlign">${{footer.shippingTotals.addl | number : '1.2-2'}}</td>
+                <td class="text-center" >{{shippingBottles.additinalShippingBottle}}</td>
+                <td class="productPrice priceFldAlign">${{(footer.shippingTotals.wine + footer.shippingTotals.addl) | number : '1.2-2'}}</td>
               </tr>                            
               <tr  class="mobBalance-Credit">
                 <td class="subTotalTtitle">Previous Balance / Credit</td>
@@ -87,7 +87,7 @@
                 <td>&nbsp;</td>
                 <td class="productPrice priceFldAlign">${{footer.grandTotals.wine | number : '1.2-2'}}</td>
                 <td>&nbsp;</td>
-                <td class="productPrice priceFldAlign">${{footer.grandTotals.addl | number : '1.2-2'}}</td>
+                <td class="productPrice priceFldAlign">${{(footer.grandTotals.wine + footer.grandTotals.addl) | number : '1.2-2'}}</td>
               </tr>
             </tbody>
 
