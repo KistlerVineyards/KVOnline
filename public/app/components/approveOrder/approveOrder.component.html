@@ -104,7 +104,7 @@
         <h2>Select a shipping address</h2>
       </modal-header>
       <modal-content>
-        <div class="form-group" *ngFor="let address of allAddresses; let i=index">
+        <div class="form-group shippingAdressPop" *ngFor="let address of allAddresses; let i=index">
           <!-- <input type="radio" [checked]="address.isDefault" (click)=selectAddress(address) name="isDefault">  -->
 		<button type="button" class="btn btn-link" (click)="selectAddress(address)">
          	{{address.name}}, {{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, {{address.state}}, {{address.zip}}, {{address.country}}
@@ -123,7 +123,7 @@
         <h2>Select a credit card</h2>
       </modal-header>
       <modal-content>
-        <div class="form-group" *ngFor="let card of payMethods; let i=index">
+        <div class="form-group shippingAdressPop" *ngFor="let card of payMethods; let i=index">
           <!-- <input type="radio" [checked]="card.isDefault" (click)=selectCard(card) name="isDefaultCard"> -->
 		  <button type="button" class="btn btn-link" (click)="selectCard(card)">
 			  {{card.cardName}},

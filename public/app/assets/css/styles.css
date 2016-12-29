@@ -241,7 +241,13 @@ input.ng-valid{
 .noRecord{ color: #e80c4d;}
 .btnApprovedpayment button, .btnApprovedOrder button{float: right; margin-left: 10px;}
 
-
+.shippingAdressPop{
+	margin-bottom: 0px;
+	border-bottom: solid 1px #dcdddb;
+}
+.shippingAdressPop .btn-link{white-space: normal;
+    text-align: left;}
+.shippingAdressPop:nth-last-of-type(1){ border-bottom: solid 0px #dcdddb;}
 
 	/*==========  Mobile First Method  ==========*/
 
@@ -556,6 +562,9 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 
 .table>tbody>tr>td{ border-top: 1px solid #f8f8f8;}
+.list-group-item .pull-right {
+    float: none!important;
+}
 
 	}
 
