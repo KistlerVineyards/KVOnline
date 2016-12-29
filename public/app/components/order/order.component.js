@@ -23,7 +23,8 @@ var Order = (function () {
         };
         this.excessOrder = this.appService.getValidationErrorMessage('excessOrder');
         this.minOrderBottles = 0;
-        this.minOrderPackages = "";
+        this.minOrderPackages = 0;
+        this.minOrderPackagestext = "";
         this.staticTexts = {
             introText: this.appService.getMessage('mess:order:intro:text'),
             holidayGift: this.appService.getMessage('mess:order:holiday:gift'),
@@ -79,19 +80,20 @@ var Order = (function () {
                 if (settingsData.Table.length > 0) {
                     var settings = settingsData.Table[0];
                     _this.minOrderBottles = settings.MinOrderBottles;
+                    _this.minOrderPackages = settings.MinOrderpackages;
                     if (settings.MinOrderpackages == 1) {
-                        _this.minOrderPackages = "One";
+                        _this.minOrderPackagestext = "One";
                     }
                     else if (settings.MinOrderpackages == 1) {
-                        _this.minOrderPackages = "Two";
+                        _this.minOrderPackagestext = "Two";
                     }
                     else if (settings.MinOrderpackages) {
-                        _this.minOrderPackages = "Three";
+                        _this.minOrderPackagestext = "Three";
                     }
                     else {
-                        _this.minOrderPackages = settings.MinOrderpackages;
+                        _this.minOrderPackagestext = settings.MinOrderpackages;
                     }
-                    _this.staticTexts.minimumRequest = "Minimum request " + _this.minOrderBottles + " bottles or " + _this.minOrderPackages + " 6-bottle package";
+                    _this.staticTexts.minimumRequest = "Minimum request " + _this.minOrderBottles + " bottles or " + _this.minOrderPackagestext + " 6-bottle package";
                     //this.staticTexts.bottomNotes = "Wines in " + settings.MinOrderBottles+ " bottle packages are subject to change";;
                     _this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox; // == "true" ? true : false;
                     //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);

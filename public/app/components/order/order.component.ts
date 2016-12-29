@@ -19,7 +19,8 @@ export class Order {
   excessOrder: string = this.appService.getValidationErrorMessage('excessOrder');
   email: string;
   minOrderBottles=0;
-  minOrderPackages="";
+  minOrderPackages=0;
+  minOrderPackagestext="";
   staticTexts: {
     introText: string,
     holidayGift: string,
@@ -84,24 +85,26 @@ export class Order {
                   if (settingsData.Table.length > 0) {
                         let settings = settingsData.Table[0];
                         this.minOrderBottles = settings.MinOrderBottles;
+                        this.minOrderPackages = settings.MinOrderpackages;
+                        
                         if(settings.MinOrderpackages == 1)
                         {
-                          this.minOrderPackages = "One";
+                          this.minOrderPackagestext = "One";
                         }
                         else if(settings.MinOrderpackages == 1)
                         {
-                          this.minOrderPackages = "Two";
+                          this.minOrderPackagestext = "Two";
                         }
                         else if(settings.MinOrderpackages)
                         {
-                          this.minOrderPackages = "Three";
+                          this.minOrderPackagestext = "Three";
                         }
                         else 
                         {
-                          this.minOrderPackages = settings.MinOrderpackages;
+                          this.minOrderPackagestext = settings.MinOrderpackages;
                         }
                         
-                        this.staticTexts.minimumRequest = "Minimum request " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
+                        this.staticTexts.minimumRequest = "Minimum request " + this.minOrderBottles + " bottles or " + this.minOrderPackagestext + " 6-bottle package";
                         //this.staticTexts.bottomNotes = "Wines in " + settings.MinOrderBottles+ " bottle packages are subject to change";;
                         this.isShowHolidayGiftOption = !settings.HideHolidayGiftCheckBox;// == "true" ? true : false;
                         //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);
