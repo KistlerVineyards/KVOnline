@@ -56,6 +56,9 @@ var Order = (function () {
                     allocationDesription = allocationDesription.toString().replace('Pkg', 'Package');
                     value.allocationDescription = allocationDesription;
                     value.imageUrl = value.imageUrl != null ? 'app/assets/img/' + value.imageUrl : null;
+                    var item = value.item;
+                    item = item.toString().replace('6 bottle', '6-bottle');
+                    item = item.toString().replace('6 Bottle', '6-bottle');
                     return (value);
                 });
             }

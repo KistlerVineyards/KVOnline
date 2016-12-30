@@ -63,6 +63,9 @@ export class Order {
             allocationDesription = allocationDesription.toString().replace('Pkg', 'Package');
             value.allocationDescription = allocationDesription;
             value.imageUrl = value.imageUrl != null ? 'app/assets/img/' + value.imageUrl : null;
+            let item = value.item;
+            item = item.toString().replace('6 bottle', '6-bottle');
+            item = item.toString().replace('6 Bottle', '6-bottle');
             return (value);
           });
         }

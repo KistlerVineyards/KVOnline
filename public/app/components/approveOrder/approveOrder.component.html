@@ -21,12 +21,12 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6">
-          <span *ngIf="!selectedCard.cardName" class="noRecord">Pay later</span>
+          <span *ngIf="!selectedCard.cardName" class="noRecord">Pay Later</span>
           <span *ngIf="selectedCard.cardName"><span class="name-shipping-address">{{selectedCard.cardName}}</span>, {{selectedCard.ccNumber}}</span>
         </div>        
 		<div class="col-sm-6 btnApprovedpayment">
-		    <button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedCard()">Use existing</button>
-            <button class="btn btn-md btn-kistler" (click)="removePayMethod()">Pay later</button>		</div>
+		    <button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedCard()">Use Existing</button>
+            <button class="btn btn-md btn-kistler" (click)="removePayMethod()">Pay Later</button>		</div>
       </div>
     </div>
 
@@ -41,7 +41,7 @@
                     <th class="text-center">Request</th>
                     <th class="priceFldAlign">Total</th>
                     <th class="text-center additionalRequestCont">Additional Requested</th>
-                    <th class="priceFldAlign">Totals with Additional</th>
+                    <th class="priceFldAlign">Totals With Additional</th>
                   
                 </tr>
             </thead>
@@ -70,9 +70,9 @@
               </tr>
               <tr  class="mobShipping">
                 <td class="subTotalTtitle">Shipping</td>
-                <td class="text-center" >{{shippingBottles.requestedShippingBottle}}</td>
+                <td class="text-center" >{{shippingBottles.totalRequestedBottles}}</td>
                 <td class="productPrice priceFldAlign">${{footer.shippingTotals.wine | number : '1.2-2'}}</td>
-                <td class="text-center" >{{shippingBottles.additinalShippingBottle}}</td>
+                <td class="text-center" >{{shippingBottles.totalWishlistBottles}}</td>
                 <td class="productPrice priceFldAlign">${{(footer.shippingTotals.wine + footer.shippingTotals.addl) | number : '1.2-2'}}</td>
               </tr>                            
               <tr  class="mobBalance-Credit">

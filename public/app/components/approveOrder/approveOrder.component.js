@@ -46,7 +46,7 @@ var ApproveOrder = (function () {
         this.alert = { type: "success" };
         this.payLater = function () {
             if (!_this.selectedCard || _this.selectedCard == '') {
-                return ('Pay later');
+                return ('Pay Later');
             }
             else {
                 return ('');
@@ -54,7 +54,7 @@ var ApproveOrder = (function () {
         };
         var ords = appService.request('orders');
         if (!ords) {
-            router.navigate(['order']);
+            this.router.navigate(['order']);
         }
         this.getProfileSubscription = appService.filterOn('get:user:profile')
             .subscribe(function (d) {
@@ -74,6 +74,7 @@ var ApproveOrder = (function () {
             }
             else {
                 _this.appService.reset('orders');
+                _this.appService.reset('holidaygift');
                 _this.router.navigate(['receipt']);
             }
         });
@@ -352,9 +353,14 @@ var ApproveOrder = (function () {
     };
     ;
     ApproveOrder.prototype.ngOnInit = function () {
-        this.getArtifact();
-        this.appService.httpGet('get:user:profile');
-        //this.appService.httpGet('get:approve:artifacts')
+        var ords = this.appService.request('orders');
+        if (!ords) {
+            this.router.navigate(['order']);
+        }
+        else {
+            this.getArtifact();
+            this.appService.httpGet('get:user:profile');
+        }
     };
     ;
     ApproveOrder.prototype.ngOnDestroy = function () {
@@ -371,8 +377,8 @@ var ApproveOrder = (function () {
             return ({
                 requestedShippingBottle: a.requestedShippingBottle + b.shippingBottles * b.orderQty,
                 additinalShippingBottle: a.additinalShippingBottle + b.shippingBottles * b.wishList,
-                totalRequestedBottles: a.totalRequestedBottles + b.orderQty,
-                totalWishlistBottles: a.totalWishlistBottles + b.wishList
+                totalRequestedBottles: a.totalRequestedBottles + (b.orderQty * (b.packing == 's' ? 3 : b.packing == 'p' ? 6 : 1)),
+                totalWishlistBottles: a.totalWishlistBottles + (b.wishList * (b.packing == 's' ? 3 : b.packing == 'p' ? 6 : 1))
             });
         }, { requestedShippingBottle: 0, additinalShippingBottle: 0, totalRequestedBottles: 0, totalWishlistBottles: 0 });
         var shippedState = this.selectedAddress.state == undefined ? "" : this.selectedAddress.state;

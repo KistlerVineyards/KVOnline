@@ -30,6 +30,9 @@ var AppComponent = (function () {
         this.logout = function () {
             _this.appService.resetCredential();
             _this.appService.clearSettings();
+            //to reset the orders placed through request page
+            _this.appService.reset('orders');
+            _this.appService.reset('holidaygift');
             if (_this.idle.isIdling() || _this.idle.isRunning()) {
                 _this.idle.stop();
             }

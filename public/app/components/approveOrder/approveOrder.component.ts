@@ -47,7 +47,7 @@ export class ApproveOrder {
     alert: any = { type: "success" };
     payLater:any=()=>{
         if(!this.selectedCard || this.selectedCard==''){
-            return('Pay later');
+            return('Pay Later');
         } else{
             return('');
         }
@@ -55,7 +55,7 @@ export class ApproveOrder {
     constructor(private appService: AppService, private router: Router) {
         let ords = appService.request('orders');
         if (!ords) {
-            router.navigate(['order']);
+            this.router.navigate(['order']);
         }
         this.getProfileSubscription = appService.filterOn('get:user:profile')
             .subscribe(d => {
@@ -74,6 +74,7 @@ export class ApproveOrder {
                 console.log(d.data.error);
             } else {
                 this.appService.reset('orders');
+                this.appService.reset('holidaygift');
                 this.router.navigate(['receipt']);
             }
         });
@@ -354,9 +355,16 @@ export class ApproveOrder {
         this.footer.shippingTotals = { wine: this.selectedAddress.shippingCharges, addl: this.selectedAddress.addlshippingCharges };
     };
     ngOnInit() {
-        this.getArtifact();
-        this.appService.httpGet('get:user:profile');
-        //this.appService.httpGet('get:approve:artifacts')
+        let ords = this.appService.request('orders');
+        if (!ords) {
+            this.router.navigate(['order']);
+        }
+        else
+        {
+            this.getArtifact();
+            this.appService.httpGet('get:user:profile');
+            //this.appService.httpGet('get:approve:artifacts')
+        }
     };
     ngOnDestroy() {
         this.approveArtifactsSub.unsubscribe();
@@ -372,8 +380,8 @@ export class ApproveOrder {
             return ({
                 requestedShippingBottle: a.requestedShippingBottle + b.shippingBottles * b.orderQty
                 , additinalShippingBottle: a.additinalShippingBottle + b.shippingBottles * b.wishList
-                ,totalRequestedBottles : a.totalRequestedBottles + b.orderQty
-                ,totalWishlistBottles : a.totalWishlistBottles + b.wishList
+                ,totalRequestedBottles : a.totalRequestedBottles + (b.orderQty * (b.packing == 's' ? 3 : b.packing == 'p' ? 6 : 1))
+                ,totalWishlistBottles : a.totalWishlistBottles + (b.wishList * (b.packing == 's' ? 3 : b.packing == 'p' ? 6 : 1))
             })
         }, { requestedShippingBottle: 0, additinalShippingBottle: 0, totalRequestedBottles:0, totalWishlistBottles:0 });
         

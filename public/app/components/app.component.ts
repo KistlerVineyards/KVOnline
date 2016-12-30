@@ -52,6 +52,9 @@ export class AppComponent {
   logout = () => {
     this.appService.resetCredential();
     this.appService.clearSettings();
+    //to reset the orders placed through request page
+    this.appService.reset('orders');
+    this.appService.reset('holidaygift');
     if (this.idle.isIdling() || this.idle.isRunning()) {
       this.idle.stop();
     }
