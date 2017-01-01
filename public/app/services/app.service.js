@@ -10,25 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var http_1 = require("@angular/http");
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var subject_1 = require("rxjs/subject");
 var observable_1 = require("rxjs/observable");
 var behaviorsubject_1 = require("rxjs/behaviorsubject");
-var router_1 = require("@angular/router");
+// import { Observable, Subject, BehaviorSubject, Observer, Subscription } from 'rxjs/Rx';
 require("rxjs/add/operator/map");
 require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
-// import { GrowlModule } from 'primeng/components/growl/growl';
 //import * as _ from 'lodash';
 var config_1 = require("../config");
 var AppService = (function () {
     function AppService(http) {
+        // this.spinnerObservable = new Observable(observer => {
+        //     this.spinnerObserver = observer;
+        // }).share();
         var _this = this;
         this.http = http;
         this.globalSettings = {};
         this.subject = new subject_1.Subject();
         this.behaviorSubjects = {
             'masters:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
-            'settings:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} })
+            'settings:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
+            'login:page:text': new behaviorsubject_1.BehaviorSubject({ id: 1, data: {} }),
+            'spinner:hide:show': new behaviorsubject_1.BehaviorSubject(false)
         };
         this.channel = {};
         this.mastersSubscription = this.filterOn('get:all:masters').subscribe(function (d) {
@@ -61,6 +66,10 @@ var AppService = (function () {
                     _this.globalSettings.onlineOrder = {};
                     //this.globalSettings.onlineOrder.disableOnlineOrderForm = data.Table[0].disableOnlineOrderForm;
                     _this.globalSettings.onlineOrder.disableOnlineOrderText = data.Table[0].disableOnlineOrderText;
+                    //this.globalSettings.onlineOrder.minOrderBottles = data.Table[0].minOrderBottles;
+                    //this.globalSettings.onlineOrder.minOrderpackages = data.Table[0].minOrderpackages;
+                    //this.globalSettings.onlineOrder.welcomeNote = data.Table[0].welcomeNote;
+                    _this.globalSettings.loginPage = data.Table1[0].loginPage;
                 }
                 _this.behEmit('settings:download:success');
             }
@@ -151,17 +160,23 @@ var AppService = (function () {
         headers.append('Content-Type', 'application/json');
         headers.append('x-access-token', this.getToken());
         body.token = this.getToken();
+        // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
+        this.behEmit('spinner:hide:show', true);
         this.http.post(url, body, { headers: headers })
             .map(function (response) { return response.json(); })
             .subscribe(function (d) {
-            return _this.subject.next({
+            _this.subject.next({
                 id: id, data: d, body: body
             });
+            // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+            _this.behEmit('spinner:hide:show', false);
         }, function (err) {
-            return _this.subject.next({
+            _this.subject.next({
                 id: id,
                 data: { error: err }
             });
+            // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+            _this.behEmit('spinner:hide:show', false);
         });
     };
     ;
@@ -189,17 +204,23 @@ var AppService = (function () {
                     .replace(':zipcode', encodeURIComponent(body.usAddress.zipcode));
             }
         }
+        // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
+        this.behEmit('spinner:hide:show', true);
         this.http.get(url, { headers: headers })
             .map(function (response) { return response.json(); })
             .subscribe(function (d) {
-            return _this.subject.next({
+            _this.subject.next({
                 id: id, data: d
             });
+            // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+            _this.behEmit('spinner:hide:show', false);
         }, function (err) {
-            return _this.subject.next({
+            _this.subject.next({
                 id: id,
                 data: { error: err }
             });
+            // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+            _this.behEmit('spinner:hide:show', false);
         });
     };
     ;
@@ -274,6 +295,12 @@ var AppService = (function () {
         delete this.channel[key];
     };
     ;
+    AppService.prototype.resetAllReplies = function () {
+        var _this = this;
+        Object.keys(this.channel).map(function (key, index) {
+            delete _this.channel[key];
+        });
+    };
     AppService.prototype.encodeBase64 = function (inputString) {
         var Base64 = { _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) { var t = ""; var n, r, i, s, o, u, a; var f = 0; e = Base64._utf8_encode(e); while (f < e.length) {
                 n = e.charCodeAt(f++);

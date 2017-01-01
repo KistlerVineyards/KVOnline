@@ -21,6 +21,7 @@ var Order = (function () {
             type: 'danger',
             message: ''
         };
+        this.onlineOrder = {};
         this.excessOrder = this.appService.getValidationErrorMessage('excessOrder');
         this.minOrderBottles = 0;
         this.minOrderPackages = 0;
@@ -150,30 +151,39 @@ var Order = (function () {
             }
             return ((a.orderQty && a.orderQty > 0) || (a.wishList && a.wishList > 0));
         });
+        var negativeValue = this.orders.find(function (order, index) {
+            return ((order.orderQty < 0) || (order.wishList < 0));
+        });
         var index = this.orders.findIndex(function (a) { return a.orderQty > a.availableQty; });
-        if (index != -1) {
+        if (negativeValue) {
             this.alert.show = true;
-            this.alert.message = this.appService.getValidationErrorMessage('someExcessOrder');
+            this.alert.message = this.appService.getValidationErrorMessage('someNegativeValues');
         }
         else {
-            if (ords.length > 0) {
-                if (totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0)) {
-                    this.alert.show = false;
-                    this.alert.message = '';
-                    //this.orders.isholidayGift=this.isholidayGift;
-                    this.appService.reply('orders', this.orders);
-                    this.appService.reply('holidaygift', this.isholidayGift);
-                    this.router.navigate(['approve/order']);
-                }
-                else {
-                    //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
-                    this.alert.show = true;
-                    this.alert.message = "Invalid request. Minimum request should be " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
-                }
+            if (index != -1) {
+                this.alert.show = true;
+                this.alert.message = this.appService.getValidationErrorMessage('someExcessOrder');
             }
             else {
-                this.alert.show = true;
-                this.alert.message = this.appService.getValidationErrorMessage('emptyOrder');
+                if (ords.length > 0) {
+                    if (totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0)) {
+                        this.alert.show = false;
+                        this.alert.message = '';
+                        //this.orders.isholidayGift=this.isholidayGift;
+                        this.appService.reply('orders', this.orders);
+                        this.appService.reply('holidaygift', this.isholidayGift);
+                        this.router.navigate(['approve/order']);
+                    }
+                    else {
+                        //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
+                        this.alert.show = true;
+                        this.alert.message = "Invalid request. Minimum request should be " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
+                    }
+                }
+                else {
+                    this.alert.show = true;
+                    this.alert.message = this.appService.getValidationErrorMessage('emptyOrder');
+                }
             }
         }
     };

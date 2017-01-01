@@ -39,8 +39,10 @@ router.post('/api/validate/token', function (req, res, next) {
 });
 
 router.get('/api/init/data', function (req, res, next) {
-    let initData = { kistler: config.homePageUrl, host: config.host };
-    res.status(200).json(initData);
+    let data = { kistler: config.homePageUrl, host: config.host, action: 'sql:query', sqlKey: 'GetLoginPageText', sqlParms: {} };
+    handler.edgePush(res, next, 'common:result:data:carry:source', data);
+    // let initData = { kistler: config.homePageUrl, host: config.host };
+    // res.status(200).json(initData);
 });
 router.get('/api/all/master', function (req, res, next) {
     try {
@@ -121,11 +123,12 @@ router.post('/api/forgot/password', function (req, res, next) {
     try {
         let auth = req.body.auth;
         if (auth) {
-            //let email = Buffer.from(auth, 'base64').toString();
-            let email = new Buffer(auth, 'base64').toString();
-            var data = { action: 'isEmailExist', email: email};
-            //verify email if it exists and then send url to the verified mail
+            let data = { action: 'get:code:and:mail', auth: auth };
             handler.edgePush(res, next, 'forgot:passowrd', data);
+            //let email = Buffer.from(auth, 'base64').toString();
+            //var data = { action: 'isEmailExist', email: email };
+            //verify email if it exists and then send url to the verified mail
+            //handler.edgePush(res, next, 'forgot:passowrd', data);
         } else {
             let err = new def.NError(404, messages.errAuthStringNotFound, messages.messAuthStringinPostRequest);
             next(err);
@@ -149,8 +152,8 @@ router.post('/api/create/password', function (req, res, next) {
                     let emailItem = config.sendMail;
                     emailItem.htmlBody = body;
                     emailItem.subject = config.createPassword.subject;
-                    emailItem.to=decoded.data;        
-                    var data = { action: 'create:password', data: { emailItem: emailItem, encodedHash: encodedHash } };
+                    emailItem.to = decoded.data.email;
+                    var data = { action: 'create:password', data: { emailItem: emailItem, code: decoded.data.code, encodedHash: encodedHash } };
                     handler.edgePush(res, next, 'common:result:no:data', data);
                 }
             });

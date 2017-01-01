@@ -14,6 +14,30 @@ var CustomValidators = (function () {
         }
     };
     ;
+    CustomValidators.pwdComplexityValidator = function (control) {
+        /*At least 8 characters in length,
+        at least 1 character from 3 out of the 4 following types:
+            Lower case
+            Upper case
+            Number
+            Special Character like �!@#$%^&*()�*/
+        var ret = null;
+        var pwd = control.value;
+        if (pwd.length < 8) {
+            ret = { 'pwdLengthLt8': true };
+        }
+        else {
+            var hasUpperCase = +/[A-Z]/.test(pwd);
+            var hasLowerCase = +/[a-z]/.test(pwd);
+            var hasNumbers = +/\d/.test(pwd);
+            var hasNonalphas = +/\W/.test(pwd);
+            if (hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3) {
+                ret = { 'invalidPwd': true };
+            }
+        }
+        return (ret);
+    };
+    ;
     CustomValidators.phoneValidator = function (control) {
         var ret;
         var international = /^\(?[+]?(\d{1})\)?[- ]?\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;

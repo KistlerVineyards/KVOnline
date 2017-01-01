@@ -1,6 +1,7 @@
 <div class="form-signin">
   <h2 class="loginTextCenter">Login</h2>
-  <div class="loginSummText">Welcome to your Kistler Vineyards Member Portal</div>
+  <!--<div class="loginSummText">Welcome to your Kistler Vineyards Member Portal</div>-->
+  <div class="loginSummText">{{loginPageText}}</div>
   <form [formGroup]="loginForm" novalidate (ngSubmit)="authenticate(loginForm.controls.password.value)">
     <div class="form-group">
       <label for="InputEmail1">Email address or Customer code</label>

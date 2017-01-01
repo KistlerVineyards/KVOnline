@@ -27,6 +27,8 @@ import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdia
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
+import { BlockUIModule } from 'primeng/primeng';
+import { SpinnerComponent } from './components/app.spinner';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, Routing, FormsModule
@@ -40,11 +42,14 @@ import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
     , InputMaskModule
     , GrowlModule
     , NgIdleModule.forRoot()
+    , BlockUIModule
   ]
   , declarations: [AppComponent, Login, Order, ForgotPassword
     , SendPassword, ChangePassword, CreateAccount,
     Profile, ApproveOrder, Receipt, OrderHistory, ShippingAddress,
-    PaymentMethod, ControlMessages, CreatePassword]
+    PaymentMethod, ControlMessages, CreatePassword
+    , SpinnerComponent
+  ]
   , providers: [AppService, LoginGuard, CustomValidators, ConfirmationService]
   , bootstrap: [AppComponent]
 })

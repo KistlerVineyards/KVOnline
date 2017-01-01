@@ -25,6 +25,7 @@
       , 'moment': 'npm:moment'
       , 'primeng': 'npm:primeng'
       , '@ng-idle/core': 'npm:@ng-idle/core/bundles/core.umd.min.js'
+      , 'spin.js': 'npm:spin/spin.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

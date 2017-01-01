@@ -40,7 +40,7 @@ export class CreatePassword {
     ngOnInit() {
         this.createPwdForm = this.fb.group({
             newPassword1: ['', Validators.required],
-            newPassword2: ['', Validators.required]
+            newPassword2: ['', [Validators.required, CustomValidators.pwdComplexityValidator]]
         }, { validator: this.checkFormGroup });
     };
     createPassword(newPwd1, newPwd2) {

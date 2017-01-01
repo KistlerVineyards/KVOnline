@@ -37,14 +37,20 @@ var ForgotPassword = (function () {
     ;
     ForgotPassword.prototype.ngOnInit = function () {
         this.forgotForm = this.fb.group({
-            email: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.emailValidator]]
+            codeOrMail: ['', forms_1.Validators.required]
         });
     };
-    ForgotPassword.prototype.sendMail = function (email) {
+    ;
+    ForgotPassword.prototype.sendMail = function (codeOrMail) {
         this.alert = {};
-        var base64Encoded = this.appService.encodeBase64(email);
+        var base64Encoded = this.appService.encodeBase64(codeOrMail);
         this.appService.httpPost('post:forgot:password', { auth: base64Encoded });
     };
+    ;
+    ForgotPassword.prototype.cancel = function () {
+        this.router.navigate(['/login']);
+    };
+    ;
     ForgotPassword.prototype.ngOnDestroy = function () {
         this.subscription.unsubscribe();
     };
@@ -125,25 +131,11 @@ var ChangePassword = (function () {
     ChangePassword.prototype.ngOnInit = function () {
         this.changePwdForm = this.fb.group({
             oldPassword: ['', forms_1.Validators.required],
-            newPassword1: ['', forms_1.Validators.required],
-            newPassword2: ['', forms_1.Validators.required
-            ]
+            newPassword1: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.pwdComplexityValidator]],
+            newPassword2: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.pwdComplexityValidator]]
         }, { validator: this.checkFormGroup });
     };
     ;
-    // testAsync(control) {
-    //   let pr = new Promise((resolve, reject) => {
-    //     this.appService.filterOn('get:default:credit:card').subscribe(d => {
-    //       if (d.data.error) {
-    //         console.log('Error in default credit card');
-    //       } else {
-    //         resolve({ testError: true });
-    //       }
-    //     });
-    //     this.appService.httpGet('get:default:credit:card');
-    //   });
-    //   return (pr);
-    // }
     ChangePassword.prototype.checkFormGroup = function (group) {
         var ret = null;
         if (group.dirty) {

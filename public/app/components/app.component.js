@@ -29,7 +29,6 @@ var AppComponent = (function () {
         this.needHelpText = "";
         this.logout = function () {
             _this.appService.resetCredential();
-            _this.appService.clearSettings();
             //to reset the orders placed through request page
             _this.appService.reset('orders');
             _this.appService.reset('holidaygift');
@@ -40,9 +39,6 @@ var AppComponent = (function () {
         this.setInactivityTimeout = function () {
             var secs;
             var credential = _this.appService.getCredential();
-            // if (!credential) {
-            //   return;
-            // }
             //set current user to be displayed to nav bar
             _this.currentEmail = credential.user.email;
             secs = credential.inactivityTimeoutSecs || 300;
@@ -87,7 +83,8 @@ var AppComponent = (function () {
             }
             else {
                 //this.home = d.data.host;
-                _this.kistler = d.data.kistler;
+                _this.kistler = d.data.data.kistler;
+                _this.appService.behEmit('login:page:text', JSON.parse(d.data.result).Table[0].loginPage);
             }
         });
         router.events.filter(function (e, t) {
@@ -99,6 +96,7 @@ var AppComponent = (function () {
     }
     ;
     AppComponent.prototype.ngOnInit = function () {
+        //this.appService.loadSettings();
         var credential = this.appService.getCredential();
         if (credential) {
             this.appService.loadSettings();

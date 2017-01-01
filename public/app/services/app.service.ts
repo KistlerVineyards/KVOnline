@@ -1,26 +1,31 @@
 import { Http, Response, Headers, RequestOptionsArgs, ResponseContentType } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/subject';
-import { Observable } from 'rxjs/observable';
-import { BehaviorSubject } from 'rxjs/behaviorsubject';
 import {
     CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot
 } from '@angular/router';
+
+import { Subject } from 'rxjs/subject';
+import { Observable } from 'rxjs/observable';
+import { BehaviorSubject } from 'rxjs/behaviorsubject';
+import { Observer } from 'rxjs/observer';
+import { Subscription } from 'rxjs/Subscription';
+// import { Observable, Subject, BehaviorSubject, Observer, Subscription } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
+
+//import 'rxjs/add/operator/share'
+//import { Observable } from 'rxjs/Rx';
 import { Message } from 'primeng/components/common/api';
-// import { GrowlModule } from 'primeng/components/growl/growl';
 //import * as _ from 'lodash';
 import { urlHash, messages, validationErrorMessages } from '../config';
 
 @Injectable()
 export class AppService {
+    private spinnerObserver: Observer<boolean>;
+    public spinnerObservable: Observable<boolean>;
     subject: Subject<any>;
-    //hot observable for event triggers. This is entire application wide event trigger system in hot manner. You need not have to subscribe before the event is triggered. Even if you subscribe after event is triggered you get the results.
-    // behSubject: BehaviorSubject<any>;
-    // behSettingsSubject: BehaviorSubject<any>;
+    //hot observable for event triggers. This is entire application wide event trigger system in hot manner. You need not have to subscribe before the event is triggered. Even if you subscribe after event is triggered you get the results.    
     behaviorSubjects: any;
     mastersSubscription: Subscription;
     settingsSubscription: Subscription;
@@ -29,10 +34,16 @@ export class AppService {
     countries: [{ any }];
 
     constructor(private http: Http) {
+        // this.spinnerObservable = new Observable(observer => {
+        //     this.spinnerObserver = observer;
+        // }).share();
+
         this.subject = new Subject();
         this.behaviorSubjects = {
             'masters:download:success': new BehaviorSubject({ id: '1', data: {} }),
-            'settings:download:success': new BehaviorSubject({ id: '1', data: {} })
+            'settings:download:success': new BehaviorSubject({ id: '1', data: {} }),
+            'login:page:text': new BehaviorSubject({id:1,data:{}}),
+            'spinner:hide:show': new BehaviorSubject(false)
         };
         this.channel = {};
         this.mastersSubscription = this.filterOn('get:all:masters').subscribe(
@@ -70,6 +81,7 @@ export class AppService {
                         //this.globalSettings.onlineOrder.minOrderBottles = data.Table[0].minOrderBottles;
                         //this.globalSettings.onlineOrder.minOrderpackages = data.Table[0].minOrderpackages;
                         //this.globalSettings.onlineOrder.welcomeNote = data.Table[0].welcomeNote;
+			            this.globalSettings.loginPage = data.Table1[0].loginPage;
                     }
                     this.behEmit('settings:download:success');
                 }
@@ -159,16 +171,24 @@ export class AppService {
         headers.append('Content-Type', 'application/json');
         headers.append('x-access-token', this.getToken());
         body.token = this.getToken();
+        // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
+        this.behEmit('spinner:hide:show',true);
         this.http.post(url, body, { headers: headers })
             .map(response => response.json())
-            .subscribe(d =>
+            .subscribe(d => {
                 this.subject.next({
                     id: id, data: d, body: body
-                }), err =>
+                });
+                // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+                this.behEmit('spinner:hide:show',false);
+            }, err => {
                 this.subject.next({
                     id: id,
                     data: { error: err }
-                }));
+                });
+                // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+                this.behEmit('spinner:hide:show',false);
+            });
     };
 
     httpGet(id: string, body?: any) {
@@ -194,16 +214,24 @@ export class AppService {
                     .replace(':zipcode', encodeURIComponent(body.usAddress.zipcode))
             }
         }
+        // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
+        this.behEmit('spinner:hide:show',true);
         this.http.get(url, { headers: headers })
             .map(response => response.json())
-            .subscribe(d =>
+            .subscribe(d => {
                 this.subject.next({
                     id: id, data: d
-                }), err =>
+                });
+                // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+                this.behEmit('spinner:hide:show',false);
+            }, err => {
                 this.subject.next({
                     id: id,
                     data: { error: err }
-                }));
+                });
+                // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
+                this.behEmit('spinner:hide:show',false);
+            });
     };
 
     httpDelete(id: string, body?: any) {
@@ -268,6 +296,12 @@ export class AppService {
     reset(key: string) {
         delete this.channel[key];
     };
+
+    resetAllReplies(){
+        Object.keys(this.channel).map((key,index)=>{
+            delete this.channel[key];
+        });
+    }
 
     encodeBase64(inputString) {
         let Base64 = { _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) { var t = ""; var n, r, i, s, o, u, a; var f = 0; e = Base64._utf8_encode(e); while (f < e.length) { n = e.charCodeAt(f++); r = e.charCodeAt(f++); i = e.charCodeAt(f++); s = n >> 2; o = (n & 3) << 4 | r >> 4; u = (r & 15) << 2 | i >> 6; a = i & 63; if (isNaN(r)) { u = a = 64 } else if (isNaN(i)) { a = 64 } t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a) } return t }, decode: function (e) { var t = ""; var n, r, i; var s, o, u, a; var f = 0; e = e.replace(/[^A-Za-z0-9\+\/\=]/g, ""); while (f < e.length) { s = this._keyStr.indexOf(e.charAt(f++)); o = this._keyStr.indexOf(e.charAt(f++)); u = this._keyStr.indexOf(e.charAt(f++)); a = this._keyStr.indexOf(e.charAt(f++)); n = s << 2 | o >> 4; r = (o & 15) << 4 | u >> 2; i = (u & 3) << 6 | a; t = t + String.fromCharCode(n); if (u != 64) { t = t + String.fromCharCode(r) } if (a != 64) { t = t + String.fromCharCode(i) } } t = Base64._utf8_decode(t); return t }, _utf8_encode: function (e) { e = e.replace(/\r\n/g, "\n"); var t = ""; for (var n = 0; n < e.length; n++) { var r = e.charCodeAt(n); if (r < 128) { t += String.fromCharCode(r) } else if (r > 127 && r < 2048) { t += String.fromCharCode(r >> 6 | 192); t += String.fromCharCode(r & 63 | 128) } else { t += String.fromCharCode(r >> 12 | 224); t += String.fromCharCode(r >> 6 & 63 | 128); t += String.fromCharCode(r & 63 | 128) } } return t }, _utf8_decode: function (e) { var t = ""; var c1: number, c2: number, c3: any; var n = 0; var r = c1 = c2 = 0; while (n < e.length) { r = e.charCodeAt(n); if (r < 128) { t += String.fromCharCode(r); n++ } else if (r > 191 && r < 224) { c2 = e.charCodeAt(n + 1); t += String.fromCharCode((r & 31) << 6 | c2 & 63); n += 2 } else { c2 = e.charCodeAt(n + 1); c3 = e.charCodeAt(n + 2); t += String.fromCharCode((r & 15) << 12 | (c2 & 63) << 6 | c3 & 63); n += 3 } } return t } }

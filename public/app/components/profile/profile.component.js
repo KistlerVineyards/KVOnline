@@ -104,6 +104,7 @@ var Profile = (function () {
             mailingZip: [this.profile.mailingZip, forms_1.Validators.required],
             mailingCountry: [this.profile.mailingCountry, forms_1.Validators.required]
         });
+        this.profileForm.controls['phone'].markAsDirty();
     };
     ;
     Profile.prototype.getUpdatedProfile = function () {

@@ -12,6 +12,29 @@ export class CustomValidators {
         }
     };
 
+    static pwdComplexityValidator(control: FormControl) {
+        /*At least 8 characters in length,
+        at least 1 character from 3 out of the 4 following types:
+            Lower case
+            Upper case
+            Number
+            Special Character like “!@#$%^&*()”*/
+        let ret = null;
+        let pwd = control.value;
+        if (pwd.length < 8) {
+            ret = { 'pwdLengthLt8': true };
+        } else {
+            let hasUpperCase = + /[A-Z]/.test(pwd);
+            let hasLowerCase = + /[a-z]/.test(pwd);
+            let hasNumbers = + /\d/.test(pwd);
+            let hasNonalphas = + /\W/.test(pwd);
+            if (hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3) {
+                ret = { 'invalidPwd': true };
+            }
+        }
+        return (ret);
+    };
+
     static phoneValidator(control: FormControl) {
         let ret;
         let international = /^\(?[+]?(\d{1})\)?[- ]?\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;

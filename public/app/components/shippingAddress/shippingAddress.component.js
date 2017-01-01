@@ -90,9 +90,6 @@ var ShippingAddress = (function () {
                 });
             }
             else {
-                //this.addresses.splice(this.radioIndex);
-                // this.appService.showAlert(this.alert, false);
-                // this.appService.doGrowl(this.messages, 'success', 'Success', 'Data saved successfully');
                 _this.appService.httpGet('get:shipping:address');
                 _this.messages = [];
                 _this.messages.push({
@@ -129,9 +126,11 @@ var ShippingAddress = (function () {
                 summary: 'Saved',
                 detail: 'Data saved successfully'
             });
+            // this.appService.doGrowl(this.messages, 'success', 'Saved', 'Data saved successfully');            
             this.shippingModal.close();
         }
     };
+    ;
     ShippingAddress.prototype.initShippingForm = function (address) {
         this.shippingForm = this.fb.group({
             id: [address.shippid || ''],
@@ -147,11 +146,13 @@ var ShippingAddress = (function () {
             phone: [address.phone || '', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
             isDefault: [address.isDefault || false]
         });
+        this.shippingForm.controls['phone'].markAsDirty();
         this.selectedCountryName = address.country;
         if (!address.phone) {
             //separate reset is required to clear the input mask control
             this.shippingForm.controls['phone'].reset();
         }
+        this.shippingForm.controls['phone'].markAsDirty();
     };
     ;
     ShippingAddress.prototype.ngOnInit = function () {

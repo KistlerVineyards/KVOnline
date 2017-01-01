@@ -115,11 +115,14 @@ var PaymentMethod = (function () {
         });
         //input mask requires separate initialization
         this.payMethodForm.controls['phone'].reset();
+        this.payMethodForm.controls['phone'].markAsDirty();
+        this.payMethodForm.controls['ccType'].markAsDirty();
     };
     PaymentMethod.prototype.addPayMethod = function () {
         this.initPayMethodForm();
-        this.selectedISOCode = "US";
         this.payMethodForm.controls["countryName"].setValue("US");
+        this.selectedISOCode = "US";
+        this.payMethodForm.controls['ccType'].setValue('Visa');
         this.payMethodModal.open();
     };
     ;
@@ -127,9 +130,6 @@ var PaymentMethod = (function () {
         this.appService.showAlert(this.alert, false);
         this.payMethodModal.close(true);
     };
-    // remove(card) {        
-    //     this.appService.httpPost('post:delete:payment:method', { sqlKey: 'DeletePaymentMethod', sqlParms: { id: card.id }});
-    // };
     PaymentMethod.prototype.submit = function () {
         var _this = this;
         var firstName = this.payMethodForm.controls['ccFirstName'].value || '';

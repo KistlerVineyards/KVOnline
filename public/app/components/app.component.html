@@ -22,24 +22,27 @@
         </ul>
     </div>
 </nav>
-
-<div class="container navbar KistlerSubMenu" role="navigation" *ngIf="viewBox.menuBar">
-    <div class="navbar-header"(window:resize)="onResize($event)">
-        <div class="navbar-toggle mobileMenu" (click)="myAccountToggle()">
-            My Account
+<div>
+    <div class="container navbar KistlerSubMenu" role="navigation" *ngIf="viewBox.menuBar">
+        <div class="navbar-header" (window:resize)="onResize($event)">
+            <div class="navbar-toggle mobileMenu" (click)="myAccountToggle()">
+                My Account
+            </div>
+        </div>
+        <div class="navbar-collapse" *ngIf="myAccountshowMenu">
+            <ul class="nav navbar-nav">
+                <li class=""><a routerLink="/profile">Profile</a></li>
+                <li class=""><a routerLink="/order/history">Order History</a></li>
+                <li class=""><a routerLink="/shipping/address">Shipping Addresses</a></li>
+                <li class=""><a routerLink="/payment/method">Payment Methods</a></li>
+                <li class="active"><a routerLink="/change/password">Change Password</a></li>
+            </ul>
         </div>
     </div>
-    <div class="navbar-collapse"  *ngIf="myAccountshowMenu">
-        <ul class="nav navbar-nav">
-            <li class=""><a routerLink="/profile">Profile</a></li>
-            <li class=""><a routerLink="/order/history">Order History</a></li>
-            <li class=""><a routerLink="/shipping/address">Shipping Addresses</a></li>
-            <li class=""><a routerLink="/payment/method">Payment Methods</a></li>
-            <li class="active"><a routerLink="/change/password">Change Password</a></li>
-        </ul>
-    </div>
+
+    <router-outlet></router-outlet>
+    <ng2-spinner [backDrop]="true"></ng2-spinner>
 </div>
-<router-outlet></router-outlet>
 <div class="row">
     <modal #needHelpModal>
         <modal-header>

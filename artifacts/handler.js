@@ -1,6 +1,7 @@
 "use strict";
 var edge = require('edge');
 var rx = require('rxjs');
+//var _ = require('lodash');
 var jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 let subject = new rx.Subject();
@@ -37,7 +38,7 @@ function edgePush(res, next, id, data) {
             //subject.next({ res: res, id: id, data: error, next: next });
             next(error);
         } else {
-            subject.next({ res: res,next: next, id: id, result: result });
+            subject.next({ res: res, next: next, id: id, result: result, data:data });
         }
     });
 };
@@ -84,8 +85,10 @@ filterOn('forgot:passowrd').subscribe(d => {
             d.next(d.result.error);
         } else {
             let body = config.forgotPassword.mailBody;
-            let emailToken = jwt.sign({ data: d.result.email }, config.jwtKey, { expiresIn: "1d" });
-            //let sendPasswordUrl = `${config.host}/send/password?code=${emailToken}`;
+            let data = {code:d.result.code, email:d.result.email};
+            let emailToken = jwt.sign({ data: data }, config.jwtKey, { expiresIn: "1d" });
+            //let emailToken = jwt.sign({ data: d.result.email }, config.jwtKey, { expiresIn: "1d" });
+            
             let createPasswordUrl = `${config.host}/create/password?code=${emailToken}`;
             createPasswordUrl = `<a href='${createPasswordUrl}'>${createPasswordUrl}</a>`;
             body = body + "  " + createPasswordUrl;
@@ -107,6 +110,19 @@ filterOn('common:result:data').subscribe(d => {
             d.next(d.result.error);
         } else {
             d.res.status(200).json(d.result);
+        }
+    } else {
+        let err = new def.NError(520, messages.errUnknown, messages.messErrorUnknown);
+        next(err);
+    }
+});
+
+filterOn('common:result:data:carry:source').subscribe(d => {
+    if (d.result) {
+        if (d.result.error) {
+            d.next(d.result.error);
+        } else {
+            d.res.status(200).json({result:d.result,data:d.data});
         }
     } else {
         let err = new def.NError(520, messages.errUnknown, messages.messErrorUnknown);
@@ -165,6 +181,18 @@ function sendMail(res, next, emailItem) {
     }
 };
 exports.sendMail = sendMail;
+
+//create Sql
+// function insertSqlFromObject(tableName, sqlObject) {
+//     var keyArray = _.keys(sqlObject);
+//     var valueArray = _.values(sqlObject).map(function (a, b) { return ("'" + a + "'"); });
+//     let sqlTemplate = 'insert into :tableName(:keys) values(:values)';
+//     let sql = sqlTemplate.replace(':tableName',tableName).replace(':keys', keyArray.toString())
+//         .replace(':values', valueArray.toString());
+//     return(sql);
+// };
+// exports.insertSqlFromObject = insertSqlFromObject;
+
 function getClientIp(req) {
     var ipAddress;
     // The request may be forwarded from local web server.

@@ -34,10 +34,7 @@ export class ShippingAddress {
     isDataReady:boolean=false;
     messages: Message[] = [];
     isVerifying = false;
-    radioIndex:number;
-    // selectedRadio:any;
-    // myRadio:any;
-    //@ViewChild('selectedRadio') selectedRadio:any
+    radioIndex: number;
     @ViewChild('shippingModal') shippingModal: Modal;
     addresses: [any];
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
@@ -95,11 +92,7 @@ export class ShippingAddress {
                         , summary: 'Error'
                         , detail: 'Address could not be deleted'
                     });
-                    // this.appService.showAlert(this.alert, true, 'addressDeleteFailed');
                 } else {
-                    //this.addresses.splice(this.radioIndex);
-                    // this.appService.showAlert(this.alert, false);
-                    // this.appService.doGrowl(this.messages, 'success', 'Success', 'Data saved successfully');
                     this.appService.httpGet('get:shipping:address');
                     this.messages = [];
                     this.messages.push({
@@ -135,9 +128,10 @@ export class ShippingAddress {
                 , summary: 'Saved'
                 , detail: 'Data saved successfully'
             });
+            // this.appService.doGrowl(this.messages, 'success', 'Saved', 'Data saved successfully');            
             this.shippingModal.close();
         }
-    }
+    };
 
     initShippingForm(address) {
         this.shippingForm = this.fb.group({
@@ -154,11 +148,13 @@ export class ShippingAddress {
             phone: [address.phone || '', [Validators.required, CustomValidators.phoneValidator]],
             isDefault: [address.isDefault || false]
         });
+        this.shippingForm.controls['phone'].markAsDirty();
         this.selectedCountryName = address.country;
         if(!address.phone){
             //separate reset is required to clear the input mask control
             this.shippingForm.controls['phone'].reset();
         }
+        this.shippingForm.controls['phone'].markAsDirty();
     };
     ngOnInit() {        
 	this.initSubscriptions();

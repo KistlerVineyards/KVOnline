@@ -41,7 +41,6 @@ export class PaymentMethod {
                     console.log(d);
                 } else {
                     this.payMethods = JSON.parse(d.data).Table;
-                    //console.log(this.payMethods);
                 }
             });
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
@@ -106,7 +105,7 @@ export class PaymentMethod {
             , ccExpiryYear: [this.year, Validators.required]
             , ccSecurityCode: ['', Validators.required]
             , co: ['']
-            //, name: ['']
+            //, name: ['', Validators.required]
             , street1: ['', Validators.required]
             , street2: ['']
             , city: ['', Validators.required]
@@ -119,11 +118,15 @@ export class PaymentMethod {
         });
         //input mask requires separate initialization
         this.payMethodForm.controls['phone'].reset();
+
+        this.payMethodForm.controls['phone'].markAsDirty();
+        this.payMethodForm.controls['ccType'].markAsDirty();
     }
     addPayMethod() {
         this.initPayMethodForm();
-        this.selectedISOCode="US";
         this.payMethodForm.controls["countryName"].setValue("US");
+        this.selectedISOCode = "US";
+        this.payMethodForm.controls['ccType'].setValue('Visa');
         this.payMethodModal.open();
     };
     cancel() {
@@ -131,10 +134,7 @@ export class PaymentMethod {
         this.payMethodModal.close(true);
             
     }
-    
-    // remove(card) {        
-    //     this.appService.httpPost('post:delete:payment:method', { sqlKey: 'DeletePaymentMethod', sqlParms: { id: card.id }});
-    // };
+
     submit() {
         let firstName = this.payMethodForm.controls['ccFirstName'].value || '';
         let lastName = this.payMethodForm.controls['ccLastName'].value || '';

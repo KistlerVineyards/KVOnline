@@ -36,7 +36,7 @@
                 <form [formGroup]="payMethodForm" novalidate (ngSubmit)="submit()" class="form-horizontal">
                     <div class="row">
                         <div class="col-xs-12 formGap">
-                            <label class="control-label" for="kvCardName">Card name:</label>
+                            <label class="control-label" for="kvCardName">Card name: (Example: Work Visa)</label>
                             <input type="text" class="form-control" id="kvCardName" placeholder="Enter card name" formControlName="cardName">
                             <control-messages [control]="payMethodForm.controls.cardName"></control-messages>
                         </div>

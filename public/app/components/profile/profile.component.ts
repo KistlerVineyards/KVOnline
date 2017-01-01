@@ -21,10 +21,6 @@ export class Profile {
     profileForm: FormGroup;
     alert: any = {};
     profile: any = {};
-    // myDatePickerOptions: any = {
-    //     dateFormat: "mm/dd/yyyy"
-    //     , inline: false
-    // };
     primeDate: any;
     countries: [any];
     selectedCountryName: string = 'United States';
@@ -107,8 +103,9 @@ export class Profile {
             , mailingCity: [this.profile.mailingCity, Validators.required]
             , mailingState: [this.profile.mailingState, Validators.required]
             , mailingZip: [this.profile.mailingZip, Validators.required]
-	        , mailingCountry: [this.profile.mailingCountry, Validators.required]
+	    , mailingCountry: [this.profile.mailingCountry, Validators.required]
         });
+        this.profileForm.controls['phone'].markAsDirty();
     };
     getUpdatedProfile() {
         let mDate = Util.getISODate(this.profileForm.controls['birthDay'].value);

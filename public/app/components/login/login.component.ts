@@ -23,14 +23,22 @@ export class Login {
         message: this.appService.getValidationErrorMessage('loginFailed')
     }
     subscription: Subscription;
+    loginFormSubscription: Subscription;
     loginFormChangesSubscription: Subscription;
+    loginPageSubscription: Subscription;
     loginForm: FormGroup;
+    loginPageText: '';
+
     constructor(private appService: AppService, private router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute) {
         this.loginForm = fb.group({
             email: ['', [Validators.required]]
-            , password: ['', Validators.required]
-        });        
+            , password: ['', [Validators.required, CustomValidators.pwdComplexityValidator]]
+        });
     };
+
+    // forgotPassword() {
+    //     this.loginForm.controls['email'].markAsUntouched();
+    // };
 
     authenticate(pwd) {
         if (this.loginForm.valid) {
@@ -51,10 +59,14 @@ export class Login {
                 this.loginForm.controls["email"].setValue(email);
             }
         });
-        this.loginFormChangesSubscription = this.loginForm.valueChanges.take(1).subscribe(x => {
-            this.alert.show = false;
-        });
-	this.subscription = this.appService.filterOn('post:authenticate')
+
+        this.loginFormChangesSubscription = this.loginForm.valueChanges
+            .take(1)
+            .subscribe(x => {
+                this.alert.show = false;
+            });
+
+        this.subscription = this.appService.filterOn('post:authenticate')
             .subscribe(d => {
                 console.log(d);
                 if (d.data.error) {
@@ -71,9 +83,18 @@ export class Login {
                     this.router.navigate(['order']);
                 }
             });
-    }
+        this.loginPageSubscription = this.appService.behFilterOn('login:page:text').subscribe(d => {
+            if (d.data.error) {
+                console.log(d);
+            } else {
+                this.loginPageText = d.data;
+            }
+        });
+    };
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
-        //this.loginFormChangesSubscription.unsubscribe();
+        this.loginFormChangesSubscription.unsubscribe();
+        this.loginPageSubscription.unsubscribe();
     }
 }

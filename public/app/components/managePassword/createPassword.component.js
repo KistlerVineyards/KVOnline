@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
+var customValidators_1 = require("../../services/customValidators");
 var app_service_1 = require("../../services/app.service");
 var md5_1 = require("../../vendor/md5");
 var CreatePassword = (function () {
@@ -47,7 +48,7 @@ var CreatePassword = (function () {
     CreatePassword.prototype.ngOnInit = function () {
         this.createPwdForm = this.fb.group({
             newPassword1: ['', forms_1.Validators.required],
-            newPassword2: ['', forms_1.Validators.required]
+            newPassword2: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.pwdComplexityValidator]]
         }, { validator: this.checkFormGroup });
     };
     ;

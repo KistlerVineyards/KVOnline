@@ -15,7 +15,7 @@ export class Order {
     type: 'danger',
     message: ''
   };
-  onlineOrder:any;
+  onlineOrder: any = {};
   excessOrder: string = this.appService.getValidationErrorMessage('excessOrder');
   email: string;
   minOrderBottles=0;
@@ -163,7 +163,14 @@ export class Order {
       }
       return ((a.orderQty && a.orderQty > 0) || (a.wishList && a.wishList > 0));
     });
+    let negativeValue = this.orders.find((order, index) => {
+      return ((order.orderQty < 0) || (order.wishList < 0));
+    });
     let index = this.orders.findIndex(a => a.orderQty > a.availableQty);
+    if (negativeValue) {
+      this.alert.show = true;
+      this.alert.message = this.appService.getValidationErrorMessage('someNegativeValues');
+    } else {
     if (index != -1) {
       this.alert.show = true;
       this.alert.message = this.appService.getValidationErrorMessage('someExcessOrder');
@@ -188,6 +195,7 @@ export class Order {
       }
     }
   }
+}
   ngOnInit() {
     let ords = this.appService.request('orders');
     if (ords) {

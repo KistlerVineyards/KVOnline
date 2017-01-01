@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/subscription';
 import { AppService } from '../services/app.service';
 import { viewBoxConfig } from '../config';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core'
+import { SpinnerComponent } from './app.spinner';
 
 @Component({
   selector: 'my-app',
@@ -38,7 +39,8 @@ export class AppComponent {
         console.log(d.data.error);
       } else {
         //this.home = d.data.host;
-        this.kistler = d.data.kistler;
+        this.kistler = d.data.data.kistler;
+        this.appService.behEmit('login:page:text',JSON.parse(d.data.result).Table[0].loginPage);
       }
     });    
     router.events.filter((e: Event, t: number) => {
@@ -51,7 +53,6 @@ export class AppComponent {
 
   logout = () => {
     this.appService.resetCredential();
-    this.appService.clearSettings();
     //to reset the orders placed through request page
     this.appService.reset('orders');
     this.appService.reset('holidaygift');
@@ -60,6 +61,7 @@ export class AppComponent {
     }
   };
   ngOnInit() {
+    //this.appService.loadSettings();
     let credential = this.appService.getCredential();
     if (credential) {
       this.appService.loadSettings();
@@ -76,9 +78,7 @@ export class AppComponent {
 
     let secs;
     let credential = this.appService.getCredential();
-    // if (!credential) {
-    //   return;
-    // }
+    
     //set current user to be displayed to nav bar
     this.currentEmail = credential.user.email;
     secs = credential.inactivityTimeoutSecs || 300;

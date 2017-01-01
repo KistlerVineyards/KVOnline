@@ -15,6 +15,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 require("rxjs/add/operator/take");
 var forms_1 = require("@angular/forms");
+var customValidators_1 = require("../../services/customValidators");
 var app_service_1 = require("../../services/app.service");
 var md5_1 = require("../../vendor/md5");
 var Login = (function () {
@@ -30,10 +31,13 @@ var Login = (function () {
         };
         this.loginForm = fb.group({
             email: ['', [forms_1.Validators.required]],
-            password: ['', forms_1.Validators.required]
+            password: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.pwdComplexityValidator]]
         });
     }
     ;
+    // forgotPassword() {
+    //     this.loginForm.controls['email'].markAsUntouched();
+    // };
     Login.prototype.authenticate = function (pwd) {
         if (this.loginForm.valid) {
             var base64Encoded = this.appService.encodeBase64(this.loginForm.controls["email"].value + ':' + md5_1.md5(pwd));
@@ -54,7 +58,9 @@ var Login = (function () {
                 _this.loginForm.controls["email"].setValue(email);
             }
         });
-        this.loginFormChangesSubscription = this.loginForm.valueChanges.take(1).subscribe(function (x) {
+        this.loginFormChangesSubscription = this.loginForm.valueChanges
+            .take(1)
+            .subscribe(function (x) {
             _this.alert.show = false;
         });
         this.subscription = this.appService.filterOn('post:authenticate')
@@ -75,10 +81,20 @@ var Login = (function () {
                 _this.router.navigate(['order']);
             }
         });
+        this.loginPageSubscription = this.appService.behFilterOn('login:page:text').subscribe(function (d) {
+            if (d.data.error) {
+                console.log(d);
+            }
+            else {
+                _this.loginPageText = d.data;
+            }
+        });
     };
+    ;
     Login.prototype.ngOnDestroy = function () {
         this.subscription.unsubscribe();
-        //this.loginFormChangesSubscription.unsubscribe();
+        this.loginFormChangesSubscription.unsubscribe();
+        this.loginPageSubscription.unsubscribe();
     };
     return Login;
 }());

@@ -15,7 +15,6 @@ import { md5 } from '../../vendor/md5';
 })
 export class ForgotPassword {
   subscription: Subscription;
-  //email: string;
   forgotForm: FormGroup;
   alert: any = {};
   constructor(private appService: AppService, private router: Router, private fb: FormBuilder) {
@@ -34,14 +33,17 @@ export class ForgotPassword {
   };
   ngOnInit() {
     this.forgotForm = this.fb.group({
-      email: ['', [Validators.required, CustomValidators.emailValidator]]
+      codeOrMail: ['', Validators.required]
     });
-  }
-  sendMail(email) {
+  };
+  sendMail(codeOrMail) {
     this.alert = {};
-    let base64Encoded = this.appService.encodeBase64(email);
+    let base64Encoded = this.appService.encodeBase64(codeOrMail);
     this.appService.httpPost('post:forgot:password', { auth: base64Encoded });
-  }
+  };
+  cancel() {
+    this.router.navigate(['/login']);
+  };
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -110,25 +112,11 @@ export class ChangePassword {
   ngOnInit() {
     this.changePwdForm = this.fb.group({
       oldPassword: ['', Validators.required]
-      , newPassword1: ['', Validators.required]
-      , newPassword2: ['', Validators.required
-        //, this.testAsync.bind(this)
-        ]
+      , newPassword1: ['', [Validators.required, CustomValidators.pwdComplexityValidator]]
+      , newPassword2: ['', [Validators.required, CustomValidators.pwdComplexityValidator]]
     }, { validator: this.checkFormGroup });
   };
-  // testAsync(control) {
-  //   let pr = new Promise((resolve, reject) => {
-  //     this.appService.filterOn('get:default:credit:card').subscribe(d => {
-  //       if (d.data.error) {
-  //         console.log('Error in default credit card');
-  //       } else {
-  //         resolve({ testError: true });
-  //       }
-  //     });
-  //     this.appService.httpGet('get:default:credit:card');
-  //   });
-  //   return (pr);
-  // }
+
   checkFormGroup(group) {
     let ret = null;
     if (group.dirty) {
