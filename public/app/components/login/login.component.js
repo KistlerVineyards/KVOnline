@@ -15,7 +15,6 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 require("rxjs/add/operator/take");
 var forms_1 = require("@angular/forms");
-var customValidators_1 = require("../../services/customValidators");
 var app_service_1 = require("../../services/app.service");
 var md5_1 = require("../../vendor/md5");
 var Login = (function () {
@@ -31,7 +30,7 @@ var Login = (function () {
         };
         this.loginForm = fb.group({
             email: ['', [forms_1.Validators.required]],
-            password: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.pwdComplexityValidator]]
+            password: ['', [forms_1.Validators.required]] //, CustomValidators.pwdComplexityValidator]]
         });
     }
     ;

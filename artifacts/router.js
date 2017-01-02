@@ -553,6 +553,7 @@ router.post('/api/generic/non/query', function (req, res, next) {
         let sqlKey = req.body.sqlKey;
         let sqlParms = req.body.sqlParms;
         sqlParms.userId = req.user.userId;
+        sqlParms.release = req.user.role;
         let data = { action: 'sql:non:query', sqlKey: req.body.sqlKey, sqlParms: req.body.sqlParms };
         handler.edgePush(res, next, 'common:result:no:data', data);
     } catch (error) {
@@ -564,6 +565,7 @@ router.post('/api/generic/scalar', function (req, res, next) {
     try {
         let sqlParms = req.body.sqlParms;
         sqlParms.userId = req.user.userId;
+        sqlParms.release = req.user.role;
         //let sql = handler.insertSqlFromObject(req.body.tableName, req.body.sqlObject);
         let data = { action: 'sql:scalar', sqlKey: req.body.sqlKey, sqlParms : sqlParms };        
         handler.edgePush(res, next, 'common:result:data', data);

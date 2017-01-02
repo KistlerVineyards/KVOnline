@@ -78,7 +78,7 @@ export var validationErrorMessages = {
     'emailNotFound':'Email address is not registered. Please try again.',
     'emailFound':'Reset password link has been sent to your email address. Please check.',
     'addressDeleteFailed':'Address could not be removed due to server side error',
-    'someNegativeValues': 'Some values in your request or in additional request are negative which is not allowed',
+    'someNegativeValues': 'Some values in your request or wish list are negative which is not allowed',
     'pwdLengthLt8':'Password must have at least 8 characters',
     'invalidPwd': 'Password must satisfy at least three out of following four criterias: 1) Lower case, 2) Upper case, 3) Number, 4)  Special character like �!@#$%^&*()' 
 
