@@ -74,6 +74,7 @@ export class Profile {
                     this.appService.showAlert(this.alert, true, 'dataNotSaved');
                 } else {
                     //this.appService.showAlert(this.alert, true, 'dataSaved', 'success');
+                    this.alert={};
                     this.messages = [];
                     this.messages.push({
                         severity: 'success'

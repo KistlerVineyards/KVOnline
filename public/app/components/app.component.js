@@ -132,6 +132,17 @@ var AppComponent = (function () {
         }
     };
     ;
+    AppComponent.prototype.hideMenu = function () {
+        if (window.innerWidth >= 768) {
+            this.showMenu = true;
+            this.myAccountshowMenu = true;
+        }
+        else {
+            this.showMenu = false;
+            this.myAccountshowMenu = false;
+        }
+    };
+    ;
     AppComponent.prototype.onResize = function (event) {
         this.initMenu(event.target.innerWidth);
     };

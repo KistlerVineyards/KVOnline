@@ -12,7 +12,7 @@ router.init = function (app) {
     config = app.get('config');
     def = app.get('def');
     messages = app.get('messages');
-    data = { action: 'init', conn: config.connString.replace('@dbName', config.dbName), conn2: config.connString2.replace('@dbName2', config.dbName2) }
+    data = { action: 'init', env : config.env, conn: config.connString.replace('@dbName', config.dbName), conn2: config.connString2.replace('@dbName2', config.dbName2) }
     handler.init(app, data);
     orderacknowledgementmailBody = app.get('orderacknowledgementmailBody');
 }

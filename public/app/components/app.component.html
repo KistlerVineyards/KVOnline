@@ -16,8 +16,8 @@
             <li *ngIf="viewBox.logout"><a>{{currentEmail}}</a></li>
             <!--<li *ngIf="viewBox.needHelp"><a routerLink="#">Need Help?</a></li>-->
             <li *ngIf="viewBox.needHelp"><a class="helpLink" (click)="needHelpModal.open()">Need Help?</a></li>
-            <li *ngIf="viewBox.order"><a routerLink="/order">Order</a></li>
-            <li *ngIf="viewBox.myAccount"><a routerLink="/profile">My Account</a></li>
+            <li *ngIf="viewBox.order"><a routerLink="/order" (click)="hideMenu()">Order</a></li>
+            <li *ngIf="viewBox.myAccount"><a routerLink="/profile" (click)="hideMenu()">My Account</a></li>
             <li *ngIf="viewBox.logout"><a routerLink="/login" (click)="logout()">Log Out</a></li>
         </ul>
     </div>
@@ -31,11 +31,11 @@
         </div>
         <div class="navbar-collapse" *ngIf="myAccountshowMenu">
             <ul class="nav navbar-nav">
-                <li class=""><a routerLink="/profile">Profile</a></li>
-                <li class=""><a routerLink="/order/history">Order History</a></li>
-                <li class=""><a routerLink="/shipping/address">Shipping Addresses</a></li>
-                <li class=""><a routerLink="/payment/method">Payment Methods</a></li>
-                <li class="active"><a routerLink="/change/password">Change Password</a></li>
+                <li class=""><a routerLink="/profile" (click)="hideMenu()">Profile</a></li>
+                <li class=""><a routerLink="/order/history" (click)="hideMenu()">Order History</a></li>
+                <li class=""><a routerLink="/shipping/address" (click)="hideMenu()">Shipping Addresses</a></li>
+                <li class=""><a routerLink="/payment/method" (click)="hideMenu()">Payment Methods</a></li>
+                <li class="active"><a routerLink="/change/password" (click)="hideMenu()">Change Password</a></li>
             </ul>
         </div>
     </div>

@@ -72,6 +72,7 @@ var Profile = (function () {
             }
             else {
                 //this.appService.showAlert(this.alert, true, 'dataSaved', 'success');
+                _this.alert = {};
                 _this.messages = [];
                 _this.messages.push({
                     severity: 'success',

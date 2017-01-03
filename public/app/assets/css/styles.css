@@ -566,6 +566,17 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
     float: none!important;
 }
 
+	.pagination-first .page-link{position: relative; visibility: hidden; width: 25px; height: 30px; }
+	.pagination-first .page-link:after{ content: "<<"; position: absolute; left: -5px; top: 0px; padding: 5px; visibility: visible; width: 30px; height: 30px; border: 1px solid #ddd; background-color: #fff; }
+	.pagination-prev .page-link{position: relative; visibility: hidden; width: 25px; height: 30px; }
+	.pagination-prev .page-link:after{ content: "<"; position: absolute; left: -5px; top: 0px; padding: 5px; visibility: visible; width: 30px; height: 30px; border: 1px solid #ddd; background-color: #fff; }
+	.pagination-next .page-link{position: relative; visibility: hidden; width: 25px; height: 30px; }
+	.pagination-next .page-link:after{ content: ">"; position: absolute; right: -5px; top: 0px; padding: 5px; visibility: visible; width: 30px; height: 30px; border: 1px solid #ddd; background-color: #fff; }
+	.pagination-last .page-link{position: relative; visibility: hidden; width: 25px; height: 30px; }
+	.pagination-last .page-link:after{ content: ">>"; position: absolute; right: -5px; top: 0px; padding: 5px; visibility: visible; width: 30px; height: 30px; border: 1px solid #ddd; background-color: #fff; }
+
+
+
 	}
 
     @media only screen and (max-width : 480px){
@@ -574,6 +585,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 	/* Custom, iPhone Retina */
 	@media only screen and (max-width : 320px){
+
 		.orderDescPanel{ font-size: .9em;	}
 		.col-xs-6 span{display: block;}
 		.productInfoPanel .orderWith{    width: 40px;}
@@ -581,4 +593,23 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 		height: 28px;
 		padding: 3px 6px;
 		}
+		.mobileviewOrderHistory td:before { 
+			top: 3px;
+		}
+			.orderDetailsPaneltbl td:before { 
+			top: 3px;
+		}
+			.movieViewApproveOrder td:before { 
+			top: 3px;
+		}
+
+		
+
+		.orderDetailsPaneltbl td { 
+		padding-left: 66%!important; 
+		}
+
+		
+
+
 	}

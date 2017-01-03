@@ -134,6 +134,15 @@ export class AppComponent {
       this.myAccountshowMenu = false;
     }
   };
+  hideMenu() {
+    if(window.innerWidth >= 768){
+    this.showMenu=true;
+    this.myAccountshowMenu=true;
+    }else{
+       this.showMenu=false;
+    this.myAccountshowMenu=false;
+    }
+  };
  onResize(event) {
   this.initMenu(event.target.innerWidth);
 };
