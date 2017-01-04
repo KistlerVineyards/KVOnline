@@ -2,10 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 //import { Location } from '@angular/common';
 import { AppService } from '../../services/app.service';
+import { Util } from '../../services/util';
 import { Router } from '@angular/router';
 import { messages } from '../../config';
 import { ModalModule, Modal } from "ng2-modal";
 import { AlertModule } from 'ng2-bootstrap/components/alert';
+import { PaymentMethodForm } from '../../components/paymentMethodForm/paymentMethodForm.component';
 @Component({
     templateUrl: 'app/components/approveOrder/approveOrder.component.html'
 })
@@ -30,6 +32,7 @@ export class ApproveOrder {
         salesTaxTotals: { wine: 0.00 / 1, addl: 0.00 / 1 }
     };
     allAddrSubscription: Subscription;
+    selectNewCardSub: Subscription;
     allCardSubscription: Subscription;
 
     approveHeading: string = messages['mess:approve:heading'];
@@ -38,6 +41,8 @@ export class ApproveOrder {
     // allCards: [any] = [{}];
     payMethods:[any]=[{}];
     orders: any[];
+    newCard: any = {};
+    ccNumberOrig: string = '';
     holidaygift:boolean = false;
     isChangeAddress:boolean=false;
     shippingBottles:any={};
@@ -52,6 +57,14 @@ export class ApproveOrder {
             return('');
         }
     };
+    @ViewChild('payMethodModal') payMethodModal: Modal;
+        useNewCard() {
+            this.payMethodModal.open();
+        };
+
+    resetNewCard() {
+        this.newCard = {};
+    }    
     constructor(private appService: AppService, private router: Router) {
         let ords = appService.request('orders');
         if (!ords) {
@@ -118,7 +131,15 @@ export class ApproveOrder {
                 this.allAddresses = JSON.parse(d.data).Table;
             }
         });
-        this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
+        this.selectNewCardSub = this.appService.filterOn('select:new:card').subscribe(d => {
+            this.newCard = d.data || {};
+            this.selectedCard = this.newCard;
+            this.ccNumberOrig = this.selectedCard.ccNumber;
+            this.selectedCard.ccNumber = Util.getMaskedCCNumber(this.selectedCard.ccNumber);
+            this.selectedCard.ccNumberActual = this.selectedCard.ccNumber;
+            this.selectedCard.encryptedCCNumber = this.ccNumberOrig; 
+            this.payMethodModal.close();
+        });        this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
             if (d.data.error) {
                 console.log(d.data.error);
             } else {
@@ -375,6 +396,7 @@ export class ApproveOrder {
         this.approveArtifactsSub.unsubscribe();
         this.allAddrSubscription.unsubscribe();
         this.allCardSubscription.unsubscribe();
+        this.selectNewCardSub.unsubscribe();
         
     };
     getArtifact(){

@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var app_service_1 = require("../../services/app.service");
+var util_1 = require("../../services/util");
 var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
 var ng2_modal_1 = require("ng2-modal");
@@ -135,8 +136,9 @@ var PaymentMethod = (function () {
         var firstName = this.payMethodForm.controls['ccFirstName'].value || '';
         var lastName = this.payMethodForm.controls['ccLastName'].value || '';
         var ccNumber = this.payMethodForm.controls['ccNumber'].value.toString();
-        ccNumber = ccNumber.substring(0, ccNumber.length - 4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length - 4, ccNumber.length);
-        ccNumber = ccNumber.toString();
+        //ccNumber = ccNumber.substring(0, ccNumber.length -4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length -4, ccNumber.length);
+        //ccNumber = ccNumber.toString();
+        ccNumber = util_1.Util.getMaskedCCNumber(ccNumber);
         //ccNumber = ccNumber + ccNumberactual.slice(-4);
         var payMethod = {
             cardName: this.payMethodForm.controls['cardName'].value,

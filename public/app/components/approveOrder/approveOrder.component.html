@@ -26,7 +26,8 @@
         </div>        
 		<div class="col-sm-6 btnApprovedpayment">
 		    <button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedCard()">Use Existing</button>
-            <button class="btn btn-md btn-kistler" (click)="removePayMethod()">Pay Later</button>		</div>
+        <button type="button" class="btn btn-md btn-kistler" (click)="useNewCard()">Use New</button>
+        <button class="btn btn-md btn-kistler" (click)="removePayMethod()">Pay Later</button>		</div>
       </div>
     </div>
 
@@ -137,6 +138,24 @@
       </modal-footer>
     </modal>
   </div>
-  <!--<alert *ngIf="isAlert" [type]="alert.type" dismissable="true">Test</alert>  
-  <alert *ngIf="isAlert" dismissOnTimeout="3000" [type]="alert.type">Data saved</alert>  -->
+  <div>
+    <modal #payMethodModal>
+      <modal-header>
+        <h2>Payment method</h2>
+      </modal-header>
+      <modal-content>
+        <paymentMethodForm [newCard]="newCard"></paymentMethodForm>
+      </modal-content>
+      <modal-footer>
+        <!--<div class="form-inline signInPanel">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid">Submit</button>
+                            <button class="btn btn-md btn-kistler" (click)="shippingForm.reset(); shippingModal.close()">Cancel</button>
+                        </div>
+                    </div>-->
+        <!--<button type="button" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid">Submit</button>
+        <button type="button" class="btn btn-md btn-kistler" (click)="payMethodModal.close()">Cancel</button>-->
+      </modal-footer>
+    </modal>
+  </div>
 </div>

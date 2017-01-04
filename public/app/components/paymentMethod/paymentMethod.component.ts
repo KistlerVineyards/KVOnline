@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AppService } from '../../services/app.service';
+import { Util } from '../../services/util';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { CustomValidators } from '../../services/customValidators';
 import { Modal, ModalModule } from "ng2-modal"
@@ -139,8 +140,9 @@ export class PaymentMethod {
         let firstName = this.payMethodForm.controls['ccFirstName'].value || '';
         let lastName = this.payMethodForm.controls['ccLastName'].value || '';
         let ccNumber = this.payMethodForm.controls['ccNumber'].value.toString();
-        ccNumber = ccNumber.substring(0, ccNumber.length -4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length -4, ccNumber.length);
-        ccNumber = ccNumber.toString();
+        //ccNumber = ccNumber.substring(0, ccNumber.length -4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length -4, ccNumber.length);
+        //ccNumber = ccNumber.toString();
+        ccNumber = Util.getMaskedCCNumber(ccNumber);
         //ccNumber = ccNumber + ccNumberactual.slice(-4);
         let payMethod = {
             cardName: this.payMethodForm.controls['cardName'].value

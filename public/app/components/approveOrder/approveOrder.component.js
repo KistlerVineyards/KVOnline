@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 //import { Location } from '@angular/common';
 var app_service_1 = require("../../services/app.service");
+var util_1 = require("../../services/util");
 var router_1 = require("@angular/router");
 var config_1 = require("../../config");
 var ng2_modal_1 = require("ng2-modal");
@@ -38,6 +39,8 @@ var ApproveOrder = (function () {
         this.allAddresses = [{}];
         // allCards: [any] = [{}];
         this.payMethods = [{}];
+        this.newCard = {};
+        this.ccNumberOrig = '';
         this.holidaygift = false;
         this.isChangeAddress = false;
         this.shippingBottles = {};
@@ -122,6 +125,15 @@ var ApproveOrder = (function () {
                 _this.allAddresses = JSON.parse(d.data).Table;
             }
         });
+        this.selectNewCardSub = this.appService.filterOn('select:new:card').subscribe(function (d) {
+            _this.newCard = d.data || {};
+            _this.selectedCard = _this.newCard;
+            _this.ccNumberOrig = _this.selectedCard.ccNumber;
+            _this.selectedCard.ccNumber = util_1.Util.getMaskedCCNumber(_this.selectedCard.ccNumber);
+            _this.selectedCard.ccNumberActual = _this.selectedCard.ccNumber;
+            _this.selectedCard.encryptedCCNumber = _this.ccNumberOrig;
+            _this.payMethodModal.close();
+        });
         this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(function (d) {
             if (d.data.error) {
                 console.log(d.data.error);
@@ -155,6 +167,13 @@ var ApproveOrder = (function () {
             _this.computeTotals();
         });
     }
+    ApproveOrder.prototype.useNewCard = function () {
+        this.payMethodModal.open();
+    };
+    ;
+    ApproveOrder.prototype.resetNewCard = function () {
+        this.newCard = {};
+    };
     ;
     ApproveOrder.prototype.changeSelectedAddress = function () {
         this.isAlert = false;
@@ -372,6 +391,7 @@ var ApproveOrder = (function () {
         this.approveArtifactsSub.unsubscribe();
         this.allAddrSubscription.unsubscribe();
         this.allCardSubscription.unsubscribe();
+        this.selectNewCardSub.unsubscribe();
     };
     ;
     ApproveOrder.prototype.getArtifact = function () {
@@ -415,6 +435,10 @@ var ApproveOrder = (function () {
     };
     return ApproveOrder;
 }());
+__decorate([
+    core_1.ViewChild('payMethodModal'),
+    __metadata("design:type", ng2_modal_1.Modal)
+], ApproveOrder.prototype, "payMethodModal", void 0);
 __decorate([
     core_1.ViewChild('addrModal'),
     __metadata("design:type", ng2_modal_1.Modal)

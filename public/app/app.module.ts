@@ -29,6 +29,8 @@ import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { BlockUIModule } from 'primeng/primeng';
 import { SpinnerComponent } from './components/app.spinner';
+//import { TextMaskModule } from 'angular2-text-mask';
+import {PaymentMethodForm} from './components/paymentMethodForm/paymentMethodForm.component';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, Routing, FormsModule
@@ -43,12 +45,14 @@ import { SpinnerComponent } from './components/app.spinner';
     , GrowlModule
     , NgIdleModule.forRoot()
     , BlockUIModule
+    //, TextMaskModule
   ]
   , declarations: [AppComponent, Login, Order, ForgotPassword
     , SendPassword, ChangePassword, CreateAccount,
     Profile, ApproveOrder, Receipt, OrderHistory, ShippingAddress,
     PaymentMethod, ControlMessages, CreatePassword
     , SpinnerComponent
+    ,PaymentMethodForm
   ]
   , providers: [AppService, LoginGuard, CustomValidators, ConfirmationService]
   , bootstrap: [AppComponent]
