@@ -196,7 +196,11 @@ var ApproveOrder = (function () {
     ;
     ApproveOrder.prototype.approve = function () {
         var orderBundle = {};
-        var paymentType = this.selectedCard == null ? "Credit Card" : "Pay Later";
+        var paymentType = this.selectedCard != null ? "Credit Card" : "Pay Later";
+        var billingName = this.selectedCard.ccFirstName + ' ' + this.selectedCard.ccLastName;
+        if (paymentType == "Pay Later") {
+            billingName = "";
+        }
         orderBundle.orderMaster = {
             TaxRate: this.selectedAddress.salesTaxPerc / 100,
             PreviousBalance: this.footer.prevBalances.wine,
@@ -217,10 +221,11 @@ var ApproveOrder = (function () {
             CCType: this.selectedCard.ccType,
             CCNumber: this.selectedCard.ccNumberActual,
             EncryptedCCNumber: this.selectedCard.encryptedCCNumber,
+            CCExpiryMonth: this.selectedCard.ccExpiryMonth,
             CCExpiryYear: this.selectedCard.ccExpiryYear,
             CCSecurityCode: this.selectedCard.ccSecurityCode,
-            BillingName: this.selectedCard.ccFirstName + ' ' + this.selectedCard.ccLastName,
-            BillingCo: this.selectedCard.Co,
+            BillingName: billingName,
+            BillingCo: this.selectedCard.co,
             BillingStreet1: this.selectedCard.street1,
             BillingStreet2: this.selectedCard.street2,
             BillingCity: this.selectedCard.city,
