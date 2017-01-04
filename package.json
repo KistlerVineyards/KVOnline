@@ -16,6 +16,7 @@
     "jsonwebtoken": "^7.1.9",
     "nodemailer": "^2.6.4",
     "request-ip": "^1.2.3",
-    "rxjs": "^5.0.0-rc.1"
+    "rxjs": "^5.0.0-rc.1",
+    "node-ews": "^3.0.6"
   }
 }

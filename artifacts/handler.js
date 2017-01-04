@@ -4,6 +4,7 @@ var rx = require('rxjs');
 //var _ = require('lodash');
 var jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
+var EWS = require('node-ews');
 let subject = new rx.Subject();
 let messages, def, config;
 console.log('Started edge');
@@ -144,7 +145,7 @@ filterOn('common:result:no:data').subscribe(d => {
 });
 
 //send mail
-function sendMail(res, next, emailItem) {
+function sendMailold(res, next, emailItem) {
     //let decodedEmail = Buffer.from(auth, 'base64').toString();
     let emailFilter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (emailFilter.test(emailItem.to)) {
@@ -175,6 +176,80 @@ function sendMail(res, next, emailItem) {
                 res.status(200).send(true);
             }
         });
+    } else {
+        let err = new def.NError(520, messages.errInvalidEmail, messages.errInvalidEmail);
+        next(err);
+    }
+};
+//send mail
+function sendMail(res, next, emailItem) {
+    //let decodedEmail = Buffer.from(auth, 'base64').toString();
+    let emailFilter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (emailFilter.test(emailItem.to)) {
+        var ewsConfig = {
+        username:  emailItem.fromUser,
+        password: emailItem.fromUserPassword,
+        host: emailItem.host
+        };
+        var mailOptions = {
+            from: emailItem.fromUser,
+            to: emailItem.to, // list of receivers
+            subject: emailItem.subject // Subject line
+            //,text: body // plaintext body
+            , html: emailItem.htmlBody // html body
+        };
+        // exchange server connection info 
+ 
+        // initialize node-ews 
+        var ews = new EWS(ewsConfig);
+        
+        // define ews api function 
+        var ewsFunction = 'CreateItem';
+ 
+        // define ews api function args 
+        var ewsArgs = {
+            "attributes" : {
+                "MessageDisposition" : "SendAndSaveCopy"
+            },
+            "SavedItemFolderId": {
+                "DistinguishedFolderId": {
+                "attributes": {
+                    "Id": "sentitems"
+                }
+                }
+            },
+            "Items" : {
+                "Message" : {
+                "ItemClass": "IPM.Note",
+                "Subject" : emailItem.subject,
+                "Body" : {
+                    "attributes": {
+                    "BodyType" : "HTML"
+                    },
+                    "$value": emailItem.htmlBody
+                },
+                "ToRecipients" : {
+                    "Mailbox" : {
+                    "EmailAddress" : emailItem.to
+                    }
+                },
+                "IsRead": "false"
+                }
+            }
+        };
+        
+        // query ews, print resulting JSON to console 
+        ews.run(ewsFunction, ewsArgs)
+        .then(result => {
+            console.log('Message sent: ' + info.response);
+            res.status(200).send(true);
+            console.log(JSON.stringify(result));
+        })
+        .catch(err => {
+            //console.log(err.stack);
+            //next(err);
+            res.status(200).send(true);
+            });
     } else {
         let err = new def.NError(520, messages.errInvalidEmail, messages.errInvalidEmail);
         next(err);

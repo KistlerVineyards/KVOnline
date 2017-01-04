@@ -197,7 +197,7 @@ export class ApproveOrder {
         orderBundle.orderMaster = {
             TaxRate:this.selectedAddress.salesTaxPerc/100,
             PreviousBalance:this.footer.prevBalances.wine,
-            Status:"pending",
+            Status:"submitted",
             ShipName: this.selectedAddress.name,
             ShipCo:this.selectedAddress.co,
             ShipStreet1: this.selectedAddress.street1,
@@ -213,7 +213,7 @@ export class ApproveOrder {
             CCLastName: this.selectedCard.ccLastName,
             CCType:this.selectedCard.ccType,
             CCNumber: this.selectedCard.ccNumberActual,
-            CCExpiryMonth:this.selectedCard.ccExpiryMonth,
+            EncryptedCCNumber: this.selectedCard.encryptedCCNumber,
             CCExpiryYear: this.selectedCard.ccExpiryYear,
             CCSecurityCode:this.selectedCard.ccSecurityCode,
             BillingName: this.selectedCard.ccFirstName + ' ' + this.selectedCard.ccLastName,
