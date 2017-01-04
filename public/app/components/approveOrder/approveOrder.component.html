@@ -17,11 +17,11 @@
 </div>
 
   <div class="panel panel-default approveOrderPayment">
-    <div class="panel-heading">Payment method</div>
+    <div class="panel-heading">Payment Method</div>
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6">
-          <span *ngIf="!selectedCard.cardName" class="noRecord">Pay Later</span>
+          <span *ngIf="!selectedCard.cardName" class="noRecord">Pay Later - Once your order is finalized, we will send you an order confirmation with payment instructions.</span>
           <span *ngIf="selectedCard.cardName"><span class="name-shipping-address">{{selectedCard.cardName}}</span>, {{selectedCard.ccNumber}}</span>
         </div>        
 		<div class="col-sm-6 btnApprovedpayment">
@@ -141,7 +141,7 @@
   <div>
     <modal #payMethodModal>
       <modal-header>
-        <h2>Payment method</h2>
+        <h2>Payment Method</h2>
       </modal-header>
       <modal-content>
         <paymentMethodForm [newCard]="newCard"></paymentMethodForm>
