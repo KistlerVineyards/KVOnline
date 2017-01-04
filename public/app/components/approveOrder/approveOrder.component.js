@@ -377,6 +377,7 @@ var ApproveOrder = (function () {
     };
     ;
     ApproveOrder.prototype.ngOnInit = function () {
+        var _this = this;
         var ords = this.appService.request('orders');
         if (!ords) {
             this.router.navigate(['order']);
@@ -385,6 +386,7 @@ var ApproveOrder = (function () {
             this.getArtifact();
             this.appService.httpGet('get:user:profile');
         }
+        this.appService.reply('close:pay:method:modal', function () { _this.payMethodModal.close(); });
     };
     ;
     ApproveOrder.prototype.ngOnDestroy = function () {

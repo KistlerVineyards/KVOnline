@@ -391,6 +391,7 @@ export class ApproveOrder {
             this.appService.httpGet('get:user:profile');
             //this.appService.httpGet('get:approve:artifacts')
         }
+        this.appService.reply('close:pay:method:modal', () => { this.payMethodModal.close() });
     };
     ngOnDestroy() {
         this.approveArtifactsSub.unsubscribe();
