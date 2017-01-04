@@ -193,7 +193,7 @@ export class ApproveOrder {
     };
     approve() {
         let orderBundle: any = {};
-        let paymentType = this.selectedCard != null ? "Credit Card" : "Pay Later";
+        let paymentType = this.selectedCard.encryptedCCNumber != null ? "Credit Card" : "Pay Later";
         let billingName = this.selectedCard.ccFirstName + ' ' + this.selectedCard.ccLastName;
         if(paymentType == "Pay Later"){
             billingName = "";

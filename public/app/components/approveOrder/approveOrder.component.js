@@ -196,7 +196,7 @@ var ApproveOrder = (function () {
     ;
     ApproveOrder.prototype.approve = function () {
         var orderBundle = {};
-        var paymentType = this.selectedCard != null ? "Credit Card" : "Pay Later";
+        var paymentType = this.selectedCard.encryptedCCNumber != null ? "Credit Card" : "Pay Later";
         var billingName = this.selectedCard.ccFirstName + ' ' + this.selectedCard.ccLastName;
         if (paymentType == "Pay Later") {
             billingName = "";
