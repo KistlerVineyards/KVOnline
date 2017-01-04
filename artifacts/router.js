@@ -25,7 +25,7 @@ router.init = function (app) {
         var ewsMailHost = process.env.EWSMailHost;
         var ewsMailUsername = process.env.EWSMailUsername;
         var ewsMailPassword = process.env.EWSMailPassword;
-        config.sendMail.host = ewsMailHost +"/ews/exchange.asmx";
+        config.sendMail.host = ewsMailHost;
         config.sendMail.fromUser = ewsMailUsername;
         config.sendMail.fromUserPassword = ewsMailPassword;
     }
