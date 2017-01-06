@@ -50,7 +50,7 @@ a:focus, a:hover {
 .join-mailingList a{ font-weight:bold; font-size:1.2em;}
 
 .signInPanel{ padding-bottom:20px;}
-.mainContainer{padding-top: 0px;}
+.mainContainer{padding-top: 0px; padding-bottom: 20px;}
 .introText{ margin-bottom:20px; padding:20px; background-color:#f5f2eb; border:solid 1px #ddd; /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,f5f2e9+100 */
 background: #fcfcfc; /* Old browsers */
 background: -moz-linear-gradient(top,  #fcfcfc 0%, #f5f2e9 100%); /* FF3.6-15 */
@@ -239,7 +239,7 @@ input.ng-valid{
 .additionalRequestCont{ width: 100px;}
 .totalaWineCosts td{ border-top: solid 1px #000!important;}
 .noRecord{ color: #e80c4d;}
-.btnApprovedpayment button, .btnApprovedOrder button{float: right; margin-left: 10px;}
+.btnApprovedpayment button, .btnApprovedOrder button{margin-left: 10px;}
 
 .shippingAdressPop{
 	margin-bottom: 0px;
@@ -334,7 +334,7 @@ input.ng-valid{
     cursor: pointer;
 }
 
-.btnApprovedpayment, .btnApprovedOrder{ margin-top: 20px;}
+
 .productInfoPanel .form-control {
 		height: 30px;
 		padding: 3px 6px;
@@ -357,6 +357,7 @@ input.ng-valid{
 
 
 	@media only screen and (max-width: 480px) {
+		.btnApprovedpayment button, .btnApprovedOrder button{ margin-right: 5px; margin-left: 0px; margin-top:10px; }
 .panel-heading {
     padding: 10px 10px;
 }

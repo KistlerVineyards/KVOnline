@@ -11,7 +11,7 @@
 					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}
 				</span>
 	  </div>
-     <div class="col-sm-2 btnApprovedOrder"><button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedAddress()">Change</button></div>
+     <div class="col-sm-2 btnApprovedOrder"><button type="button" class="btn btn-xs pull-right btn-kistler" (click)="changeSelectedAddress()">Change</button></div>
     </div>
   </div>
 </div>
@@ -21,13 +21,14 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6">
-          <span *ngIf="!selectedCard.cardName" class="noRecord">Pay Later - Once your order is finalized, we will send you an order confirmation with payment instructions.</span>
+          <span *ngIf="!selectedCard.cardName" class="noRecord">Payment by check, money order or wire transfer. Once your order is finalized, we will send you an order confirmation with payment instructions.</span>
           <span *ngIf="selectedCard.cardName"><span class="name-shipping-address">{{selectedCard.cardName}}</span>, {{selectedCard.ccNumber}}</span>
         </div>        
 		<div class="col-sm-6 btnApprovedpayment">
-		    <button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedCard()">Use Existing</button>
-        <button type="button" class="btn btn-md btn-kistler" (click)="useNewCard()">Use New</button>
-        <button class="btn btn-md btn-kistler" (click)="removePayMethod()">Pay Later</button>		</div>
+		     <button class="btn btn-xs pull-right btn-kistler" (click)="removePayMethod()">Other Options</button>
+         <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewCard()">Use New Card</button>
+         <button type="button" class="btn btn-xs  pull-right btn-kistler" (click)="changeSelectedCard()">Use Existing Card</button>
+         </div>
       </div>
     </div>
 
