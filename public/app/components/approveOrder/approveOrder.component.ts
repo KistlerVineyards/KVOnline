@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-//import { Location } from '@angular/common';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { AppService } from '../../services/app.service';
 import { Util } from '../../services/util';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { messages } from '../../config';
 import { ModalModule, Modal } from "ng2-modal";
 import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { PaymentMethodForm } from '../../components/paymentMethodForm/paymentMethodForm.component';
+import {uiText} from '../../config';
 @Component({
     templateUrl: 'app/components/approveOrder/approveOrder.component.html'
 })
@@ -50,17 +51,21 @@ export class ApproveOrder {
     profile: any = {};
     isAlert: boolean;
     alert: any = { type: "success" };
-    payLater:any=()=>{
-        if(!this.selectedCard || this.selectedCard==''){
-            return('Pay Later');
-        } else{
-            return('');
+    otherOptions:string=uiText.otherOptions
+    payLater: any = () => {
+        if (!this.selectedCard || Object.keys(this.selectedCard).length == 0) {
+            return ('Pay later');
+        } else {
+            return ('');
         }
     };
     @ViewChild('payMethodModal') payMethodModal: Modal;
-        useNewCard() {
-            this.payMethodModal.open();
-        };
+    useNewCard() {
+        let body: any = {};
+        body.data = JSON.stringify({ sqlKey: 'GetDefaultBillingAddressForCard' });
+        this.appService.httpGet('get:default:billing:address', body);
+        this.payMethodModal.open();
+    };
 
     resetNewCard() {
         this.newCard = {};
@@ -302,8 +307,15 @@ export class ApproveOrder {
         this.appService.httpPost('post:save:approve:request', orderBundle);
     };
 
-    removePayMethod(){
+    /*removePayMethod(){
         this.selectedCard={};
+    };*/
+    otherOptionsClicked() {
+        if (Object.keys(this.selectedCard).length == 0) {
+            this.selectedCard = this.defaultCard;
+        } else {
+            this.selectedCard = {};
+        }
     };
 
     computeTotals() {

@@ -2,7 +2,8 @@
 var router_1 = require("@angular/router");
 var login_component_1 = require("../login/login.component");
 var createAccount_component_1 = require("../createAccount/createAccount.component");
-var managePassword_component_1 = require("../managePassword/managePassword.component");
+var forgotPassword_component_1 = require("../forgotPassword/forgotPassword.component");
+var changePassword_component_1 = require("../changePassword/changePassword.component");
 var order_component_1 = require("../order/order.component");
 var profile_component_1 = require("../profile/profile.component");
 var receipt_component_1 = require("../receipt/receipt.component");
@@ -10,7 +11,7 @@ var orderHistory_component_1 = require("../orderHistory/orderHistory.component")
 var shippingAddress_component_1 = require("../shippingAddress/shippingAddress.component");
 var paymentMethod_component_1 = require("../paymentMethod/paymentMethod.component");
 var approveOrder_component_1 = require("../approveOrder/approveOrder.component");
-var createPassword_component_1 = require("../managePassword/createPassword.component");
+// import { CreatePassword } from '../managePassword/createPassword.component';
 var app_service_1 = require("../../services/app.service");
 var routes = [
     {
@@ -29,23 +30,27 @@ var routes = [
     },
     {
         path: 'forgot/password',
-        component: managePassword_component_1.ForgotPassword
+        component: forgotPassword_component_1.ForgotPassword
     },
-    {
-        path: 'send/password',
-        component: managePassword_component_1.SendPassword
-    },
-    {
-        path: 'create/password',
-        component: createPassword_component_1.CreatePassword
-    },
+    // {
+    //     path: 'send/password',
+    //     component: SendPassword
+    // },
+    // {
+    //     path: 'create/password',
+    //     component: CreatePassword
+    // },
     {
         path: 'change/password',
-        component: managePassword_component_1.ChangePassword,
+        component: changePassword_component_1.ChangePassword,
         canActivate: [app_service_1.LoginGuard]
     },
     {
         path: 'create/account',
+        component: createAccount_component_1.CreateAccount
+    },
+    {
+        path: 'newuser',
         component: createAccount_component_1.CreateAccount
     },
     {

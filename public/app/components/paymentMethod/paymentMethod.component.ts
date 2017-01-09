@@ -9,9 +9,9 @@ import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
-import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
+// import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
-
+import { TextMaskModule } from 'angular2-text-mask';
 @Component({
     templateUrl: 'app/components/paymentMethod/paymentMethod.component.html'
 })
@@ -19,7 +19,8 @@ export class PaymentMethod {
     getAllPaymentMethodsSub: Subscription;
     postPayMethodSub: Subscription;
     deletePayMethodSub: Subscription;
-    setDefaultPayMethodSub:Subscription;
+    setDefaultPayMethodSub: Subscription;
+    getDefaultBillingAddressSub: Subscription;
     dataReadySubs: Subscription;
     payMethodForm: FormGroup;
     alert: any = {};
@@ -27,12 +28,13 @@ export class PaymentMethod {
     month: number;
     countries: [any];
     selectedISOCode: string = '';
-    @ViewChild('payMethodModal') payMethodModal: Modal;    
+    @ViewChild('payMethodModal') payMethodModal: Modal;
     payMethods: [any];
     isDataReady: boolean = false;
     messages: Message[] = [];
     display: boolean = false;
-    creditCardTypes: any = []
+    creditCardTypes: any = [];
+    public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService
     ) {
         this.initPayMethodForm();
@@ -76,19 +78,36 @@ export class PaymentMethod {
                 }
             });
         this.setDefaultPayMethodSub = appService.filterOn("post:set:default:payment:method")
-        .subscribe(d=>{
-            if(d.data.error){
-                console.log('Error occured');
-            } else{
-                console.log('Successfully set as default')
-            }
-        });
+            .subscribe(d => {
+                if (d.data.error) {
+                    console.log('Error occured');
+                } else {
+                    console.log('Successfully set as default')
+                }
+            });
+        this.getDefaultBillingAddressSub = appService.filterOn("get:default:billing:address")
+            .subscribe(d => {
+                if (d.data.error) {
+                    console.log('Error occured fetching default billing address');
+                } else {
+                    let defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
+                    this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                    this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
+                    this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
+                    this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
+                    this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.zip);
+                    // this.payMethodForm.controls['phone'].reset();
+                    this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);                    
+                    this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
+                    this.selectedISOCode = defaultBillingAddress.isoCode;
+                }
+            });
     };
     confirm(card) {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to perform this action?',
             accept: () => {
-                this.appService.httpPost('post:delete:payment:method', { sqlKey: 'DeletePaymentMethod', sqlParms: { id: card.id }});
+                this.appService.httpPost('post:delete:payment:method', { sqlKey: 'DeletePaymentMethod', sqlParms: { id: card.id } });
             }
         });
     };
@@ -116,19 +135,21 @@ export class PaymentMethod {
             , isoCode: ['']
             , phone: ['', [Validators.required, CustomValidators.phoneValidator]]
             , isDefault: [false]
-        });
-        //input mask requires separate initialization
-        this.payMethodForm.controls['phone'].reset();
-
+        });       
         this.payMethodForm.controls['phone'].markAsDirty();
         this.payMethodForm.controls['ccType'].markAsDirty();
-    }
+    };
+
     addPayMethod() {
         this.initPayMethodForm();
         this.payMethodForm.controls["countryName"].setValue("US");
         this.selectedISOCode = "US";
         this.payMethodForm.controls['ccType'].setValue('Visa');
         this.payMethodModal.open();
+
+        let body: any = {};
+        body.data = JSON.stringify({ sqlKey: 'GetDefaultBillingAddressForCard' });
+        this.appService.httpGet('get:default:billing:address', body);
     };
     cancel() {
         this.appService.showAlert(this.alert, false);
@@ -189,5 +210,6 @@ export class PaymentMethod {
         this.dataReadySubs.unsubscribe();
         this.postPayMethodSub.unsubscribe();
         this.deletePayMethodSub.unsubscribe();
+        this.getDefaultBillingAddressSub.unsubscribe();
     };
 }

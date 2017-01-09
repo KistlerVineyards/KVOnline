@@ -15,7 +15,9 @@ var forms_1 = require("@angular/forms");
 var app_component_1 = require("./components/app.component");
 var login_component_1 = require("./components/login/login.component");
 var createAccount_component_1 = require("./components/createAccount/createAccount.component");
-var managePassword_component_1 = require("./components/managePassword/managePassword.component");
+var forgotPassword_component_1 = require("./components/forgotPassword/forgotPassword.component");
+var changePassword_component_1 = require("./components/changePassword/changePassword.component");
+//import { ForgotPassword, SendPassword, ChangePassword } from './components/managePassword/managePassword.component';
 var order_component_1 = require("./components/order/order.component");
 var app_service_1 = require("./services/app.service");
 var app_routes_1 = require("./components/routes/app.routes");
@@ -27,7 +29,6 @@ var shippingAddress_component_1 = require("./components/shippingAddress/shipping
 var paymentMethod_component_1 = require("./components/paymentMethod/paymentMethod.component");
 var customValidators_1 = require("./services/customValidators");
 var controlMessages_component_1 = require("./components/controlMessages/controlMessages.component");
-var createPassword_component_1 = require("./components/managePassword/createPassword.component");
 var ng2_modal_1 = require("ng2-modal");
 var pagination_1 = require("ng2-bootstrap/components/pagination");
 var alert_1 = require("ng2-bootstrap/components/alert");
@@ -39,7 +40,7 @@ var api_1 = require("primeng/components/common/api");
 var inputMask_1 = require("primeng/components/inputMask/inputMask");
 var primeng_1 = require("primeng/primeng");
 var app_spinner_1 = require("./components/app.spinner");
-//import { TextMaskModule } from 'angular2-text-mask';
+var angular2_text_mask_1 = require("angular2-text-mask");
 var paymentMethodForm_component_1 = require("./components/paymentMethodForm/paymentMethodForm.component");
 var AppModule = (function () {
     function AppModule() {
@@ -59,12 +60,22 @@ AppModule = __decorate([
             inputMask_1.InputMaskModule,
             growl_1.GrowlModule,
             core_2.NgIdleModule.forRoot(),
-            primeng_1.BlockUIModule
+            primeng_1.BlockUIModule,
+            angular2_text_mask_1.TextMaskModule
         ],
-        declarations: [app_component_1.AppComponent, login_component_1.Login, order_component_1.Order, managePassword_component_1.ForgotPassword,
-            managePassword_component_1.SendPassword, managePassword_component_1.ChangePassword, createAccount_component_1.CreateAccount,
-            profile_component_1.Profile, approveOrder_component_1.ApproveOrder, receipt_component_1.Receipt, orderHistory_component_1.OrderHistory, shippingAddress_component_1.ShippingAddress,
-            paymentMethod_component_1.PaymentMethod, controlMessages_component_1.ControlMessages, createPassword_component_1.CreatePassword,
+        declarations: [app_component_1.AppComponent,
+            login_component_1.Login,
+            order_component_1.Order,
+            forgotPassword_component_1.ForgotPassword,
+            changePassword_component_1.ChangePassword,
+            createAccount_component_1.CreateAccount,
+            profile_component_1.Profile,
+            approveOrder_component_1.ApproveOrder,
+            receipt_component_1.Receipt,
+            orderHistory_component_1.OrderHistory,
+            shippingAddress_component_1.ShippingAddress,
+            paymentMethod_component_1.PaymentMethod,
+            controlMessages_component_1.ControlMessages,
             app_spinner_1.SpinnerComponent,
             paymentMethodForm_component_1.PaymentMethodForm
         ],

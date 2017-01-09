@@ -13,7 +13,6 @@ var app_service_1 = require("../../services/app.service");
 var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
 var api_1 = require("primeng/components/common/api");
-//import { TextMaskModule } from 'angular2-text-mask';
 var PaymentMethodForm = (function () {
     function PaymentMethodForm(appService, fb, confirmationService) {
         var _this = this;
@@ -30,6 +29,23 @@ var PaymentMethodForm = (function () {
             _this.countries = _this.appService.getCountries();
             _this.creditCardTypes = _this.appService.getSetting('creditCardTypes');
             _this.isDataReady = true;
+        });
+        this.getDefaultBillingAddressSub = appService.filterOn("get:default:billing:address")
+            .subscribe(function (d) {
+            if (d.data.error) {
+                console.log('Error occured fetching default billing address');
+            }
+            else {
+                var defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
+                _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
+                _this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
+                _this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
+                _this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.zip);
+                _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
+                _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
+                _this.selectedISOCode = defaultBillingAddress.isoCode;
+            }
         });
     }
     ;
@@ -123,6 +139,7 @@ var PaymentMethodForm = (function () {
     ;
     PaymentMethodForm.prototype.ngOnDestroy = function () {
         this.dataReadySubs.unsubscribe();
+        this.getDefaultBillingAddressSub.unsubscribe();
     };
     ;
     return PaymentMethodForm;

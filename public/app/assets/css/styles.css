@@ -249,6 +249,15 @@ input.ng-valid{
     text-align: left;}
 .shippingAdressPop:nth-last-of-type(1){ border-bottom: solid 0px #dcdddb;}
 
+.lock-number {
+background-image: url('lock-icon.png');
+background-repeat: no-repeat;
+background-position:right 10px top 6px;
+padding-right: 30px;
+
+}
+
+
 	/*==========  Mobile First Method  ==========*/
 
 	/* Custom, iPhone Retina */

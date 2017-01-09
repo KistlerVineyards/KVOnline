@@ -7,19 +7,7 @@
             <control-messages [control]="payMethodForm.controls.cardName"></control-messages>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6 formGap">
-            <label class="control-label" for="ccFirstName">First name:</label>
-            <input type="text" class="form-control" id="ccFirstName" placeholder="Enter first name" formControlName="ccFirstName">
-            <control-messages [control]="payMethodForm.controls.ccFirstName"></control-messages>
-        </div>
-
-        <div class="col-sm-6 formGap">
-            <label class="control-label" for="ccLastName">Last name:</label>
-            <input type="text" class="form-control" id="ccLastName" placeholder="Enter last name" formControlName="ccLastName">
-            <control-messages [control]="payMethodForm.controls.ccLastName"></control-messages>
-        </div>
-    </div>
+   
 
     <div class="row">
         <div class="col-sm-6 formGap">
@@ -32,7 +20,7 @@
         </div>
         <div class="col-sm-6 formGap">
             <label class="control-label" for="ccNumber">Card number:</label>
-            <input type="text" class="form-control" id="ccNumber" placeholder="Enter card number" formControlName="ccNumber">
+            <input type="text" class="form-control lock-number" id="ccNumber" placeholder="Enter card number" formControlName="ccNumber">
             <control-messages [control]="payMethodForm.controls.ccNumber"></control-messages>
         </div>
     </div>
@@ -55,43 +43,64 @@
     <div class="row">
         <div class="col-sm-6 formGap">
             <label class="control-label" for="ccSecurityCode">Security code:</label>
-            <input type="text" class="form-control" id="ccSecurityCode" formControlName="ccSecurityCode" placeholder="Enter security code">
+            <input type="text" class="form-control lock-number" id="ccSecurityCode" formControlName="ccSecurityCode" placeholder="Enter security code">
             <control-messages [control]="payMethodForm.controls.ccSecurityCode"></control-messages>
         </div>
+         <div class="col-sm-6 formGap">
+            <label class="control-label" for="bPhone">Billing phone:</label><br/>
+            <input class="form-control" [textMask]="{mask: mask}" placeholder="(999) 999-9999" formControlName="phone" type="text" />
+            <control-messages [control]="payMethodForm.controls.phone"></control-messages>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-sm-6 formGap">
+            <label class="control-label" for="ccFirstName">First name:</label>
+            <input type="text" class="form-control" id="ccFirstName" placeholder="Enter first name" formControlName="ccFirstName">
+            <control-messages [control]="payMethodForm.controls.ccFirstName"></control-messages>
+        </div>
+
+        <div class="col-sm-6 formGap">
+            <label class="control-label" for="ccLastName">Last name:</label>
+            <input type="text" class="form-control" id="ccLastName" placeholder="Enter last name" formControlName="ccLastName">
+            <control-messages [control]="payMethodForm.controls.ccLastName"></control-messages>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-sm-6 formGap">
             <label class="control-label" for="bStreet1">Billing address 1:</label>
             <input type="text" id="bStreet1" class="form-control" formControlName="street1" placeholder="Enter billing address 1">
             <control-messages [control]="payMethodForm.controls.street1"></control-messages>
         </div>
-    </div>
-    <div class="row">
+
         <div class="col-sm-6 formGap">
             <label class="control-label" for="bStreet2">Billing Address 2:</label>
             <input type="text" id="bStreet2" class="form-control" placeholder="Enter billing address 2" formControlName="street2">
             <control-messages [control]="payMethodForm.controls.street2"></control-messages>
         </div>
-        <div class="col-sm-6 formGap">
+    </div>
+
+    <div class="row">
+ <div class="col-sm-6 formGap">
             <label class="control-label" for="bCity">Billing City:</label>
             <input type="text" class="form-control" id="bCity" placeholder="Enter billing city" formControlName="city">
             <control-messages [control]="payMethodForm.controls.city"></control-messages>
         </div>
-    </div>
-
-    <div class="row">
 
         <div class="col-sm-6 formGap">
             <label class="control-label" for="bState">Billing State/Province/Region:</label>
             <input type="text" class="form-control" id="bState" placeholder="Enter billing state/province/region" formControlName="state">
             <control-messages [control]="payMethodForm.controls.state"></control-messages>
         </div>
+        
+
+    </div>
+    <div class="row">
         <div class="col-sm-6 formGap">
             <label class="control-label" for="bZip">Billing zip:</label>
             <input type="text" class="form-control" id="bZip" placeholder="Enter billing zip" formControlName="zip">
             <control-messages [control]="payMethodForm.controls.zip"></control-messages>
         </div>
-
-    </div>
-    <div class="row">
         <div class="col-sm-6 formGap">
             <label class="control-label" for="bCountry">Billing Country:</label>
             <select formControlName='countryName' [(ngModel)]='selectedISOCode' class="form-control" id="bCountry">
@@ -99,12 +108,7 @@
                             </select>
             <control-messages [control]="payMethodForm.controls.countryName"></control-messages>
         </div>
-        <div class="col-sm-6 formGap">
-            <label class="control-label" for="bPhone">Billing phone:</label><br/>
-            <!-- <input class="form-control" [textMask]="{mask: mask}" placeholder="(999) 999-9999" formControlName="phone" type="text" />-->
-            <p-inputMask id="bPhone" mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
-            <control-messages [control]="payMethodForm.controls.phone"></control-messages>
-        </div>
+       
     </div>
 
     <!--<div class="row paymentPageFixGap">

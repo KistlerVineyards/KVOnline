@@ -30,6 +30,7 @@ var ShippingAddress = (function () {
         this.isDataReady = false;
         this.messages = [];
         this.isVerifying = false;
+        this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         this.initShippingForm({});
     }
     ;
@@ -152,7 +153,6 @@ var ShippingAddress = (function () {
             //separate reset is required to clear the input mask control
             this.shippingForm.controls['phone'].reset();
         }
-        this.shippingForm.controls['phone'].markAsDirty();
     };
     ;
     ShippingAddress.prototype.ngOnInit = function () {
@@ -166,13 +166,6 @@ var ShippingAddress = (function () {
         this.shippingModal.open();
     };
     ;
-    // delete(address) {
-    //     if (confirm('Are you sure to delete this address')) {
-    //         console.log('true');
-    //     } else {
-    //         console.log(false);
-    //     }
-    // };
     ShippingAddress.prototype.verifyOrSubmit = function () {
         if (this.selectedCountryName == 'United States') {
             this.verify();
@@ -199,7 +192,7 @@ var ShippingAddress = (function () {
         var addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,
-            // co: this.shippingForm.controls['name'].value,
+            co: this.shippingForm.controls['co'].value,
             street1: this.shippingForm.controls['street1'].value,
             street2: this.shippingForm.controls['street2'].value ? this.shippingForm.controls['street2'].value : '',
             city: this.shippingForm.controls['city'].value,

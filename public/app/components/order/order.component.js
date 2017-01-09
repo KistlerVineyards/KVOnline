@@ -103,12 +103,10 @@ var Order = (function () {
                     //console.log("this.isShowHolidayGiftOption="+this.isShowHolidayGiftOption);
                     _this.staticTexts.introText = settings.WelcomeNote;
                     _this.disableOnlineOrderForm = settings.DisableOnlineOrderForm;
+                    _this.disableOnlineOrderText = settings.DisableMessage;
                 }
                 if (settingsData.Table1.length > 0) {
                     _this.staticTexts.salutation = settingsData.Table1[0].name;
-                }
-                if (settingsData.Table2.length > 0) {
-                    _this.disableOnlineOrderText = settingsData.Table2[0].disableOnlineOrderText;
                 }
             }
         });

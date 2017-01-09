@@ -8,9 +8,9 @@ import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
- import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
+// import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
-//import { TextMaskModule } from 'angular2-text-mask';
+import { TextMaskModule } from 'angular2-text-mask';
 @Component({
     selector: 'paymentMethodForm'
     , templateUrl: 'app/components/paymentMethodForm/paymentMethodForm.component.html'
@@ -28,7 +28,7 @@ export class PaymentMethodForm {
     selectedISOCode: string = '';
     selectedCreditCardType = '';
     public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-
+    getDefaultBillingAddressSub: Subscription;
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         // console.log(this.testData);
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
@@ -36,6 +36,23 @@ export class PaymentMethodForm {
             this.creditCardTypes = this.appService.getSetting('creditCardTypes');
             this.isDataReady = true;
         });
+
+        this.getDefaultBillingAddressSub = appService.filterOn("get:default:billing:address")
+            .subscribe(d => {
+                if (d.data.error) {
+                    console.log('Error occured fetching default billing address');
+                } else {
+                    let defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
+                    this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                    this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
+                    this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
+                    this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
+                    this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.zip);                    
+                    this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
+                    this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
+                    this.selectedISOCode = defaultBillingAddress.isoCode;
+                }
+            });
     };
 
     initPayMethodForm() {
@@ -129,5 +146,6 @@ export class PaymentMethodForm {
 
     ngOnDestroy() {
         this.dataReadySubs.unsubscribe();
+        this.getDefaultBillingAddressSub.unsubscribe();
     };
 }

@@ -7,10 +7,10 @@ import { Modal, ModalModule } from "ng2-modal"
 import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
-import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
+// import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
-
+import { TextMaskModule } from 'angular2-text-mask';
 @Component({
     templateUrl: 'app/components/shippingAddress/shippingAddress.component.html'
 })
@@ -37,6 +37,8 @@ export class ShippingAddress {
     radioIndex: number;
     @ViewChild('shippingModal') shippingModal: Modal;
     addresses: [any];
+    public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         this.initShippingForm({});
     };
@@ -153,8 +155,7 @@ export class ShippingAddress {
         if(!address.phone){
             //separate reset is required to clear the input mask control
             this.shippingForm.controls['phone'].reset();
-        }
-        this.shippingForm.controls['phone'].markAsDirty();
+        }        
     };
     ngOnInit() {        
 	this.initSubscriptions();
@@ -166,14 +167,6 @@ export class ShippingAddress {
         
         this.shippingModal.open();
     };
-
-    // delete(address) {
-    //     if (confirm('Are you sure to delete this address')) {
-    //         console.log('true');
-    //     } else {
-    //         console.log(false);
-    //     }
-    // };
 
     verifyOrSubmit() {
         if (this.selectedCountryName == 'United States') {
@@ -200,7 +193,7 @@ export class ShippingAddress {
         let addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,
-           // co: this.shippingForm.controls['name'].value,
+            co: this.shippingForm.controls['co'].value,
             street1: this.shippingForm.controls['street1'].value,
             street2: this.shippingForm.controls['street2'].value ? this.shippingForm.controls['street2'].value : '',
             city: this.shippingForm.controls['city'].value,

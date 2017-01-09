@@ -114,13 +114,14 @@ export class Order {
                         this.staticTexts.introText = settings.WelcomeNote;
                         
                         this.disableOnlineOrderForm=settings.DisableOnlineOrderForm;
+                        this.disableOnlineOrderText=settings.DisableMessage;
                   }
                   if (settingsData.Table1.length > 0) {
                       this.staticTexts.salutation = settingsData.Table1[0].name;
                   }
-                  if (settingsData.Table2.length > 0) {
+                  /*if (settingsData.Table2.length > 0) {
                       this.disableOnlineOrderText=settingsData.Table2[0].disableOnlineOrderText;
-                  }
+                  }*/
       }
     });
   };

@@ -26,6 +26,8 @@
       , 'primeng': 'npm:primeng'
       , '@ng-idle/core': 'npm:@ng-idle/core/bundles/core.umd.min.js'
       , 'spin.js': 'npm:spin/spin.js'
+      , 'angular2-text-mask': 'npm:angular2-text-mask/dist/angular2TextMask.js'
+      , 'text-mask-core': 'npm:text-mask-core'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -46,6 +48,12 @@
         defaultExtension: 'js'
       }
       , 'ng2-bootstrap': {
+        defaultExtension: 'js'
+      }
+      ,'angular2-text-mask':{
+        defaultExtension: 'js'
+      }
+      ,'text-mask-core':{
         defaultExtension: 'js'
       }
     }

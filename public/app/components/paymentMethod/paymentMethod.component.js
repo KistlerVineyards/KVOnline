@@ -27,6 +27,7 @@ var PaymentMethod = (function () {
         this.messages = [];
         this.display = false;
         this.creditCardTypes = [];
+        this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         this.initPayMethodForm();
         this.getAllPaymentMethodsSub = appService.filterOn("get:payment:method")
             .subscribe(function (d) {
@@ -78,6 +79,24 @@ var PaymentMethod = (function () {
                 console.log('Successfully set as default');
             }
         });
+        this.getDefaultBillingAddressSub = appService.filterOn("get:default:billing:address")
+            .subscribe(function (d) {
+            if (d.data.error) {
+                console.log('Error occured fetching default billing address');
+            }
+            else {
+                var defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
+                _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
+                _this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
+                _this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
+                _this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.zip);
+                // this.payMethodForm.controls['phone'].reset();
+                _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
+                _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
+                _this.selectedISOCode = defaultBillingAddress.isoCode;
+            }
+        });
     }
     ;
     PaymentMethod.prototype.confirm = function (card) {
@@ -114,17 +133,19 @@ var PaymentMethod = (function () {
             phone: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
             isDefault: [false]
         });
-        //input mask requires separate initialization
-        this.payMethodForm.controls['phone'].reset();
         this.payMethodForm.controls['phone'].markAsDirty();
         this.payMethodForm.controls['ccType'].markAsDirty();
     };
+    ;
     PaymentMethod.prototype.addPayMethod = function () {
         this.initPayMethodForm();
         this.payMethodForm.controls["countryName"].setValue("US");
         this.selectedISOCode = "US";
         this.payMethodForm.controls['ccType'].setValue('Visa');
         this.payMethodModal.open();
+        var body = {};
+        body.data = JSON.stringify({ sqlKey: 'GetDefaultBillingAddressForCard' });
+        this.appService.httpGet('get:default:billing:address', body);
     };
     ;
     PaymentMethod.prototype.cancel = function () {
@@ -185,6 +206,7 @@ var PaymentMethod = (function () {
         this.dataReadySubs.unsubscribe();
         this.postPayMethodSub.unsubscribe();
         this.deletePayMethodSub.unsubscribe();
+        this.getDefaultBillingAddressSub.unsubscribe();
     };
     ;
     return PaymentMethod;

@@ -29,7 +29,6 @@ router.init = function (app) {
         config.sendMail.fromUser = ewsMailUsername;
         config.sendMail.fromUserPassword = ewsMailPassword;
     }
-
     handler.init(app, data);
     orderacknowledgementmailBody = app.get('orderacknowledgementmailBody');
 }
@@ -156,6 +155,40 @@ router.post('/api/forgot/password', function (req, res, next) {
     }
 });
 
+//verify code / offerId for new user
+router.post('/api/newuser/login', function (req, res, next) {
+    try {
+        let auth = req.body.auth;
+        if (auth) {
+            let codeOfferId = new Buffer(auth, 'base64').toString('ascii');
+            let temp = codeOfferId.split(':');
+            if (temp.length == 2) {
+                let code = temp[0];
+                let offerId = temp[1];
+                let data = {
+                    action: 'sql:scalar',
+                    sqlKey: 'GetNewUserLogin',
+                    sqlParms: {
+                        code: code,
+                        offerId: offerId
+                    }
+                };
+                handler.edgePush(res, next, 'common:result:data', data)
+            } else {
+                let err = new def.NError(404, messages.errAuthStringNotFound, messages.messAuthStringinPostRequest);
+                next(err);
+            }
+        }
+        else {
+            let err = new def.NError(404, messages.errAuthStringNotFound, messages.messAuthStringinPostRequest);
+            next(err);
+        }
+    } catch (error) {
+        let err = new def.NError(500, messages.errInternalServerError, error.message);
+        next(err);
+    }
+});
+
 router.post('/api/create/password', function (req, res, next) {
     try {
         let auth = req.body.auth;
@@ -185,10 +218,10 @@ router.post('/api/create/password', function (req, res, next) {
 
 router.post('/api/create/account', function (req, res, next) {
     try {
-        let account = req.body;
-        if (account) {
-            let data = { action: 'create:account', account: account };
-            handler.edgePush(res, next, 'common:result:no:data', data);
+        let auth = req.body.auth;
+        if (auth) {
+            let data = { action: 'new:user', auth: auth };
+            handler.edgePush(res, next, 'authenticate', data);
         } else {
             let err = new def.NError(404, messages.errAuthStringNotFound, messages.messAuthStringinPostRequest);
             next(err);
@@ -341,6 +374,7 @@ router.post('/api/shipping/address', function (req, res, next) {
             sqlKey: 'InsertShippingAddress',
             sqlParms: {
                 name: req.body.address.name,
+                co: req.body.address.co,
                 street1: req.body.address.street1,
                 street2: req.body.address.street2,
                 city: req.body.address.city,
@@ -370,6 +404,7 @@ router.put('/api/shipping/address', function (req, res, next) {
             sqlParms: {
                 id: req.body.address.id,
                 name: req.body.address.name,
+                co: req.body.address.co,
                 street1: req.body.address.street1,
                 street2: req.body.address.street2,
                 city: req.body.address.city,

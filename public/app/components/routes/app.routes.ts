@@ -2,7 +2,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { Login } from '../login/login.component';
 import { CreateAccount } from '../createAccount/createAccount.component';
-import { ForgotPassword, SendPassword, ChangePassword } from '../managePassword/managePassword.component';
+import { ForgotPassword } from '../forgotPassword/forgotPassword.component';
+import { ChangePassword } from '../changePassword/changePassword.component';
 import { Order } from '../order/order.component';
 import { Profile } from '../profile/profile.component';
 import { Receipt } from '../receipt/receipt.component';
@@ -10,7 +11,7 @@ import { OrderHistory } from '../orderHistory/orderHistory.component';
 import { ShippingAddress } from '../shippingAddress/shippingAddress.component';
 import { PaymentMethod } from '../paymentMethod/paymentMethod.component';
 import { ApproveOrder } from '../approveOrder/approveOrder.component';
-import { CreatePassword } from '../managePassword/createPassword.component';
+// import { CreatePassword } from '../managePassword/createPassword.component';
 import { LoginGuard } from '../../services/app.service';
 const routes: Routes = [
     {
@@ -31,14 +32,14 @@ const routes: Routes = [
         path: 'forgot/password',
         component: ForgotPassword
     },
-    {
-        path: 'send/password',
-        component: SendPassword
-    },
-    {
-        path:'create/password',
-        component:CreatePassword
-    },
+    // {
+    //     path: 'send/password',
+    //     component: SendPassword
+    // },
+    // {
+    //     path: 'create/password',
+    //     component: CreatePassword
+    // },
     {
         path: 'change/password',
         component: ChangePassword
@@ -46,6 +47,10 @@ const routes: Routes = [
     },
     {
         path: 'create/account',
+        component: CreateAccount
+    },
+    {
+        path: 'newuser',
         component: CreateAccount
     },
     {

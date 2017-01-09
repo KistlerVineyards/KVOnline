@@ -56,10 +56,10 @@ export class AppService {
                     this.behEmit('masters:download:success');
                 }
             });
-
-        setTimeout(() => {
-            this.httpGet('get:all:masters')
-        }, 2000);
+        this.httpGet('get:all:masters');
+        // setTimeout(() => {
+        //     this.httpGet('get:all:masters')
+        // }, 2000);
 
         this.settingsSubscription = this.filterOn('get:all:settings').subscribe(
             d => {
@@ -93,7 +93,7 @@ export class AppService {
     };
 
     behFilterOn(id: string): Observable<any> {
-        return (this.behaviorSubjects[id]);
+        return (this.behaviorSubjects[id].filter(d => (d.id === id)));
     };
 
     loadSettings() {

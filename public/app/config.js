@@ -36,10 +36,12 @@ exports.urlHash = {
     'post:delete:shipping:address': '/api/generic/non/query',
     'post:set:default:payment:method': '/api/generic/non/query',
     'get:approve:artifacts:ShippingandSalesTax': '/api/approve/artifact/shippingandsalestax',
+    'get:default:billing:address': '/api/generic/query',
     'get:smartyStreet': 'https://us-street.api.smartystreets.com/street-address?auth-id=:authId&auth-token=:authToken&street=:street&street2=:street2&city=:city&state=:state&zipcode=:zipcode&',
     'smartyStreetAutoCom': 'https://us-autocomplete.api.smartystreets.com/suggest?auth-id=63395b2b-4df2-c8c7-a487-21ecc25979c8&auth-token=ikDR4hndQSAScpWSPdj8&prefix=Wyomi',
     'get:all:settings': '/api/generic/query',
-    'get:offer:settings': '/api/generic/query'
+    'get:offer:settings': '/api/generic/query',
+    'post:new:user:login': '/api/newuser/login',
 };
 exports.messages = {
     'mess:order:intro:text': '',
@@ -95,6 +97,10 @@ exports.viewBoxConfig = {
     '/forgot/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false },
     '/send/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: true },
     '/approve/order': { home: true, needHelp: true, order: false, myAccount: true, menuBar: false, logout: true },
-    '/create/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false }
+    '/create/password': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false },
+    '/newuser': { home: true, needHelp: false, order: false, myAccount: false, menuBar: false, logout: false },
+};
+exports.uiText = {
+    otherOptions: 'Payment by check, money order or wire transfer. Once your order is finalized, we will send you an order confirmation with payment instructions.'
 };
 //# sourceMappingURL=config.js.map

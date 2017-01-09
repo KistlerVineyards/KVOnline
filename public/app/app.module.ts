@@ -5,7 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { Login } from './components/login/login.component';
 import { CreateAccount } from './components/createAccount/createAccount.component';
-import { ForgotPassword, SendPassword, ChangePassword } from './components/managePassword/managePassword.component';
+
+import { ForgotPassword } from './components/forgotPassword/forgotPassword.component';
+import { ChangePassword } from './components/changePassword/changePassword.component';
+//import { ForgotPassword, SendPassword, ChangePassword } from './components/managePassword/managePassword.component';
 import { Order } from './components/order/order.component';
 import { AppService, LoginGuard } from './services/app.service';
 import { Routing } from './components/routes/app.routes';
@@ -29,8 +32,8 @@ import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { BlockUIModule } from 'primeng/primeng';
 import { SpinnerComponent } from './components/app.spinner';
-//import { TextMaskModule } from 'angular2-text-mask';
-import {PaymentMethodForm} from './components/paymentMethodForm/paymentMethodForm.component';
+import { TextMaskModule } from 'angular2-text-mask';
+import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodForm.component';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, Routing, FormsModule
@@ -45,12 +48,22 @@ import {PaymentMethodForm} from './components/paymentMethodForm/paymentMethodFor
     , GrowlModule
     , NgIdleModule.forRoot()
     , BlockUIModule
-    //, TextMaskModule
+    , TextMaskModule
   ]
-  , declarations: [AppComponent, Login, Order, ForgotPassword
-    , SendPassword, ChangePassword, CreateAccount,
-    Profile, ApproveOrder, Receipt, OrderHistory, ShippingAddress,
-    PaymentMethod, ControlMessages, CreatePassword
+  , declarations: [AppComponent
+    , Login
+    , Order
+    , ForgotPassword
+    , ChangePassword
+    , CreateAccount
+    , Profile
+    , ApproveOrder
+    , Receipt
+    , OrderHistory
+    , ShippingAddress
+    , PaymentMethod
+    , ControlMessages
+    // , CreatePassword
     , SpinnerComponent
     ,PaymentMethodForm
   ]

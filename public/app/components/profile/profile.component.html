@@ -2,7 +2,7 @@
     <h2>Profile</h2>
     <div class="panel panel-default">
         <div class="panel-body">
-            <form [formGroup]="profileForm" novalidate (ngSubmit)="submit()" class="form-horizontal">
+            <form [formGroup]="profileForm" novalidate (ngSubmit)="verifyOrSubmit()" class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="code1">Code:</label>
                     <div class="col-sm-4">
@@ -25,6 +25,13 @@
                     </div>
                 </div>
                 -->
+				<div class="form-group">
+                    <label class="control-label col-sm-4" for="co1">Co:</label>
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="co" class="form-control" id="co1" name="co" placeholder="Enter care of">
+                        <control-messages [control]="profileForm.controls.co"></control-messages>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="birthDay">Birthday:</label>
                     <div class="col-sm-4">
@@ -84,7 +91,8 @@
                     <label class="control-label col-sm-4" for="phone">Phone:</label>
                     <div class="col-sm-4">
                         <!--<input type="phone" formControlName="phone" class="form-control" id="phone" name="phone" placeholder="Enter phone number">-->
-						<p-inputMask mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
+						<!-- <p-inputMask mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>-->
+                        <input class="form-control" [textMask]="{mask: mask}" placeholder="(999) 999-9999" formControlName="phone" type="text" />						
                         <control-messages [control]="profileForm.controls.phone"></control-messages>
                     </div>
                 </div>
@@ -98,4 +106,5 @@
         </div>
     </div>
     <p-growl [value]="messages"></p-growl>
+    <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="300"></p-confirmDialog>
 </div>
