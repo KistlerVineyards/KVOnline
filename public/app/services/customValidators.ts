@@ -70,4 +70,13 @@ export class CustomValidators {
             return { 'invalidCreditCard': true };
         }
     }
+    static creditCardSecurityCodeValidator(control) {
+        // Visa, MasterCard, American Express, Diners Club, Discover, JCB
+        let patteren = /^[0-9]{3,4}$/;
+        if (control.value.match(patteren)) {
+            return null;
+        } else {
+            return { 'invalidSecurityCode': true };
+        }
+    }
 }

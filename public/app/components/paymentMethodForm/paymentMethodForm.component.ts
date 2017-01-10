@@ -67,7 +67,7 @@ export class PaymentMethodForm {
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
             , ccExpiryMonth: [this.month, Validators.required]
             , ccExpiryYear: [this.year, Validators.required]
-            , ccSecurityCode: ['', Validators.required]
+            , ccSecurityCode: ['', [Validators.required, CustomValidators.creditCardSecurityCodeValidator]]
             , co: ['']
             , street1: ['', Validators.required]
             , street2: ['']

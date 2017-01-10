@@ -71,6 +71,16 @@ var CustomValidators = (function () {
             return { 'invalidCreditCard': true };
         }
     };
+    CustomValidators.creditCardSecurityCodeValidator = function (control) {
+        // Visa, MasterCard, American Express, Diners Club, Discover, JCB
+        var patteren = /^[0-9]{3,4}$/;
+        if (control.value.match(patteren)) {
+            return null;
+        }
+        else {
+            return { 'invalidSecurityCode': true };
+        }
+    };
     return CustomValidators;
 }());
 exports.CustomValidators = CustomValidators;

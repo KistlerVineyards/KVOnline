@@ -123,7 +123,7 @@ export class PaymentMethod {
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
             , ccExpiryMonth: [this.month, Validators.required]
             , ccExpiryYear: [this.year, Validators.required]
-            , ccSecurityCode: ['', Validators.required]
+            , ccSecurityCode: ['', [Validators.required, CustomValidators.creditCardSecurityCodeValidator]]
             , co: ['']
             //, name: ['', Validators.required]
             , street1: ['', Validators.required]

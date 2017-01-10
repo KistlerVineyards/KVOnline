@@ -121,7 +121,7 @@ var PaymentMethod = (function () {
             ccNumber: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardValidator]],
             ccExpiryMonth: [this.month, forms_1.Validators.required],
             ccExpiryYear: [this.year, forms_1.Validators.required],
-            ccSecurityCode: ['', forms_1.Validators.required],
+            ccSecurityCode: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardSecurityCodeValidator]],
             co: [''],
             street1: ['', forms_1.Validators.required],
             street2: [''],
