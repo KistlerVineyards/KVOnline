@@ -29,6 +29,7 @@ var shippingAddress_component_1 = require("./components/shippingAddress/shipping
 var paymentMethod_component_1 = require("./components/paymentMethod/paymentMethod.component");
 var customValidators_1 = require("./services/customValidators");
 var controlMessages_component_1 = require("./components/controlMessages/controlMessages.component");
+var createPassword_component_1 = require("./components/createPassword/createPassword.component");
 var ng2_modal_1 = require("ng2-modal");
 var pagination_1 = require("ng2-bootstrap/components/pagination");
 var alert_1 = require("ng2-bootstrap/components/alert");
@@ -76,6 +77,7 @@ AppModule = __decorate([
             shippingAddress_component_1.ShippingAddress,
             paymentMethod_component_1.PaymentMethod,
             controlMessages_component_1.ControlMessages,
+            createPassword_component_1.CreatePassword,
             app_spinner_1.SpinnerComponent,
             paymentMethodForm_component_1.PaymentMethodForm
         ],

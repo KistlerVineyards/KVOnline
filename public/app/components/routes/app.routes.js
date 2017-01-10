@@ -11,7 +11,7 @@ var orderHistory_component_1 = require("../orderHistory/orderHistory.component")
 var shippingAddress_component_1 = require("../shippingAddress/shippingAddress.component");
 var paymentMethod_component_1 = require("../paymentMethod/paymentMethod.component");
 var approveOrder_component_1 = require("../approveOrder/approveOrder.component");
-// import { CreatePassword } from '../managePassword/createPassword.component';
+var createPassword_component_1 = require("../createPassword/createPassword.component");
 var app_service_1 = require("../../services/app.service");
 var routes = [
     {
@@ -36,10 +36,10 @@ var routes = [
     //     path: 'send/password',
     //     component: SendPassword
     // },
-    // {
-    //     path: 'create/password',
-    //     component: CreatePassword
-    // },
+    {
+        path: 'create/password',
+        component: createPassword_component_1.CreatePassword
+    },
     {
         path: 'change/password',
         component: changePassword_component_1.ChangePassword,

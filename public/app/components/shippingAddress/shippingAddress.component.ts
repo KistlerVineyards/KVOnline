@@ -193,7 +193,7 @@ export class ShippingAddress {
         let addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,
-            co: this.shippingForm.controls['co'].value,
+            co: this.shippingForm.controls['co'].value ? this.shippingForm.controls['co'].value : '',
             street1: this.shippingForm.controls['street1'].value,
             street2: this.shippingForm.controls['street2'].value ? this.shippingForm.controls['street2'].value : '',
             city: this.shippingForm.controls['city'].value,

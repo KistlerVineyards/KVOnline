@@ -11,7 +11,7 @@ import { OrderHistory } from '../orderHistory/orderHistory.component';
 import { ShippingAddress } from '../shippingAddress/shippingAddress.component';
 import { PaymentMethod } from '../paymentMethod/paymentMethod.component';
 import { ApproveOrder } from '../approveOrder/approveOrder.component';
-// import { CreatePassword } from '../managePassword/createPassword.component';
+import { CreatePassword } from '../createPassword/createPassword.component';
 import { LoginGuard } from '../../services/app.service';
 const routes: Routes = [
     {
@@ -36,10 +36,10 @@ const routes: Routes = [
     //     path: 'send/password',
     //     component: SendPassword
     // },
-    // {
-    //     path: 'create/password',
-    //     component: CreatePassword
-    // },
+    {
+         path: 'create/password',
+         component: CreatePassword
+    },
     {
         path: 'change/password',
         component: ChangePassword

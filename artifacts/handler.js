@@ -85,14 +85,19 @@ filterOn('forgot:passowrd').subscribe(d => {
         if (d.result.error) {
             d.next(d.result.error);
         } else {
-            let body = config.forgotPassword.mailBody;
+            let body="";
+            let name = d.result.name;
             let data = {code:d.result.code, email:d.result.email};
             let emailToken = jwt.sign({ data: data }, config.jwtKey, { expiresIn: "1d" });
             //let emailToken = jwt.sign({ data: d.result.email }, config.jwtKey, { expiresIn: "1d" });
-            
+            body = "Dear " + name + ",<br/><br/>";
             let createPasswordUrl = `${config.host}/create/password?code=${emailToken}`;
-            createPasswordUrl = `<a href='${createPasswordUrl}'>${createPasswordUrl}</a>`;
-            body = body + "  " + createPasswordUrl;
+            let resetPassword = `<a href='${createPasswordUrl}'>Reset Password</a>`;
+            body +="To reset your password, simply follow this link: " + resetPassword + "<br/><br/>";
+            body += config.forgotPassword.mailBody;
+
+            //createPasswordUrl = `<a href='${createPasswordUrl}'>${createPasswordUrl}</a>`;
+            //body = body + "<br/>" + createPasswordUrl;
             let emailItem = config.sendMail;
             emailItem.htmlBody = body;
             emailItem.subject = config.forgotPassword.subject;

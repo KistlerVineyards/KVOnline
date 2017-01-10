@@ -25,7 +25,7 @@
           <span *ngIf="selectedCard.cardName"><span class="name-shipping-address">{{selectedCard.cardName}}</span>, {{selectedCard.ccNumber}}</span>
         </div>        
 		<div class="col-md-5 btnApprovedpayment">
-		     <button class="btn btn-xs pull-right btn-kistler" (click)="otherOptionsClicked()">Other Options</button>
+		     <button class="btn btn-xs pull-right btn-kistler btnOtherOptions" (click)="otherOptionsClicked()">Other Options</button>
          <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewCard()">Use New Card</button>
          <button type="button" class="btn btn-xs  pull-right btn-kistler" (click)="changeSelectedCard()">Use Existing Card</button>
          </div>

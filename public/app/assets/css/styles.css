@@ -86,13 +86,13 @@ border-radius: 5px 5px 5px 5px;}
 .ui-inputtext{width: 100%; padding: 6px;}
 .helpLink{cursor: pointer;}
 
-.ProductPanel .requestPanel{padding:15px 0px;}
+.ProductPanel .requestPanel{padding:15px 0px; margin-bottom: 10px;}
 .ProductPanel .requestPanel .btn{ text-align: right;}
 
 .hidefieldvalidationMsg{display: none; }
 .showfieldvalidationMsg{color: #94070d; display:block; }
 
-
+.btnOtherOptions:focus{color: #fff;}
 
 .Loadbox{ width: 40px; height: 40px; margin-left:-20px; margin-top:-20px; top:50%; left:50%; position: absolute; background-image:url(Preloader.gif); background-repeat: no-repeat;}
 .navbar{-webkit-border-radius: 0 0 0 0;

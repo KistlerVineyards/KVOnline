@@ -20,7 +20,7 @@ import { ShippingAddress } from './components/shippingAddress/shippingAddress.co
 import { PaymentMethod } from './components/paymentMethod/paymentMethod.component';
 import { CustomValidators } from './services/customValidators';
 import { ControlMessages } from './components/controlMessages/controlMessages.component';
-import { CreatePassword } from './components/managePassword/createPassword.component';
+import { CreatePassword } from './components/createPassword/createPassword.component';
 import { ModalModule } from 'ng2-modal';
 import { PaginationModule } from 'ng2-bootstrap/components/pagination';
 import { AlertModule } from 'ng2-bootstrap/components/alert';
@@ -63,7 +63,7 @@ import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodF
     , ShippingAddress
     , PaymentMethod
     , ControlMessages
-    // , CreatePassword
+    , CreatePassword
     , SpinnerComponent
     ,PaymentMethodForm
   ]

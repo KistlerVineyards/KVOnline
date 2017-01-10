@@ -148,6 +148,7 @@ var Profile = (function () {
         pr.firstName = this.profileForm.controls['firstName'].value;
         //pr.lastName = this.profileForm.controls['lastName'].value;
         pr.co = this.profileForm.controls['co'].value;
+        pr.co = pr.co ? pr.co : '';
         pr.phone = this.profileForm.controls['phone'].value;
         pr.birthDay = mDate;
         pr.mailingAddress1 = this.profileForm.controls['mailingAddress1'].value;

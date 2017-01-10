@@ -18,7 +18,7 @@ export class CustomValidators {
             Lower case
             Upper case
             Number
-            Special Character like “!@#$%^&*()”*/
+            Special Character like ï¿½!@#$%^&*()ï¿½*/
         let ret = null;
         let pwd = control.value;
         if (pwd.length < 8) {
