@@ -67,6 +67,7 @@ exports.validationErrorMessages = {
     'confirmPasswordMismatch': 'New Password and Confirm New Password mismatch',
     'invalidCreditCard': 'Credit card is invalid',
     'invalidSecurityCode': 'Security Code is invalid',
+    'invalidExpiryYear': 'Expiry Year is invalid',
     'addressSaveFailed': 'Saving of address at server failed',
     'dataSaved': 'Data successfully saved',
     'invalidDate': 'Date is invalid',

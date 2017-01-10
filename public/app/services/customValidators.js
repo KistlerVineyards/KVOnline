@@ -81,6 +81,18 @@ var CustomValidators = (function () {
             return { 'invalidSecurityCode': true };
         }
     };
+    CustomValidators.creditCardYearValidator = function (control) {
+        // Visa, MasterCard, American Express, Diners Club, Discover, JCB
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var ccYear = parseInt(control.value);
+        if (ccYear < year) {
+            return { 'invalidExpiryYear': true };
+        }
+        else {
+            return null;
+        }
+    };
     return CustomValidators;
 }());
 exports.CustomValidators = CustomValidators;

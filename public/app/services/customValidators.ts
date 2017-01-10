@@ -79,4 +79,16 @@ export class CustomValidators {
             return { 'invalidSecurityCode': true };
         }
     }
+    static creditCardYearValidator(control) {
+        // Visa, MasterCard, American Express, Diners Club, Discover, JCB
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var ccYear = parseInt(control.value);
+        if (ccYear < year) {
+            return { 'invalidExpiryYear': true };
+        } else {
+            return null;
+        }
+    }
+    
 }

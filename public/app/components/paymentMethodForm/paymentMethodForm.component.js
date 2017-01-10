@@ -60,7 +60,7 @@ var PaymentMethodForm = (function () {
             ccType: ['', forms_1.Validators.required],
             ccNumber: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardValidator]],
             ccExpiryMonth: [this.month, forms_1.Validators.required],
-            ccExpiryYear: [this.year, forms_1.Validators.required],
+            ccExpiryYear: [this.year, [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardYearValidator]],
             ccSecurityCode: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardSecurityCodeValidator]],
             co: [''],
             street1: ['', forms_1.Validators.required],

@@ -122,7 +122,7 @@ export class PaymentMethod {
             , ccType: ['', Validators.required]
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
             , ccExpiryMonth: [this.month, Validators.required]
-            , ccExpiryYear: [this.year, Validators.required]
+            , ccExpiryYear: [this.year, [Validators.required, CustomValidators.creditCardYearValidator]]
             , ccSecurityCode: ['', [Validators.required, CustomValidators.creditCardSecurityCodeValidator]]
             , co: ['']
             //, name: ['', Validators.required]
