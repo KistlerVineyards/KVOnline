@@ -5,14 +5,7 @@
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let address of addresses; let i=index" (click)="click(radioButton,i)"> 
                 <span><input type="radio" name = "selected" #radioButton [checked]=address.isSelected ></span>
-                <span class="name-shipping-address">{{address.name}}</span>
-                <span>, {{address.street1}}</span>
-                <span *ngIf="address.street2">, {{address.street2}}</span>
-                <span>, {{address.city}}</span>
-                <span>, {{address.state}}</span>
-                <span>, {{address.zip}}</span>
-                <span>, {{address.country}}</span>
-                <span>, {{address.phone}}</span>
+                <span class="name-shipping-address">{{address.name}}</span><span>, {{address.street1}}</span><span *ngIf="address.street2">, {{address.street2}}</span><span>, {{address.city}}</span><span>, {{address.state}}</span><span>, {{address.zip}}</span><span>, {{address.country}}</span><span>, {{address.phone}}</span>
                 <span *ngIf="address.isDefault" class="DefaultColor">Default</span>
             	<button *ngIf="isDataReady" type="button" style="" class="btn btn-link pull-right" [disabled]="address.isDefault" (click)="confirmRemove(address)" title="Remove Address"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button>
                 <!--<span *ngIf="address.isDefault">, <i>Default</i>-->

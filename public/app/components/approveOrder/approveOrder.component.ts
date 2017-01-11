@@ -103,6 +103,7 @@ export class ApproveOrder {
                 let artifacts = JSON.parse(d.data);
                 if (artifacts.Table.length > 0) {
                     this.selectedCard = this.defaultCard = artifacts.Table[0];
+                    this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length)
                 } else {
                     this.selectedCard = {};
                 }
@@ -141,6 +142,8 @@ export class ApproveOrder {
             this.selectedCard = this.newCard;
             this.ccNumberOrig = this.selectedCard.ccNumber;
             this.selectedCard.ccNumber = Util.getMaskedCCNumber(this.selectedCard.ccNumber);
+            this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length);
+
             this.selectedCard.ccNumberActual = this.selectedCard.ccNumber;
             this.selectedCard.encryptedCCNumber = this.ccNumberOrig; 
             this.payMethodModal.close();
@@ -210,6 +213,8 @@ export class ApproveOrder {
     };
     selectCard(card) {
         this.selectedCard = card;
+        this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length)
+
         this.cardModal.close();
     };
 

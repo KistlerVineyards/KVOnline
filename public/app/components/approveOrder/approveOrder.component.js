@@ -90,6 +90,7 @@ var ApproveOrder = (function () {
                 var artifacts = JSON.parse(d.data);
                 if (artifacts.Table.length > 0) {
                     _this.selectedCard = _this.defaultCard = artifacts.Table[0];
+                    _this.selectedCard.ccNumber = "x" + _this.selectedCard.ccNumber.substring(_this.selectedCard.ccNumber.length - 4, _this.selectedCard.ccNumber.length);
                 }
                 else {
                     _this.selectedCard = {};
@@ -131,6 +132,7 @@ var ApproveOrder = (function () {
             _this.selectedCard = _this.newCard;
             _this.ccNumberOrig = _this.selectedCard.ccNumber;
             _this.selectedCard.ccNumber = util_1.Util.getMaskedCCNumber(_this.selectedCard.ccNumber);
+            _this.selectedCard.ccNumber = "x" + _this.selectedCard.ccNumber.substring(_this.selectedCard.ccNumber.length - 4, _this.selectedCard.ccNumber.length);
             _this.selectedCard.ccNumberActual = _this.selectedCard.ccNumber;
             _this.selectedCard.encryptedCCNumber = _this.ccNumberOrig;
             _this.payMethodModal.close();
@@ -209,6 +211,7 @@ var ApproveOrder = (function () {
     ;
     ApproveOrder.prototype.selectCard = function (card) {
         this.selectedCard = card;
+        this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length - 4, this.selectedCard.ccNumber.length);
         this.cardModal.close();
     };
     ;

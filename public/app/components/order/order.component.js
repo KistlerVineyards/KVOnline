@@ -47,7 +47,10 @@ var Order = (function () {
                     value.orderQty = 0;
                     value.wishList = 0;
                     if (value.packing == 'b') {
-                        value.imageUrl = "2014_Cuvee_Cathleen_Chardonnay.jpg";
+                        //value.imageUrl="2014_Cuvee_Cathleen_Chardonnay.jpg";
+                        if (!value.imageUrl) {
+                            value.imageUrl = "2014_Cuvee_Cathleen_Chardonnay.jpg";
+                        }
                     }
                     var productType = value.productType;
                     productType = productType.substr(0, 1).toUpperCase() + productType.substr(1);

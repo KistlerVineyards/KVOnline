@@ -31,6 +31,7 @@ a:focus, a:hover {
 }
 
 .loginTextCenter{ text-align: center; margin-bottom: 10px; color: #a75b02;}
+.loginTextCenter2{ text-align: center; margin-bottom: 10px; color: #a75b02; font-size: 1.2em;}
 .loginSummText{ margin-bottom: 10px; text-align: center;}
 
 
@@ -256,7 +257,7 @@ background-position:right 10px top 6px;
 padding-right: 30px;
 
 }
-
+.loginTxtPaddingBottom{ padding-bottom: 10px;}
 
 	/*==========  Mobile First Method  ==========*/
 
@@ -366,6 +367,7 @@ padding-right: 30px;
 
 
 	@media only screen and (max-width: 480px) {
+		.orderDetailsPaneltbl .panel-body{padding: 2px;}
 		.btnApprovedpayment button, .btnApprovedOrder button{ margin-right: 5px; margin-left: 0px; margin-top:10px; }
 .panel-heading {
     padding: 10px 10px;
@@ -464,7 +466,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 			border: none;
 			border-bottom: 1px solid #fff; 
 			position: relative;
-			padding-left: 58%!important; 
+			padding-left: 60%!important; 
             width: 100%;
 		}
 		

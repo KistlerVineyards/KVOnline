@@ -27,8 +27,9 @@ export class Util {
     };   
     static getMaskedCCNumber(ccNumber){
         //ccNumber = ccNumber.substring(0,4) + ' XXXX XXXX ' + ccNumber.substr(ccNumber.length - 4, 4 )
-        ccNumber = ccNumber.substring(0, ccNumber.length -4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length -4, ccNumber.length);
-        ccNumber = ccNumber.toString();
+        //ccNumber = ccNumber.substring(0, ccNumber.length -4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length -4, ccNumber.length);
+        //ccNumber = ccNumber.toString();
+        ccNumber = "x" + ccNumber.substring(ccNumber.length -4, ccNumber.length);
         return(ccNumber);
     } 
 }
