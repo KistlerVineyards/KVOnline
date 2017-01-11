@@ -187,6 +187,9 @@ var AppService = (function () {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('x-access-token', this.getToken());
+        headers.append('Pragma', "no-cache");
+        headers.append('Expires', "-1");
+        headers.append('Cache-Control', "no-cache");
         if (body) {
             if (body.id) {
                 url = url.replace(':id', body.id);
@@ -216,9 +219,10 @@ var AppService = (function () {
             // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
             _this.behEmit('spinner:hide:show', false);
         }, function (err) {
+            console.log("somnath1111");
             _this.subject.next({
                 id: id,
-                data: { error: err }
+                data: { error: err },
             });
             // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
             _this.behEmit('spinner:hide:show', false);

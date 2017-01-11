@@ -122,7 +122,7 @@ var Profile = (function () {
     Profile.prototype.initProfileForm = function () {
         var mDate = util_1.Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
-            id: [this.profile.id],
+            id: [this.user.userId],
             firstName: [this.profile.firstName, forms_1.Validators.required],
             co: [this.profile.co],
             phone: [this.profile.phone, [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],

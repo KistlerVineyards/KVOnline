@@ -127,9 +127,7 @@
       <modal-content>
         <div class="form-group shippingAdressPop" *ngFor="let card of payMethods; let i=index">
           <!-- <input type="radio" [checked]="card.isDefault" (click)=selectCard(card) name="isDefaultCard"> -->
-		  <button type="button" class="btn btn-link" (click)="selectCard(card)">
-			  {{card.cardName}},
-	          {{card.ccNumber}}
+		  <button type="button" class="btn btn-link" (click)="selectCard(card)">{{card.cardName}}, {{card.ccNumber}}
 		  	  <span *ngIf="card.isDefault" class="DefaultColor">Default</span>
           </button>
         </div>

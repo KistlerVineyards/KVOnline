@@ -196,6 +196,10 @@ export class AppService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('x-access-token', this.getToken());
+        headers.append('Pragma', "no-cache");
+        headers.append('Expires', "-1");
+        headers.append('Cache-Control', "no-cache");
+        console.log("somnath");
         if (body) {
             if (body.id) {
                 url = url.replace(':id', body.id);
@@ -215,19 +219,22 @@ export class AppService {
             }
         }
         // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
+        console.log("somnath saha="+url);
         this.behEmit('spinner:hide:show',true);
         this.http.get(url, { headers: headers })
             .map(response => response.json())
             .subscribe(d => {
+                    console.log("somnathsaha="+url);
                 this.subject.next({
                     id: id, data: d
                 });
                 // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
                 this.behEmit('spinner:hide:show',false);
             }, err => {
+                    console.log("somnath1111");
                 this.subject.next({
                     id: id,
-                    data: { error: err }
+                    data: { error: err },
                 });
                 // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
                 this.behEmit('spinner:hide:show',false);

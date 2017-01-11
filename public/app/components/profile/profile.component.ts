@@ -124,7 +124,7 @@ export class Profile {
     initProfileForm() {
         let mDate = Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
-            id: [this.profile.id],
+            id: [this.user.userId],
             firstName: [this.profile.firstName, Validators.required]
             //, lastName: [this.profile.lastName, Validators.required]
 	        , co:[this.profile.co]

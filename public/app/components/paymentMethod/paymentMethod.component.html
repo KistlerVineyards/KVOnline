@@ -8,19 +8,7 @@
                     <span><input type="radio" [checked]="card.isDefault" #default
                         name="isDefault" (click)="setDefault(card)">                        
                     </span>
-                    <span class="name-shipping-address">{{card.cardName}}</span>                    
-                    <!--<span>, {{card.ccFirstName}}</span>
-                    <span>, {{card.ccLastName}}</span>
-                    <span>, {{card.ccType}}</span>-->
-                    <span>, {{card.ccNumber}}</span>
-                    <span *ngIf="card.isDefault" class="DefaultColor">Default</span>
-                    <!--<span>, {{card.name}}</span>
-                    <span>, {{card.street1}}</span>
-                    <span>, {{card.street2}}</span>
-                    <span>, {{card.city}}</span>
-                    <span>, {{card.state}}</span>
-                    <span>, {{card.zip}}</span>
-                    <span>, {{card.country}}</span>-->
+                    <span class="name-shipping-address">{{card.cardName}}</span><span>, {{card.ccNumber}}</span><span *ngIf="card.isDefault" class="DefaultColor">Default</span>
                     <button *ngIf="isDataReady" type="button" class="btn btn-link pull-right" [disabled]="card.isDefault" (click)="confirm(card)" title="Remove Card"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button></li>
             </ul>
             <button type="button" class="btn btn-md btn-kistler" *ngIf="isDataReady" (click)="addPayMethod()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Card</button>
