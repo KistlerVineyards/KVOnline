@@ -36,6 +36,10 @@ var PaymentMethod = (function () {
             }
             else {
                 _this.payMethods = JSON.parse(d.data).Table;
+                _this.payMethods = JSON.parse(d.data).Table.map(function (value, i) {
+                    value.ccNumber = "x" + value.ccNumber.substring(value.ccNumber.length - 4, value.ccNumber.length);
+                    return (value);
+                });
             }
         });
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {

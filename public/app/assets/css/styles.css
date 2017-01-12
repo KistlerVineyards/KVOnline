@@ -78,6 +78,15 @@ border-radius: 5px 5px 5px 5px;
 .ProductPanel .showproductDetails{padding: 15px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
 border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
 box-shadow: 0 0 2px 2px #dddddd;}
+.ProductPanel .reviewsDetails{padding: 15px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
+border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
+box-shadow: 0 0 2px 2px #dddddd;}
+.reviewHeader{font-family: serif; margin-bottom: 10px; font-size: 1.2em;}
+
+.reviewsDetails ul{ list-style-type: none; padding: 0px; margin: 0px;}
+.reviewsDetails li{ margin-bottom: 10px;}
+.reviewsDetails li strong{ display: block; font-family: serif; margin-left: 9px; font-size: .9em;}
+
 
 .ProductPanel .showproductDetails .tastingNotesPanel{ border-top:solid 1px #dddddd; padding-top:15px;}
 .ProductPanel .showproductDetails .orderDescPanel .review1{ font-family: serif; font-weight: 700;}

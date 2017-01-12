@@ -43,6 +43,9 @@ var ApproveOrder = (function () {
         this.ccNumberOrig = '';
         this.holidaygift = false;
         this.isChangeAddress = false;
+        this.isPaymentOptionSelected = false;
+        this.isExistingPaymentMethodavailable = false;
+        this.specialInstructions = '';
         this.shippingBottles = {};
         //orderBundle: any = {};
         this.profile = {};
@@ -89,10 +92,14 @@ var ApproveOrder = (function () {
             else {
                 var artifacts = JSON.parse(d.data);
                 if (artifacts.Table.length > 0) {
+                    _this.isPaymentOptionSelected = true;
+                    _this.isExistingPaymentMethodavailable = true;
                     _this.selectedCard = _this.defaultCard = artifacts.Table[0];
                     _this.selectedCard.ccNumber = "x" + _this.selectedCard.ccNumber.substring(_this.selectedCard.ccNumber.length - 4, _this.selectedCard.ccNumber.length);
                 }
                 else {
+                    _this.isPaymentOptionSelected = false;
+                    _this.isExistingPaymentMethodavailable = false;
                     _this.selectedCard = {};
                 }
                 if (artifacts.Table1.length > 0) {
@@ -135,6 +142,7 @@ var ApproveOrder = (function () {
             _this.selectedCard.ccNumber = "x" + _this.selectedCard.ccNumber.substring(_this.selectedCard.ccNumber.length - 4, _this.selectedCard.ccNumber.length);
             _this.selectedCard.ccNumberActual = _this.selectedCard.ccNumber;
             _this.selectedCard.encryptedCCNumber = _this.ccNumberOrig;
+            _this.isPaymentOptionSelected = true;
             _this.payMethodModal.close();
         });
         this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(function (d) {
@@ -143,6 +151,10 @@ var ApproveOrder = (function () {
             }
             else {
                 _this.payMethods = JSON.parse(d.data).Table;
+                _this.payMethods = JSON.parse(d.data).Table.map(function (value, i) {
+                    value.ccNumber = "x" + value.ccNumber.substring(value.ccNumber.length - 4, value.ccNumber.length);
+                    return (value);
+                });
             }
         });
         this.shippingandSalesTaxSub = appService.filterOn('get:approve:artifacts:ShippingandSalesTax').subscribe(function (d) {
@@ -269,7 +281,8 @@ var ApproveOrder = (function () {
             MailZip: this.profile.mailingZip,
             MailCountry: this.profile.mailingCountry,
             MailISOCode: this.profile.mailingISOCode,
-            HolidayGift: this.holidaygift
+            HolidayGift: this.holidaygift,
+            Notes: this.specialInstructions
         };
         var master = orderBundle.orderMaster;
         orderBundle.orderMaster.Amount = master.TotalPriceWine + master.TotalPriceAddl + master.SalesTaxWine
@@ -316,6 +329,7 @@ var ApproveOrder = (function () {
         else {
             this.selectedCard = {};
         }
+        this.isPaymentOptionSelected = true;
     };
     ;
     ApproveOrder.prototype.computeTotals = function () {

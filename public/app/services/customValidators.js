@@ -85,8 +85,9 @@ var CustomValidators = (function () {
         // Visa, MasterCard, American Express, Diners Club, Discover, JCB
         var dt = new Date();
         var year = dt.getFullYear();
+        var expyear = (year + 7);
         var ccYear = parseInt(control.value);
-        if (ccYear < year) {
+        if (!(ccYear >= year && ccYear <= expyear)) {
             return { 'invalidExpiryYear': true };
         }
         else {

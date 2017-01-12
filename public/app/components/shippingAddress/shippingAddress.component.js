@@ -68,6 +68,12 @@ var ShippingAddress = (function () {
                     _this.radioIndex = _this.addresses.length - 1;
                 }
                 _this.addresses[_this.radioIndex || 0].isSelected = true;
+                _this.addresses = JSON.parse(d.data).Table.map(function (value, i) {
+                    if (!value.country) {
+                        value.country = "United States";
+                    }
+                    return (value);
+                });
             }
         });
         this.postSubscription = this.appService.filterOn("post:shipping:address")

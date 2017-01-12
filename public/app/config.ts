@@ -39,7 +39,6 @@ export var urlHash = {
     'get:approve:artifacts:ShippingandSalesTax':'/api/approve/artifact/shippingandsalestax',
     'get:default:billing:address': '/api/generic/query',
     'get:smartyStreet':'https://us-street.api.smartystreets.com/street-address?auth-id=:authId&auth-token=:authToken&street=:street&street2=:street2&city=:city&state=:state&zipcode=:zipcode&'
-    , 'smartyStreetAutoCom':'https://us-autocomplete.api.smartystreets.com/suggest?auth-id=63395b2b-4df2-c8c7-a487-21ecc25979c8&auth-token=ikDR4hndQSAScpWSPdj8&prefix=Wyomi'
     , 'get:all:settings': '/api/generic/query'
     ,'get:offer:settings': '/api/generic/query'
     ,'post:new:user:login': '/api/newuser/login',
@@ -61,7 +60,7 @@ export var validationErrorMessages = {
     'invalidPhone':'Phone number is invalid',
     'loginFailed':'Login failed',
     'emptyOrder':'Empty order is not allowed',
-    'excessOrder':'Request exceeds available quantity',
+    'excessOrder':'Request exceeds allocation, please enter items over allocation in the Additional Request column',
     'someExcessOrder':'One or many of the requests exceeds available quantity',
     'changePasswordFailed':'Change of password failed',
     'oldAndNewPasswordsSame':'Old and new passwords cannot be same',

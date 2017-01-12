@@ -46,6 +46,9 @@ export class ApproveOrder {
     ccNumberOrig: string = '';
     holidaygift:boolean = false;
     isChangeAddress:boolean=false;
+    isPaymentOptionSelected:boolean=false;
+    isExistingPaymentMethodavailable:boolean=false;
+    specialInstructions: string='';
     shippingBottles:any={};
     //orderBundle: any = {};
     profile: any = {};
@@ -102,9 +105,13 @@ export class ApproveOrder {
             } else {
                 let artifacts = JSON.parse(d.data);
                 if (artifacts.Table.length > 0) {
+                    this.isPaymentOptionSelected=true;
+                    this.isExistingPaymentMethodavailable=true;
                     this.selectedCard = this.defaultCard = artifacts.Table[0];
                     this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length)
                 } else {
+                    this.isPaymentOptionSelected=false;
+                    this.isExistingPaymentMethodavailable=false;
                     this.selectedCard = {};
                 }
                 if (artifacts.Table1.length > 0) {
@@ -146,12 +153,18 @@ export class ApproveOrder {
 
             this.selectedCard.ccNumberActual = this.selectedCard.ccNumber;
             this.selectedCard.encryptedCCNumber = this.ccNumberOrig; 
+            this.isPaymentOptionSelected=true;
             this.payMethodModal.close();
-        });        this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
+        });        
+        this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
             if (d.data.error) {
                 console.log(d.data.error);
             } else {
                 this.payMethods = JSON.parse(d.data).Table;
+                this.payMethods = JSON.parse(d.data).Table.map(function (value, i) {
+                value.ccNumber ="x" + value.ccNumber.substring(value.ccNumber.length -4, value.ccNumber.length)
+                return (value);
+                });
             }
         });
         this.shippingandSalesTaxSub=appService.filterOn('get:approve:artifacts:ShippingandSalesTax').subscribe(d => {
@@ -271,7 +284,8 @@ export class ApproveOrder {
             MailZip:this.profile.mailingZip,
             MailCountry: this.profile.mailingCountry,
             MailISOCode:this.profile.mailingISOCode,
-            HolidayGift:this.holidaygift
+            HolidayGift:this.holidaygift,
+            Notes : this.specialInstructions
         };
         let master = orderBundle.orderMaster;
         orderBundle.orderMaster.Amount = master.TotalPriceWine + master.TotalPriceAddl + master.SalesTaxWine
@@ -321,6 +335,7 @@ export class ApproveOrder {
         } else {
             this.selectedCard = {};
         }
+        this.isPaymentOptionSelected=true;
     };
 
     computeTotals() {

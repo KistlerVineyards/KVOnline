@@ -199,7 +199,7 @@ export class AppService {
         headers.append('Pragma', "no-cache");
         headers.append('Expires', "-1");
         headers.append('Cache-Control', "no-cache");
-        console.log("somnath");
+        
         if (body) {
             if (body.id) {
                 url = url.replace(':id', body.id);
@@ -209,6 +209,9 @@ export class AppService {
             }
             if (body.usAddress) {
                 headers.delete('x-access-token');
+                headers.delete('Pragma');
+                headers.delete('Expires');
+                headers.delete('Cache-Control');                
                 url = url.replace(':authId', this.globalSettings.smartyStreetAuthId)
                     .replace(':authToken', this.globalSettings.smartyStreetAuthToken)
                     .replace(':street', encodeURIComponent(body.usAddress.street))
@@ -217,14 +220,16 @@ export class AppService {
                     .replace(':state', encodeURIComponent(body.usAddress.state))
                     .replace(':zipcode', encodeURIComponent(body.usAddress.zipcode))
             }
+            
+            
         }
         // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
-        console.log("somnath saha="+url);
+       
         this.behEmit('spinner:hide:show',true);
         this.http.get(url, { headers: headers })
             .map(response => response.json())
             .subscribe(d => {
-                    console.log("somnathsaha="+url);
+                    
                 this.subject.next({
                     id: id, data: d
                 });

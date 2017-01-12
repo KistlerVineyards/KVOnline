@@ -199,6 +199,9 @@ var AppService = (function () {
             }
             if (body.usAddress) {
                 headers.delete('x-access-token');
+                headers.delete('Pragma');
+                headers.delete('Expires');
+                headers.delete('Cache-Control');
                 url = url.replace(':authId', this.globalSettings.smartyStreetAuthId)
                     .replace(':authToken', this.globalSettings.smartyStreetAuthToken)
                     .replace(':street', encodeURIComponent(body.usAddress.street))

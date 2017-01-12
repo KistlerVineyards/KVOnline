@@ -73,6 +73,13 @@ export class ShippingAddress {
                         this.radioIndex = this.addresses.length-1;
                     }
                     this.addresses[this.radioIndex || 0].isSelected = true;
+                    this.addresses = JSON.parse(d.data).Table.map(function (value, i) {
+                    if(!value.country)
+                    {
+                        value.country ="United States";
+                    }
+                    return (value);
+                    });                
                 }
             });
         this.postSubscription = this.appService.filterOn("post:shipping:address")
