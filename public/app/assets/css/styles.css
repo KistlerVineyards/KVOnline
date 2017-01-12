@@ -85,7 +85,7 @@ box-shadow: 0 0 2px 2px #dddddd;}
 
 .reviewsDetails ul{ list-style-type: none; padding: 0px; margin: 0px;}
 .reviewsDetails li{ margin-bottom: 10px;}
-.reviewsDetails li strong{ display: block; font-family: serif; margin-left: 9px; font-size: .9em;}
+.reviewsDetails li span{ display: block; font-family: serif; margin-left: 9px; font-size: .9em;}
 
 
 .ProductPanel .showproductDetails .tastingNotesPanel{ border-top:solid 1px #dddddd; padding-top:15px;}
