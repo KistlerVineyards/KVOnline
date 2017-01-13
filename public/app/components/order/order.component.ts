@@ -40,38 +40,48 @@ export class Order {
   disableOnlineOrderText:string;
   currentOfferSubscription: Subscription;
   saveOrderSubscription: Subscription;
-  currentSettingsSubscription: Subscription;  
+  currentSettingsSubscription: Subscription;
+  noAllocation :boolean = false;
   orders: any[];
+  user: any = {};
   constructor(private appService: AppService, private router: Router) {
     //this.onlineOrder = appService.getSetting('onlineOrder');
+    this.user = appService.getCredential().user;
     this.currentOfferSubscription = appService.filterOn('get:current:offer')
       .subscribe(d => {
         if (d.data.error) {
+          this.noAllocation=false;
           console.log(d.data.error);
         } else {
-          this.orders = JSON.parse(d.data).Table.map(function (value, i) {
-            value.orderQty = 0;
-            value.wishList = 0;
-            if(value.packing =='b'){
-              //value.imageUrl="2014_Cuvee_Cathleen_Chardonnay.jpg";
-              if(!value.imageUrl)
-              {
-                value.imageUrl="2014_Cuvee_Cathleen_Chardonnay.jpg";
+          if(JSON.parse(d.data).Table.length == 0){
+            this.noAllocation=true;
+          }
+          else{
+              this.noAllocation=false;
+              this.orders = JSON.parse(d.data).Table.map(function (value, i) {
+              value.orderQty = 0;
+              value.wishList = 0;
+              if(value.packing =='b'){
+                //value.imageUrl="2014_Cuvee_Cathleen_Chardonnay.jpg";
+                if(!value.imageUrl)
+                {
+                  value.imageUrl="2014_Cuvee_Cathleen_Chardonnay.jpg";
+                }
               }
-            }
-            let productType = value.productType;
-            productType = productType.substr(0, 1).toUpperCase() + productType.substr(1);
-            value.productType = productType;
-            let allocationDesription = value.allocationDescription;
-            allocationDesription = allocationDesription.toString().replace('Btls', 'Bottles');
-            allocationDesription = allocationDesription.toString().replace('Pkg', 'Package');
-            value.allocationDescription = allocationDesription;
-            value.imageUrl = value.imageUrl != null ? 'app/assets/img/' + value.imageUrl : null;
-            let item = value.item;
-            item = item.toString().replace('6 bottle', '6-bottle');
-            item = item.toString().replace('6 Bottle', '6-bottle');
-            return (value);
-          });
+              let productType = value.productType;
+              productType = productType.substr(0, 1).toUpperCase() + productType.substr(1);
+              value.productType = productType;
+              let allocationDesription = value.allocationDescription;
+              allocationDesription = allocationDesription.toString().replace('Btls', 'Bottles');
+              allocationDesription = allocationDesription.toString().replace('Pkg', 'Package');
+              value.allocationDescription = allocationDesription;
+              value.imageUrl = value.imageUrl != null ? 'app/assets/img/' + value.imageUrl : null;
+              let item = value.item;
+              item = item.toString().replace('6 bottle', '6-bottle');
+              item = item.toString().replace('6 Bottle', '6-bottle');
+              return (value);
+            });
+          }
         }
       });
     this.saveOrderSubscription = appService.filterOn('post:save:order')
@@ -182,7 +192,15 @@ export class Order {
     } 
     else {
       if (ords.length > 0) {
+        let minmumrequestSatisfied = false;
         if(totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0) ){
+          minmumrequestSatisfied = true;
+        }
+        if(this.user.noMinimumOrder == "True")
+        {
+          minmumrequestSatisfied = true;
+        }
+        if(minmumrequestSatisfied){        
           this.alert.show = false;
           this.alert.message = '';
           //this.orders.isholidayGift=this.isholidayGift;

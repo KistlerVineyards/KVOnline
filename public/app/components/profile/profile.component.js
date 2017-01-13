@@ -13,6 +13,7 @@ var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
 var app_service_1 = require("../../services/app.service");
 var util_1 = require("../../services/util");
+//import { TextMaskModule } from 'angular2-text-mask';
 var api_1 = require("primeng/components/common/api");
 var Profile = (function () {
     function Profile(appService, fb, confirmationService) {
@@ -30,7 +31,6 @@ var Profile = (function () {
         this.messages = [];
         this.isDataReady = false;
         this.user = {};
-        this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         this.isVerifying = false;
         this.user = appService.getCredential().user;
         this.initProfileForm();
@@ -123,6 +123,7 @@ var Profile = (function () {
         var mDate = util_1.Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
             id: [this.user.userId],
+            email: [this.profile.email, forms_1.Validators.required],
             firstName: [this.profile.firstName, forms_1.Validators.required],
             co: [this.profile.co],
             phone: [this.profile.phone, [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
@@ -145,6 +146,7 @@ var Profile = (function () {
         var mDate = util_1.Util.getISODate(this.profileForm.controls['birthDay'].value);
         var pr = {};
         pr.id = this.profile.id;
+        pr.email = this.profile.email;
         pr.firstName = this.profileForm.controls['firstName'].value;
         //pr.lastName = this.profileForm.controls['lastName'].value;
         pr.co = this.profileForm.controls['co'].value;

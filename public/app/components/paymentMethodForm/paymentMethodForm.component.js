@@ -12,18 +12,20 @@ var core_1 = require("@angular/core");
 var app_service_1 = require("../../services/app.service");
 var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
+var util_1 = require("../../services/util");
 var api_1 = require("primeng/components/common/api");
+//import { TextMaskModule } from 'angular2-text-mask';
 var PaymentMethodForm = (function () {
     function PaymentMethodForm(appService, fb, confirmationService) {
         var _this = this;
         this.appService = appService;
         this.fb = fb;
         this.confirmationService = confirmationService;
+        this.alert = {};
         this.creditCardTypes = [];
         this.isDataReady = false;
         this.selectedISOCode = '';
         this.selectedCreditCardType = '';
-        this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         // console.log(this.testData);
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
             _this.countries = _this.appService.getCountries();
@@ -45,6 +47,16 @@ var PaymentMethodForm = (function () {
                 _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
                 _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
                 _this.selectedISOCode = defaultBillingAddress.isoCode;
+            }
+        });
+        this.postPayMethodSub = appService.filterOn("post:payment:method")
+            .subscribe(function (d) {
+            if (d.data.error) {
+                _this.appService.showAlert(_this.alert, true, 'payMethodInsertFailed');
+            }
+            else {
+                _this.appService.emit('select:new:card', _this.newCard);
+                _this.initPayMethodForm();
             }
         });
     }
@@ -71,8 +83,9 @@ var PaymentMethodForm = (function () {
             countryName: ['', forms_1.Validators.required],
             isoCode: [''],
             phone: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
-            isDefault: [false]
-        });
+            isDefault: [false],
+            isSaveForLaterUse: [false]
+        }, { validator: customValidators_1.CustomValidators.expiryMonthYearValidator });
         this.payMethodForm.controls['phone'].markAsDirty();
         this.payMethodForm.controls['ccType'].markAsDirty();
     };
@@ -95,6 +108,7 @@ var PaymentMethodForm = (function () {
         this.payMethodForm.controls['countryName'].setValue(this.newCard.country);
         this.payMethodForm.controls['isoCode'].setValue(this.newCard.isoCode);
         this.payMethodForm.controls['phone'].setValue(this.newCard.phone);
+        this.payMethodForm.controls['isSaveForLaterUse'].setValue(this.newCard.isSaveForLaterUse);
     };
     ;
     PaymentMethodForm.prototype.getNewCardFromForm = function () {
@@ -115,6 +129,7 @@ var PaymentMethodForm = (function () {
         this.newCard.country = this.payMethodForm.controls['countryName'].value;
         this.newCard.isoCode = this.payMethodForm.controls['isoCode'].value;
         this.newCard.phone = this.payMethodForm.controls['phone'].value;
+        this.newCard.isSaveForLaterUse = this.payMethodForm.controls['isSaveForLaterUse'].value;
     };
     ;
     PaymentMethodForm.prototype.ngOnInit = function () {
@@ -134,12 +149,54 @@ var PaymentMethodForm = (function () {
     ;
     PaymentMethodForm.prototype.select = function () {
         this.getNewCardFromForm();
-        this.appService.emit('select:new:card', this.newCard);
+        if (this.newCard.isSaveForLaterUse) {
+            this.saveCardForLaterUse();
+        }
+        else {
+            this.appService.emit('select:new:card', this.newCard);
+            this.initPayMethodForm();
+        }
+    };
+    ;
+    PaymentMethodForm.prototype.saveCardForLaterUse = function () {
+        var _this = this;
+        var firstName = this.payMethodForm.controls['ccFirstName'].value || '';
+        var lastName = this.payMethodForm.controls['ccLastName'].value || '';
+        var ccNumber = this.payMethodForm.controls['ccNumber'].value.toString();
+        //ccNumber = ccNumber.substring(0, ccNumber.length -4).replace(new RegExp("[0-9]", "g"), "X") + ccNumber.substring(ccNumber.length -4, ccNumber.length);
+        //ccNumber = ccNumber.toString();
+        ccNumber = util_1.Util.getMaskedCCNumber(ccNumber);
+        //ccNumber = ccNumber + ccNumberactual.slice(-4);
+        var payMethod = {
+            cardName: this.payMethodForm.controls['cardName'].value,
+            ccFirstName: this.payMethodForm.controls['ccFirstName'].value,
+            ccLastName: this.payMethodForm.controls['ccLastName'].value,
+            ccType: this.payMethodForm.controls['ccType'].value,
+            ccNumber: ccNumber,
+            encryptedCCNumber: this.payMethodForm.controls['ccNumber'].value,
+            ccExpiryMonth: this.payMethodForm.controls['ccExpiryMonth'].value,
+            ccExpiryYear: this.payMethodForm.controls['ccExpiryYear'].value,
+            ccSecurityCode: this.payMethodForm.controls['ccSecurityCode'].value,
+            name: firstName + ' ' + lastName,
+            street1: this.payMethodForm.controls['street1'].value,
+            street2: this.payMethodForm.controls['street2'].value ? this.payMethodForm.controls['street2'].value : '',
+            city: this.payMethodForm.controls['city'].value,
+            state: this.payMethodForm.controls['state'].value,
+            zip: this.payMethodForm.controls['zip'].value,
+            country: '',
+            isoCode: '',
+            phone: this.payMethodForm.controls['phone'].value,
+            isDefault: this.payMethodForm.controls['isDefault'].value
+        };
+        payMethod.isoCode = this.selectedISOCode;
+        payMethod.country = this.countries.filter(function (d) { return d.isoCode == _this.selectedISOCode; })[0].countryName;
+        this.appService.httpPost('post:payment:method', { sqlKey: 'InsertPaymentMethod', sqlParms: payMethod });
     };
     ;
     PaymentMethodForm.prototype.ngOnDestroy = function () {
         this.dataReadySubs.unsubscribe();
         this.getDefaultBillingAddressSub.unsubscribe();
+        this.postPayMethodSub.unsubscribe();
     };
     ;
     return PaymentMethodForm;
@@ -148,6 +205,10 @@ __decorate([
     core_1.Input('newCard'),
     __metadata("design:type", Object)
 ], PaymentMethodForm.prototype, "newCard", void 0);
+__decorate([
+    core_1.ViewChild('isSaveForLaterUse'),
+    __metadata("design:type", Object)
+], PaymentMethodForm.prototype, "isSaveForLaterUse", void 0);
 PaymentMethodForm = __decorate([
     core_1.Component({
         selector: 'paymentMethodForm',

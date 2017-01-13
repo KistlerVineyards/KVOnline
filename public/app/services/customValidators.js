@@ -1,4 +1,5 @@
 "use strict";
+var util_1 = require("./util");
 var CustomValidators = (function () {
     function CustomValidators() {
     }
@@ -49,7 +50,8 @@ var CustomValidators = (function () {
         }
         else if (!(control.value.match(international))
             && (!control.value.match(domestic)
-                && (!control.value.match(local)))) {
+                && (!control.value.match(local))
+                && (!control.value.match(general)))) {
             ret = { 'invalidPhone': true };
         }
         return (ret);
@@ -81,6 +83,16 @@ var CustomValidators = (function () {
             return { 'invalidSecurityCode': true };
         }
     };
+    CustomValidators.expiryMonthYearValidator = function (formGroup) {
+        var ret;
+        var month = formGroup.controls['ccExpiryMonth'].value / 1;
+        var year = formGroup.controls['ccExpiryYear'].value / 1;
+        if (!util_1.Util.isValidExpiryMonthYear(month, year)) {
+            ret = { 'InvalidExpiryMonthYear': true };
+        }
+        return (ret);
+    };
+    ;
     CustomValidators.creditCardYearValidator = function (control) {
         // Visa, MasterCard, American Express, Diners Club, Discover, JCB
         var dt = new Date();

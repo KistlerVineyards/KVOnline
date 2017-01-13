@@ -15,7 +15,9 @@ var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
 var ng2_modal_1 = require("ng2-modal");
 var api_1 = require("primeng/components/common/api");
+//import { TextMaskModule } from 'angular2-text-mask';
 var PaymentMethod = (function () {
+    //public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     function PaymentMethod(appService, fb, confirmationService) {
         var _this = this;
         this.appService = appService;
@@ -27,7 +29,6 @@ var PaymentMethod = (function () {
         this.messages = [];
         this.display = false;
         this.creditCardTypes = [];
-        this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         this.initPayMethodForm();
         this.getAllPaymentMethodsSub = appService.filterOn("get:payment:method")
             .subscribe(function (d) {
@@ -136,7 +137,7 @@ var PaymentMethod = (function () {
             isoCode: [''],
             phone: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
             isDefault: [false]
-        });
+        }, { validator: customValidators_1.CustomValidators.expiryMonthYearValidator });
         this.payMethodForm.controls['phone'].markAsDirty();
         this.payMethodForm.controls['ccType'].markAsDirty();
     };

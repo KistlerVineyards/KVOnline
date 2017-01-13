@@ -285,7 +285,7 @@ export class ApproveOrder {
             MailCountry: this.profile.mailingCountry,
             MailISOCode:this.profile.mailingISOCode,
             HolidayGift:this.holidaygift,
-            Notes : this.specialInstructions
+            Notes : this.specialInstructions,
         };
         let master = orderBundle.orderMaster;
         orderBundle.orderMaster.Amount = master.TotalPriceWine + master.TotalPriceAddl + master.SalesTaxWine

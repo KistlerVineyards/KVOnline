@@ -10,9 +10,16 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-sm-4" for="firstName">Email:</label>
+                    <div class="col-sm-4">
+                        <input type="text" [readonly]="true" class="form-control" id="email" name="email" placeholder="Enter Email" formControlName="email">
+                        <control-messages [control]="profileForm.controls.firstName"></control-messages>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-sm-4" for="firstName">Name:</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" formControlName="firstName">
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter name" formControlName="firstName">
                         <control-messages [control]="profileForm.controls.firstName"></control-messages>
                     </div>
                 </div>
@@ -81,7 +88,7 @@
                 <div class="form-group">
 					<label class="control-label col-sm-4" for="bCountry">Mailing Country:</label>
                         <div class="col-sm-4">
-                            <select formControlName='mailingCountry' [(ngModel)]='selectedCountryName' class="form-control" id="bCountry">
+                            <select formControlName='mailingCountry'  [(ngModel)]='selectedCountryName' class="form-control" id="bCountry">
                                 <option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}</option>
                             </select>
                             <control-messages [control]="profileForm.controls.mailingCountry"></control-messages>
@@ -92,14 +99,14 @@
                     <div class="col-sm-4">
                         <!--<input type="phone" formControlName="phone" class="form-control" id="phone" name="phone" placeholder="Enter phone number">-->
 						<!-- <p-inputMask mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>-->
-                        <input class="form-control" [textMask]="{mask: mask}" placeholder="(999) 999-9999" formControlName="phone" type="text" />						
+                        <input class="form-control"   placeholder="Enter Phone" formControlName="phone" type="text" />						
                         <control-messages [control]="profileForm.controls.phone"></control-messages>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-4">
                         <alert *ngIf="alert.show" [type]="alert.type" [dismissible]="true">{{alert.message}}</alert>
-                        <button type="submit" [disabled]="!(profileForm.valid && profileForm.dirty && profileForm.valueChanges)" class="btn btn-kistler"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Submit</button>
+                        <button type="submit" [disabled]="!(profileForm.valid && profileForm.dirty && profileForm.valueChanges)" class="btn btn-kistler"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Save</button>
                     </div>
                 </div>
             </form>

@@ -11,7 +11,7 @@ import { GrowlModule } from 'primeng/components/growl/growl';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
 // import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { ControlMessages } from '../controlMessages/controlMessages.component';
-import { TextMaskModule } from 'angular2-text-mask';
+//import { TextMaskModule } from 'angular2-text-mask';
 @Component({
     templateUrl: 'app/components/paymentMethod/paymentMethod.component.html'
 })
@@ -34,7 +34,7 @@ export class PaymentMethod {
     messages: Message[] = [];
     display: boolean = false;
     creditCardTypes: any = [];
-    public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    //public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService
     ) {
         this.initPayMethodForm();
@@ -139,7 +139,7 @@ export class PaymentMethod {
             , isoCode: ['']
             , phone: ['', [Validators.required, CustomValidators.phoneValidator]]
             , isDefault: [false]
-        });       
+        }, { validator: CustomValidators.expiryMonthYearValidator });
         this.payMethodForm.controls['phone'].markAsDirty();
         this.payMethodForm.controls['ccType'].markAsDirty();
     };

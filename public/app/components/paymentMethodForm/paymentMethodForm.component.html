@@ -19,7 +19,7 @@
             <control-messages [control]="payMethodForm.controls.ccType"></control-messages>
         </div>
         <div class="col-sm-6 formGap">
-            <label class="control-label" for="ccNumber">Card number:</label>
+            <label class="control-label" for="ccNumber">Card number(No dashes/spaces):</label>
             <input type="text" class="form-control lock-number" id="ccNumber" placeholder="Enter card number" formControlName="ccNumber">
             <control-messages [control]="payMethodForm.controls.ccNumber"></control-messages>
         </div>
@@ -48,7 +48,7 @@
         </div>
          <div class="col-sm-6 formGap">
             <label class="control-label" for="bPhone">Billing phone:</label><br/>
-            <input class="form-control" [textMask]="{mask: mask}" placeholder="(999) 999-9999" formControlName="phone" type="text" />
+            <input class="form-control"  placeholder="Enter Phone" formControlName="phone" type="text" />
             <control-messages [control]="payMethodForm.controls.phone"></control-messages>
         </div>
     </div>
@@ -111,18 +111,18 @@
        
     </div>
 
-    <!--<div class="row paymentPageFixGap">
+    <div class="form-group">
         <div class="col-sm-6 formGap">
             <div class="checkbox">
-                <label><input type="checkbox" formControlName="isDefault"> Use as default card</label>
+                <label><input type="checkbox" formControlName="isSaveForLaterUse"> Save payment information for later use</label>
             </div>
         </div>
-    </div>-->
+    </div>
 
     <div class="row paymentSubmit">
-        <!--<alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>-->
+        <alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
         <div class="text-center ">
-            <button *ngIf="isDataReady" (click)="select()" type="button" class="btn btn-md btn-kistler" [disabled]="!payMethodForm.valid">Select</button>
+            <button *ngIf="isDataReady" (click)="select()" type="button" class="btn btn-md btn-kistler" [disabled]="!payMethodForm.valid">Save</button>
             <button type="button" class="btn btn-md btn-kistler" (click)="cancel()">Cancel</button>
         </div>
     </div>

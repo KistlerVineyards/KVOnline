@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var app_service_1 = require("../../services/app.service");
+var ng2_modal_1 = require("ng2-modal");
 var ForgotPassword = (function () {
     function ForgotPassword(appService, router, fb) {
         var _this = this;
@@ -26,8 +27,8 @@ var ForgotPassword = (function () {
                 _this.appService.showAlert(_this.alert, true, 'emailNotFound');
             }
             else {
-                console.log('Success');
-                _this.router.navigate(['/login']);
+                //console.log('Success');
+                _this.loginSuccessModal.open();
             }
         });
     }
@@ -53,6 +54,10 @@ var ForgotPassword = (function () {
     };
     return ForgotPassword;
 }());
+__decorate([
+    core_1.ViewChild('loginSuccessModal'),
+    __metadata("design:type", ng2_modal_1.Modal)
+], ForgotPassword.prototype, "loginSuccessModal", void 0);
 ForgotPassword = __decorate([
     core_1.Component({
         templateUrl: 'app/components/forgotPassword/forgotPassword.component.html'

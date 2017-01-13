@@ -4,7 +4,13 @@ export class Util {
     constructor(private appService: AppService) {
         //console.log(moment());
     }
-    
+    static isValidExpiryMonthYear(month: number, year: number) {            
+        let mDate = moment(new Date(year, month - 1, 1));
+        let today = moment(new Date());
+        today = today.clone().set('date',1);
+        let isValid = (mDate.isSame(today,'day') || mDate.isAfter(today,'day')) && mDate.isBefore(today.clone().add(8, 'years'),'day');        
+        return (isValid);
+    }
     static convertToUSDate(inStr) {
         let ret = null;
         if (inStr) {

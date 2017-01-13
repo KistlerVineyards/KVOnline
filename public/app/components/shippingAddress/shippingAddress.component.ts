@@ -10,7 +10,7 @@ import { Message, ConfirmationService } from 'primeng/components/common/api';
 // import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
-import { TextMaskModule } from 'angular2-text-mask';
+//import { TextMaskModule } from 'angular2-text-mask';
 @Component({
     templateUrl: 'app/components/shippingAddress/shippingAddress.component.html'
 })
@@ -37,7 +37,7 @@ export class ShippingAddress {
     radioIndex: number;
     @ViewChild('shippingModal') shippingModal: Modal;
     addresses: [any];
-    public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    //public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         this.initShippingForm({});

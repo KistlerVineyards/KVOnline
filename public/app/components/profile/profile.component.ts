@@ -9,7 +9,7 @@ import { CalendarModule } from 'primeng/components/calendar/calendar';
 // import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { Util } from '../../services/util';
-import { TextMaskModule } from 'angular2-text-mask';
+//import { TextMaskModule } from 'angular2-text-mask';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 
@@ -35,7 +35,7 @@ export class Profile {
     messages: Message[] = [];
     isDataReady: boolean = false;
     user: any = {};
-    public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    //public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
     verifyAddressSub: Subscription;
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
@@ -124,8 +124,9 @@ export class Profile {
     initProfileForm() {
         let mDate = Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
-            id: [this.user.userId],
-            firstName: [this.profile.firstName, Validators.required]
+            id: [this.user.userId]
+            ,email: [this.profile.email, Validators.required]
+            ,firstName: [this.profile.firstName, Validators.required]
             //, lastName: [this.profile.lastName, Validators.required]
 	        , co:[this.profile.co]
             , phone: [this.profile.phone, [Validators.required, CustomValidators.phoneValidator]]
@@ -147,6 +148,7 @@ export class Profile {
         let mDate = Util.getISODate(this.profileForm.controls['birthDay'].value);
         let pr: any = {};
         pr.id = this.profile.id;
+        pr.email=this.profile.email;
         pr.firstName = this.profileForm.controls['firstName'].value;
         //pr.lastName = this.profileForm.controls['lastName'].value;
 	    pr.co=this.profileForm.controls['co'].value;
@@ -192,7 +194,7 @@ export class Profile {
         profile.isAddressVerified = isVerified || false;
         this.appService.httpPost('post:save:profile', { profile: profile });
     };
-
+    
     ngOnDestroy() {
         this.getProfileSubscription.unsubscribe();
         this.saveProfileSubscription.unsubscribe();

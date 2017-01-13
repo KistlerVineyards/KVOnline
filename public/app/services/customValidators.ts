@@ -1,11 +1,12 @@
 import { FormControl, AbstractControl, FormGroup } from '@angular/forms';
+import { Util } from './util';
 export class CustomValidators {
     static emailValidator(control: FormControl) {
         if (!control.value.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
             return { 'invalidEmail': true };
         }
     };
-
+    
     static usZipCodeValidator(control:FormControl){
         if(!control.value.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)){
             return({'invalidZipCode':true});
@@ -47,10 +48,11 @@ export class CustomValidators {
         if (!(control.value.match(international))
             && (!control.value.match(domestic)
                 && (!control.value.match(local))
-                // && (!control.value.match(general))
+                 && (!control.value.match(general))
             )) {
             ret = { 'invalidPhone': true };
         }
+        
         return(ret);
     };
 
@@ -79,6 +81,15 @@ export class CustomValidators {
             return { 'invalidSecurityCode': true };
         }
     }
+    static expiryMonthYearValidator(formGroup: FormGroup) {
+        let ret;
+        let month = formGroup.controls['ccExpiryMonth'].value / 1;
+        let year = formGroup.controls['ccExpiryYear'].value / 1
+        if (!Util.isValidExpiryMonthYear(month, year)) {
+            ret = { 'InvalidExpiryMonthYear': true };
+        }
+        return (ret);
+    };
     static creditCardYearValidator(control) {
         // Visa, MasterCard, American Express, Diners Club, Discover, JCB
         var dt = new Date();

@@ -91,7 +91,7 @@
                         <div class="col-sm-9">
                             <!--<input type="text" class="form-control" id="kvPhone" placeholder="Enter shipping phone number" formControlName="phone">-->
                             <!--<p-inputMask mask="(999) 999-9999" id="kvPhone" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>-->
-								<input class="form-control" [textMask]="{mask: mask}" placeholder="(999) 999-9999" formControlName="phone" type="text" />
+								<input class="form-control"  placeholder="Enter Phone" formControlName="phone" type="text" />
                             <control-messages [control]="shippingForm.controls.phone"></control-messages>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                     <div class="row">
                         <alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
                         <div class=" col-sm-offset-3 col-xs-9">
-                            <button *ngIf="isDataReady" type="submit" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid || !shippingForm.valueChanges || isSaving">Submit</button>
+                            <button *ngIf="isDataReady" type="submit" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid || !shippingForm.valueChanges || isSaving">Save</button>
                             <!--<button type="button" (click)="verify()">Verify</button>-->
                             <button type="button" class="btn btn-md btn-kistler" (click)="cancel()">Cancel</button>
                         </div>

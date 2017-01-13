@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { CustomValidators } from '../../services/customValidators';
@@ -7,6 +7,7 @@ import { AppService } from '../../services/app.service';
 import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { Message } from 'primeng/components/common/api';
 import { GrowlModule } from 'primeng/components/growl/growl';
+import { Modal, ModalModule } from "ng2-modal"
 import { ControlMessages } from '../controlMessages/controlMessages.component';
 import { md5 } from '../../vendor/md5';
 
@@ -18,6 +19,7 @@ export class ChangePassword {
   subscription: Subscription;
   alert: any = {};
   messages: Message[] = [];
+  @ViewChild('loginSuccessModal') loginSuccessModal: Modal;
   constructor(private appService: AppService, private router: Router, private fb: FormBuilder) {
     this.subscription = appService.filterOn('post:change:password')
       .subscribe(d => {
@@ -34,7 +36,8 @@ export class ChangePassword {
             , summary: 'Saved'
             , detail: 'Data saved successfully'
           });
-          this.router.navigate(['/login']);
+          this.loginSuccessModal.open();
+          //this.router.navigate(['/login']);
         }
       });
   };

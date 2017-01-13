@@ -14,7 +14,9 @@ var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
 var ng2_modal_1 = require("ng2-modal");
 var api_1 = require("primeng/components/common/api");
+//import { TextMaskModule } from 'angular2-text-mask';
 var ShippingAddress = (function () {
+    //public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     function ShippingAddress(appService, fb, confirmationService) {
         this.appService = appService;
         this.fb = fb;
@@ -30,7 +32,6 @@ var ShippingAddress = (function () {
         this.isDataReady = false;
         this.messages = [];
         this.isVerifying = false;
-        this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         this.initShippingForm({});
     }
     ;

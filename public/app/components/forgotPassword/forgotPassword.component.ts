@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { CustomValidators } from '../../services/customValidators';
@@ -7,6 +7,7 @@ import { AppService } from '../../services/app.service';
 import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { Message } from 'primeng/components/common/api';
 import { GrowlModule } from 'primeng/components/growl/growl';
+import { Modal, ModalModule } from "ng2-modal"
 import { ControlMessages } from '../controlMessages/controlMessages.component';
 import { md5 } from '../../vendor/md5';
 
@@ -16,7 +17,8 @@ import { md5 } from '../../vendor/md5';
 export class ForgotPassword {
   subscription: Subscription;
   forgotForm: FormGroup;
-  alert: any = {};  
+  alert: any = {};
+  @ViewChild('loginSuccessModal') loginSuccessModal: Modal;
   constructor(private appService: AppService, private router: Router, private fb: FormBuilder) {
     this.subscription = appService.filterOn('post:forgot:password')
       .subscribe(d => {
@@ -24,8 +26,9 @@ export class ForgotPassword {
           //console.log(d.data.error.status);
           this.appService.showAlert(this.alert, true, 'emailNotFound');
         } else {
-          console.log('Success');
-          this.router.navigate(['/login']);
+          //console.log('Success');
+          this.loginSuccessModal.open();
+          //this.router.navigate(['/login']);
         }
       });
   };

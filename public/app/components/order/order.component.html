@@ -4,7 +4,7 @@
         <div class="welcomeTxt">Welcome <label class="username"> {{staticTexts.salutation}}</label></div>
         <summary [innerHTML]=staticTexts.introText></summary>
     </div>
-	<div *ngIf="!disableOnlineOrderForm">
+	<div *ngIf="!disableOnlineOrderForm && !noAllocation">
     <div class="panel-group">
         <div class="panel panel-default ProductPanel" *ngFor="let order of orders">
             <div class="panel-heading">
@@ -63,5 +63,8 @@
 </div>
     <div *ngIf="disableOnlineOrderForm">
         {{disableOnlineOrderText}}
+    </div>
+    <div *ngIf="noAllocation">
+        Sorry there are no available allocations for this account at this time.
     </div>
 </div>

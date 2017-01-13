@@ -5,6 +5,13 @@ var Util = (function () {
         this.appService = appService;
         //console.log(moment());
     }
+    Util.isValidExpiryMonthYear = function (month, year) {
+        var mDate = moment(new Date(year, month - 1, 1));
+        var today = moment(new Date());
+        today = today.clone().set('date', 1);
+        var isValid = (mDate.isSame(today, 'day') || mDate.isAfter(today, 'day')) && mDate.isBefore(today.clone().add(8, 'years'), 'day');
+        return (isValid);
+    };
     Util.convertToUSDate = function (inStr) {
         var ret = null;
         if (inStr) {

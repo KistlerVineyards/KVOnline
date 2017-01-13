@@ -267,7 +267,9 @@ padding-right: 30px;
 
 }
 .loginTxtPaddingBottom{ padding-bottom: 10px;}
-
+.popupText{ font-size: 1.3em;}
+.popupText a{ text-decoration: underline;}
+.popupText a:hover{ text-decoration:none;}
 	/*==========  Mobile First Method  ==========*/
 
 	/* Custom, iPhone Retina */
@@ -395,6 +397,10 @@ padding-right: 30px;
 
 
 .ProductPanel .showproductDetails{padding: 10px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
+border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
+box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
+
+ .ProductPanel .reviewsDetails{padding: 10px; background-color: #fff; margin: 10px 1px 1px 1px; -webkit-border-radius: 3px 3px 3px 3px;
 border-radius: 3px 3px 3px 3px; -webkit-box-shadow: 0 0 2px 2px #dddddd;
 box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
@@ -606,7 +612,7 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 	/* Custom, iPhone Retina */
 	@media only screen and (max-width : 320px){
-
+        .reviewsDetails li{font-size: .9em;	}
 		.orderDescPanel{ font-size: .9em;	}
 		.col-xs-6 span{display: block;}
 		.productInfoPanel .orderWith{    width: 40px;}

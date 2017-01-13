@@ -13,6 +13,7 @@ var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var customValidators_1 = require("../../services/customValidators");
 var app_service_1 = require("../../services/app.service");
+var ng2_modal_1 = require("ng2-modal");
 var md5_1 = require("../../vendor/md5");
 var ChangePassword = (function () {
     function ChangePassword(appService, router, fb) {
@@ -37,7 +38,7 @@ var ChangePassword = (function () {
                     summary: 'Saved',
                     detail: 'Data saved successfully'
                 });
-                _this.router.navigate(['/login']);
+                _this.loginSuccessModal.open();
             }
         });
     }
@@ -84,6 +85,10 @@ var ChangePassword = (function () {
     };
     return ChangePassword;
 }());
+__decorate([
+    core_1.ViewChild('loginSuccessModal'),
+    __metadata("design:type", ng2_modal_1.Modal)
+], ChangePassword.prototype, "loginSuccessModal", void 0);
 ChangePassword = __decorate([
     core_1.Component({
         templateUrl: 'app/components/changePassword/changePassword.component.html'
