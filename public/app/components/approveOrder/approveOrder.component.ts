@@ -447,7 +447,11 @@ export class ApproveOrder {
         
         var shippedState = this.selectedAddress.state == undefined ? "" : this.selectedAddress.state;
         var shippedZip=this.selectedAddress.zip == undefined ? "" : this.selectedAddress.zip;
-        
+        if(this.shippingBottles.requestedShippingBottle == this.shippingBottles.additinalShippingBottle)
+        {
+            this.shippingBottles.requestedShippingBottle = this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle;
+            this.shippingBottles.additinalShippingBottle = 0;
+        }
 
         let body:any={};
         body.data = JSON.stringify({sqlKey:'GetApproveArtifacts', sqlParms:{ 

@@ -439,6 +439,10 @@ var ApproveOrder = (function () {
         }, { requestedShippingBottle: 0, additinalShippingBottle: 0, totalRequestedBottles: 0, totalWishlistBottles: 0 });
         var shippedState = this.selectedAddress.state == undefined ? "" : this.selectedAddress.state;
         var shippedZip = this.selectedAddress.zip == undefined ? "" : this.selectedAddress.zip;
+        if (this.shippingBottles.requestedShippingBottle == this.shippingBottles.additinalShippingBottle) {
+            this.shippingBottles.requestedShippingBottle = this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle;
+            this.shippingBottles.additinalShippingBottle = 0;
+        }
         var body = {};
         body.data = JSON.stringify({ sqlKey: 'GetApproveArtifacts', sqlParms: {
                 requestedShippingBottle: this.shippingBottles.requestedShippingBottle,
