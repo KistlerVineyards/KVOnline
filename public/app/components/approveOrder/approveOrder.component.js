@@ -50,6 +50,7 @@ var ApproveOrder = (function () {
         //orderBundle: any = {};
         this.profile = {};
         this.alert = { type: "success" };
+        this.sameNofBottles = false;
         this.otherOptions = config_2.uiText.otherOptions;
         this.payLater = function () {
             if (!_this.selectedCard || Object.keys(_this.selectedCard).length == 0) {
@@ -143,6 +144,9 @@ var ApproveOrder = (function () {
             _this.selectedCard.ccNumberActual = _this.selectedCard.ccNumber;
             _this.selectedCard.encryptedCCNumber = _this.ccNumberOrig;
             _this.isPaymentOptionSelected = true;
+            if (_this.newCard.isSaveForLaterUse) {
+                _this.isExistingPaymentMethodavailable = true;
+            }
             _this.payMethodModal.close();
         });
         this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(function (d) {
@@ -163,20 +167,10 @@ var ApproveOrder = (function () {
             }
             else {
                 var shippingandSaletax = JSON.parse(d.data).Table;
-                if (shippingandSaletax.length == 2) {
+                if (shippingandSaletax.length > 0) {
                     _this.selectedAddress.shippingCharges = shippingandSaletax[0].ShipPrice;
-                    _this.selectedAddress.addlshippingCharges = shippingandSaletax[1].ShipPrice;
+                    _this.selectedAddress.addlshippingCharges = shippingandSaletax[0].addlShipPrice;
                     _this.selectedAddress.salesTaxPerc = shippingandSaletax[0].SalesTaxRate;
-                }
-                else {
-                    _this.selectedAddress.shippingCharges = shippingandSaletax[0].ShipPrice;
-                    _this.selectedAddress.salesTaxPerc = shippingandSaletax[0].SalesTaxRate;
-                    if (_this.shippingBottles.requestedShippingBottle == _this.shippingBottles.additinalShippingBottle) {
-                        _this.selectedAddress.addlshippingCharges = shippingandSaletax[0].ShipPrice;
-                    }
-                    else {
-                        _this.selectedAddress.addlshippingCharges = 0;
-                    }
                 }
             }
             _this.computeTotals();
@@ -402,7 +396,12 @@ var ApproveOrder = (function () {
                 this.footer.shippingTotals = { wine: 0.00, addl: 0.00 };
             }
         }*/
-        this.footer.shippingTotals = { wine: this.selectedAddress.shippingCharges, addl: this.selectedAddress.addlshippingCharges };
+        /*if(this.sameNofBottles){
+            if(this.selectedAddress.addlshippingCharges > this.selectedAddress.shippingCharges){
+                this.selectedAddress.addlshippingCharges = this.selectedAddress.addlshippingCharges - this.selectedAddress.shippingCharges;
+            }
+        }*/
+        this.footer.shippingTotals = { wine: this.selectedAddress.shippingCharges, addl: (this.selectedAddress.addlshippingCharges - this.selectedAddress.shippingCharges) };
     };
     ;
     ApproveOrder.prototype.ngOnInit = function () {
@@ -440,13 +439,15 @@ var ApproveOrder = (function () {
         var shippedState = this.selectedAddress.state == undefined ? "" : this.selectedAddress.state;
         var shippedZip = this.selectedAddress.zip == undefined ? "" : this.selectedAddress.zip;
         if (this.shippingBottles.requestedShippingBottle == this.shippingBottles.additinalShippingBottle) {
-            this.shippingBottles.requestedShippingBottle = this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle;
-            this.shippingBottles.additinalShippingBottle = 0;
+            this.sameNofBottles = true;
+        }
+        else {
+            this.sameNofBottles = false;
         }
         var body = {};
         body.data = JSON.stringify({ sqlKey: 'GetApproveArtifacts', sqlParms: {
                 requestedShippingBottle: this.shippingBottles.requestedShippingBottle,
-                additinalShippingBottle: this.shippingBottles.additinalShippingBottle,
+                additinalShippingBottle: (this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle),
                 shippingState: shippedState,
                 shippingZip: shippedZip
             } });
@@ -460,7 +461,7 @@ var ApproveOrder = (function () {
         var body = {};
         body.data = JSON.stringify({ sqlKey: 'GetShippingSalesTaxPerc', sqlParms: {
                 requestedShippingBottle: this.shippingBottles.requestedShippingBottle,
-                additinalShippingBottle: this.shippingBottles.additinalShippingBottle,
+                additinalShippingBottle: this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle,
                 shippingState: shippedState,
                 shippingZip: shippedZip
             } });

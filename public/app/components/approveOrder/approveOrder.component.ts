@@ -54,6 +54,7 @@ export class ApproveOrder {
     profile: any = {};
     isAlert: boolean;
     alert: any = { type: "success" };
+    sameNofBottles : boolean =false;
     otherOptions:string=uiText.otherOptions
     payLater: any = () => {
         if (!this.selectedCard || Object.keys(this.selectedCard).length == 0) {
@@ -154,6 +155,9 @@ export class ApproveOrder {
             this.selectedCard.ccNumberActual = this.selectedCard.ccNumber;
             this.selectedCard.encryptedCCNumber = this.ccNumberOrig; 
             this.isPaymentOptionSelected=true;
+            if (this.newCard.isSaveForLaterUse) {
+                this.isExistingPaymentMethodavailable=true;
+            }
             this.payMethodModal.close();
         });        
         this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
@@ -172,7 +176,12 @@ export class ApproveOrder {
                 console.log(d.data.error);
             } else {
                 var shippingandSaletax=JSON.parse(d.data).Table;                
-                if(shippingandSaletax.length == 2){
+                if(shippingandSaletax.length > 0){
+                    this.selectedAddress.shippingCharges=shippingandSaletax[0].ShipPrice;
+                    this.selectedAddress.addlshippingCharges=shippingandSaletax[0].addlShipPrice;
+                    this.selectedAddress.salesTaxPerc=shippingandSaletax[0].SalesTaxRate;
+                }
+                /*if(shippingandSaletax.length == 2){
                     this.selectedAddress.shippingCharges=shippingandSaletax[0].ShipPrice;
                     this.selectedAddress.addlshippingCharges=shippingandSaletax[1].ShipPrice;
                     this.selectedAddress.salesTaxPerc=shippingandSaletax[0].SalesTaxRate;
@@ -189,6 +198,7 @@ export class ApproveOrder {
                         this.selectedAddress.addlshippingCharges=0;
                     }
                 }
+                */
             }
         this.computeTotals();
         });
@@ -410,7 +420,12 @@ export class ApproveOrder {
                 this.footer.shippingTotals = { wine: 0.00, addl: 0.00 };
             }
         }*/
-        this.footer.shippingTotals = { wine: this.selectedAddress.shippingCharges, addl: this.selectedAddress.addlshippingCharges };
+        /*if(this.sameNofBottles){
+            if(this.selectedAddress.addlshippingCharges > this.selectedAddress.shippingCharges){
+                this.selectedAddress.addlshippingCharges = this.selectedAddress.addlshippingCharges - this.selectedAddress.shippingCharges;
+            }
+        }*/
+        this.footer.shippingTotals = { wine: this.selectedAddress.shippingCharges, addl: (this.selectedAddress.addlshippingCharges - this.selectedAddress.shippingCharges) };
     };
     ngOnInit() {
         let ords = this.appService.request('orders');
@@ -449,14 +464,19 @@ export class ApproveOrder {
         var shippedZip=this.selectedAddress.zip == undefined ? "" : this.selectedAddress.zip;
         if(this.shippingBottles.requestedShippingBottle == this.shippingBottles.additinalShippingBottle)
         {
-            this.shippingBottles.requestedShippingBottle = this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle;
-            this.shippingBottles.additinalShippingBottle = 0;
+            this.sameNofBottles=true;
+            //this.shippingBottles.requestedShippingBottle = this.shippingBottles.requestedShippingBottle;
+            //this.shippingBottles.additinalShippingBottle = this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle;
+        }
+        else
+        {
+            this.sameNofBottles=false;
         }
 
         let body:any={};
         body.data = JSON.stringify({sqlKey:'GetApproveArtifacts', sqlParms:{ 
             requestedShippingBottle: this.shippingBottles.requestedShippingBottle,
-            additinalShippingBottle: this.shippingBottles.additinalShippingBottle,
+            additinalShippingBottle: (this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle),
             shippingState:shippedState,
             shippingZip:shippedZip
         }});
@@ -472,7 +492,7 @@ export class ApproveOrder {
         let body:any={};
         body.data = JSON.stringify({sqlKey:'GetShippingSalesTaxPerc', sqlParms:{ 
             requestedShippingBottle: this.shippingBottles.requestedShippingBottle,
-            additinalShippingBottle: this.shippingBottles.additinalShippingBottle,
+            additinalShippingBottle: this.shippingBottles.requestedShippingBottle + this.shippingBottles.additinalShippingBottle,
             shippingState:shippedState,
             shippingZip:shippedZip
         }});

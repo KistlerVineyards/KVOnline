@@ -125,7 +125,7 @@ export class PaymentMethod {
             , ccLastName: ['', Validators.required]
             , ccType: ['', Validators.required]
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
-            , ccExpiryMonth: [this.month, Validators.required]
+            , ccExpiryMonth: [this.month, [Validators.required, CustomValidators.creditCardexpiryMonthValidator]]
             , ccExpiryYear: [this.year, [Validators.required, CustomValidators.creditCardYearValidator]]
             , ccSecurityCode: ['', [Validators.required, CustomValidators.creditCardSecurityCodeValidator]]
             , co: ['']

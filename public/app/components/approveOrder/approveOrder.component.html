@@ -24,14 +24,15 @@
           <span *ngIf="!isPaymentOptionSelected" class="noRecord">No Payment Method Selected.</span>
           <span *ngIf="!selectedCard.cardName && isPaymentOptionSelected" class="noRecord">{{otherOptions}}</span>
           <span *ngIf="selectedCard.cardName"><span class="name-shipping-address">{{selectedCard.cardName}}</span>, {{selectedCard.ccNumber}}</span>
-        </div>        
-		<div class="col-md-5 btnApprovedpayment">
-		     <button class="btn btn-xs pull-right btn-kistler btnOtherOptions" (click)="otherOptionsClicked()">Other Options</button>
-         <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewCard()">Use New Card</button>
-         <button type="button" class="btn btn-xs  pull-right btn-kistler" *ngIf="isExistingPaymentMethodavailable" (click)="changeSelectedCard()">Use Existing Card</button>
+      </div>        
+		    <div class="col-md-5 btnApprovedpayment">
+          <button class="btn btn-xs pull-right btn-kistler btnOtherOptions" (click)="otherOptionsClicked()">Other Options</button>
+          <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewCard()">Use New Card</button>
+          <button type="button" class="btn btn-xs  pull-right btn-kistler" *ngIf="isExistingPaymentMethodavailable" (click)="changeSelectedCard()">Use Existing Card</button>
          </div>
       </div>
     </div>
+  </div>
 <div class="panel panel-default approveOrderPayment">
     <div class="panel-heading">Special Instructions</div>
     <div class="panel-body">
@@ -39,10 +40,9 @@
         <div class="col-md-12">
           <textarea class="form-control" rows="3" [(ngModel)]='specialInstructions'></textarea>
         </div>
-         
+      </div>
       </div>
     </div>
-  </div>
 
 <div class="panel panel-default kistlarOderHistory movieViewApproveOrder">
 

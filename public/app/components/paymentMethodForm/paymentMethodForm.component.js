@@ -61,6 +61,15 @@ var PaymentMethodForm = (function () {
         });
     }
     ;
+    PaymentMethodForm.prototype.onBlurMethod = function (obj) {
+        var value = obj.value;
+        var monthTemp = value[0];
+        if (monthTemp == "0" && value.length == 3) {
+            monthTemp = value.substring(1, 3);
+            obj.value = monthTemp;
+        }
+        //alert(this.month);
+    };
     PaymentMethodForm.prototype.initPayMethodForm = function () {
         this.year = (new Date()).getFullYear();
         this.month = (new Date()).getMonth() + 1;
@@ -71,7 +80,7 @@ var PaymentMethodForm = (function () {
             ccLastName: ['', forms_1.Validators.required],
             ccType: ['', forms_1.Validators.required],
             ccNumber: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardValidator]],
-            ccExpiryMonth: [this.month, forms_1.Validators.required],
+            ccExpiryMonth: [this.month, [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardexpiryMonthValidator]],
             ccExpiryYear: [this.year, [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardYearValidator]],
             ccSecurityCode: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardSecurityCodeValidator]],
             co: [''],
@@ -144,6 +153,7 @@ var PaymentMethodForm = (function () {
     };
     ;
     PaymentMethodForm.prototype.cancel = function () {
+        this.initPayMethodForm();
         this.appService.request('close:pay:method:modal')();
     };
     ;

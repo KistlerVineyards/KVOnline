@@ -70,7 +70,17 @@ export class PaymentMethodForm {
                 }
             });            
     };
-
+    onBlurMethod(obj){
+    let value =obj.value;
+    let monthTemp = value[0];
+    if(monthTemp == "0" && value.length == 3)
+    {
+        monthTemp = value.substring(1,3);
+        obj.value = monthTemp;
+    }
+    //alert(this.month);
+    
+    }
     initPayMethodForm() {
         this.year = (new Date()).getFullYear();
         this.month = (new Date()).getMonth() + 1;
@@ -81,7 +91,7 @@ export class PaymentMethodForm {
             , ccLastName: ['', Validators.required]
             , ccType: ['', Validators.required]
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
-            , ccExpiryMonth: [this.month, Validators.required]
+            , ccExpiryMonth: [this.month, [Validators.required, CustomValidators.creditCardexpiryMonthValidator]]
             , ccExpiryYear: [this.year, [Validators.required, CustomValidators.creditCardYearValidator]]
             , ccSecurityCode: ['', [Validators.required, CustomValidators.creditCardSecurityCodeValidator]]
             , co: ['']
@@ -155,6 +165,7 @@ export class PaymentMethodForm {
     };
 
     cancel() {
+        this.initPayMethodForm();
         this.appService.request('close:pay:method:modal')();
     };
 

@@ -90,6 +90,27 @@ export class CustomValidators {
         }
         return (ret);
     };
+    static creditCardexpiryMonthValidator(control) {
+        let val = parseInt(control.value);
+        //let firstDigit = control.value[0];
+        if(val<0)
+        {
+            return { 'invalidExpiryMonth': true };
+        }
+        if(control.value == "0"){
+            return { 'invalidExpiryMonth': true };
+        }
+        else if(control.value == "00"){
+            return { 'invalidExpiryMonth': true };
+        }
+        if(val > 12){
+            return { 'invalidExpiryMonth': true };
+        }
+        else{
+            return null;
+        }
+    };
+    
     static creditCardYearValidator(control) {
         // Visa, MasterCard, American Express, Diners Club, Discover, JCB
         var dt = new Date();

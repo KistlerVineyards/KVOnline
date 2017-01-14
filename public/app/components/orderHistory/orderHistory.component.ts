@@ -60,7 +60,7 @@ export class OrderHistory {
     showDetails(order) {
         this.orderHeaders.map((a: any, b) => { a.checked = false; });//to uncheck all rows
         order.grandTotalWine = order.totalPriceWine / 1 + order.salesTaxWine / 1 + order.shippingWine / 1;
-        order.grandTotalAddl = order.totalPriceAddl / 1 + order.salesTaxAddl / 1 + order.shippingAddl / 1;
+        order.grandTotalAddl = order.totalPriceAddl / 1 + order.salesTaxAddl / 1 + (order.shippingAddl - order.shippingWine) / 1;
         order.checked = true; // to check current row
         this.selectedOrder = order;
         this.appService.httpGet('get:order:details', { id: order.id })
