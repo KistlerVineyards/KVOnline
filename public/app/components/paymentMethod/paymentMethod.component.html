@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccNumber">Card number(No dashes/spaces):</label>
-                            <input type="text" class="form-control lock-number" id="ccNumber" placeholder="Enter card number" formControlName="ccNumber">
+                            <input type="text" (keypress)="isNumber($event)" class="form-control lock-number" id="ccNumber" placeholder="Enter card number" formControlName="ccNumber">
                             <control-messages [control]="payMethodForm.controls.ccNumber"></control-messages>
                         </div>
                     </div>
@@ -50,14 +50,14 @@
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccExpiryMonth">Expiry month:</label>
                             <!--<p-spinner size="12" [(ngModel)]="month" [min]="01" [max]="12" id="ccExpiryMonth" placeholder="Enter expiry month" formControlName="ccExpiryMonth"></p-spinner>-->
-                            <input type="number" class="form-control" id="ccExpiryMonth" formControlName="ccExpiryMonth" placeholder="Month" [min]="1"
+                            <input type="number" (keypress)="isNumber($event)" class="form-control" id="ccExpiryMonth" formControlName="ccExpiryMonth" placeholder="Month" [min]="1"
                                 [max]="12">
                             <control-messages [control]="payMethodForm.controls.ccExpiryMonth"></control-messages>
                         </div>
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccExpiryYear">Expiry year:</label>
                             <!--<p-spinner size="20" [(ngModel)]="year" [min]="currentYear" [max]="currentYear + 10" id="ccExpiryYear" placeholder="Year" formControlName="ccExpiryYear" thousandSeparator="" [maxlength]="4"></p-spinner>-->
-                            <input type="number" class="form-control" id="ccExpiryYear" formControlName="ccExpiryYear" placeholder="Year" [min]="year"
+                            <input type="number" (keypress)="isNumber($event)" class="form-control" id="ccExpiryYear" formControlName="ccExpiryYear" placeholder="Year" [min]="year"
                                 [max]="year + 20">
                             <control-messages [control]="payMethodForm.controls.ccExpiryYear"></control-messages>
                         </div>
@@ -67,7 +67,7 @@
 
                         <div class="col-sm-6 formGap">
                             <label class="control-label" for="ccSecurityCode">Security code:</label>
-                            <input type="text" class="form-control lock-number" id="ccSecurityCode" formControlName="ccSecurityCode" placeholder="Enter security code">
+                            <input type="text" (keypress)="isNumber($event)" class="form-control lock-number" id="ccSecurityCode" formControlName="ccSecurityCode" placeholder="Enter security code">
                             <control-messages [control]="payMethodForm.controls.ccSecurityCode"></control-messages>
                         </div>
                         <!--<div class="col-sm-6 formGap">

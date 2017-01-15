@@ -142,6 +142,15 @@ var PaymentMethod = (function () {
         this.payMethodForm.controls['ccType'].markAsDirty();
     };
     ;
+    PaymentMethod.prototype.isNumber = function (evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    };
+    ;
     PaymentMethod.prototype.addPayMethod = function () {
         this.initPayMethodForm();
         this.payMethodForm.controls["countryName"].setValue("US");

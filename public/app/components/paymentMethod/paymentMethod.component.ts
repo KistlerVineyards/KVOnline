@@ -143,7 +143,14 @@ export class PaymentMethod {
         this.payMethodForm.controls['phone'].markAsDirty();
         this.payMethodForm.controls['ccType'].markAsDirty();
     };
-
+    isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    };  
     addPayMethod() {
         this.initPayMethodForm();
         this.payMethodForm.controls["countryName"].setValue("US");
