@@ -156,6 +156,12 @@ export class Order {
   //   let token = this.appService.getToken();
   //   this.appService.httpPost('post:save:order', { token: token, order: finalOrder });
   // };
+  allAllocation()
+  {
+    let ords = this.orders.filter((a) => {
+      a.orderQty = a.availableQty;
+    });
+  };
   request() {
     let totalRequestedBottles = 0;
     let totalRequestedPackagess = 0;
@@ -181,7 +187,22 @@ export class Order {
     let negativeValue = this.orders.find((order, index) => {
       return ((order.orderQty < 0) || (order.wishList < 0));
     });
+    let nonNumericValue = this.orders.find((order, index) => {
+      if(order.orderQty == null){
+        return true;
+      }
+      else if(order.wishList == null){
+        return true;
+      }
+      else{
+        return false;
+      }
+    });
     let index = this.orders.findIndex(a => a.orderQty > a.availableQty);
+    if(nonNumericValue){
+      this.alert.show = true;
+      this.alert.message = ("Invalid quantity exists in your request.");    
+    }
     if (negativeValue) {
       this.alert.show = true;
       this.alert.message = this.appService.getValidationErrorMessage('someNegativeValues');
@@ -200,7 +221,7 @@ export class Order {
         {
           minmumrequestSatisfied = true;
         }
-        if(minmumrequestSatisfied){        
+        if(minmumrequestSatisfied && !nonNumericValue){        
           this.alert.show = false;
           this.alert.message = '';
           //this.orders.isholidayGift=this.isholidayGift;
@@ -208,9 +229,11 @@ export class Order {
           this.appService.reply('holidaygift', this.isholidayGift);
           this.router.navigate(['approve/order']);
         }else{
+          if(!nonNumericValue){
           //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
           this.alert.show = true;
           this.alert.message = "Invalid request. Minimum request should be " + this.minOrderBottles + " bottles or " + this.minOrderPackages+" 6-bottle package";
+          }
         }
       } else {
         this.alert.show = true;

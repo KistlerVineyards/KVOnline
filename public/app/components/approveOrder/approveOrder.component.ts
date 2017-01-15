@@ -72,7 +72,7 @@ export class ApproveOrder {
     };
 
     resetNewCard() {
-        this.newCard = {};
+        //this.payMethodModal.dismiss();
     }    
     constructor(private appService: AppService, private router: Router) {
         let ords = appService.request('orders');

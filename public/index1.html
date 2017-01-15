@@ -13,20 +13,40 @@
   <my-app>
     <div class="Loadbox"></div>
   </my-app>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en&V=1.0"></script>
-  <script src="node_modules/systemjs/dist/system.src.js?v=1.0"></script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en&V=1.1"></script>
+  <script src="node_modules/systemjs/dist/system.src.js?v=1.1"></script>
   <script src="systemjs.config.js?v=1.0"></script>
   <script>
     System.import('app').catch(function (err) { console.error(err); });
   </script>
 </body>
-<script src="node_modules/core-js/client/shim.min.js?v=1.0"></script>
-<script src="node_modules/zone.js/dist/zone.min.js?v=1.0"></script>
-<script src="node_modules/reflect-metadata/Reflect.js?v=1.0"></script>
-<link href="app/vendor/bootstrap-3.3.7/dist/css/bootstrap.min.css?v=1.0" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="node_modules/primeng/resources/themes/aristo/theme.css?v=1.0" />
-<link rel="stylesheet" type="text/css" href="node_modules/primeng/resources/primeng.min.css?v=1.0" />
-<link rel="stylesheet" type="text/css" href="app/vendor/font-awesome-4.7.0/css/font-awesome.min.css?v=1.0" />
-<link rel="stylesheet" href="app/assets/css/styles.css?v=1.0">
+<script src="node_modules/core-js/client/shim.min.js?v=1.1"></script>
+<script src="node_modules/zone.js/dist/zone.min.js?v=1.1"></script>
+<script src="node_modules/reflect-metadata/Reflect.js?v=1.1"></script>
+<link href="app/vendor/bootstrap-3.3.7/dist/css/bootstrap.min.css?v=1.1" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="node_modules/primeng/resources/themes/aristo/theme.css?v=1.1" />
+<link rel="stylesheet" type="text/css" href="node_modules/primeng/resources/primeng.min.css?v=1.1" />
+<link rel="stylesheet" type="text/css" href="app/vendor/font-awesome-4.7.0/css/font-awesome.min.css?v=1.1" />
+<link rel="stylesheet" href="app/assets/css/styles.css?v=1.1">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90310717-1', 'auto');
+  //ga('send', 'pageview');
+
+</script>
+<script type="text/javascript">
+  var appInsights=window.appInsights||function(config){
+    function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t
+    }({
+        instrumentationKey:"b3ac69b3-900e-41a4-977c-0443d8a1d428"
+    });
+       
+    window.appInsights=appInsights;
+    //appInsights.trackPageView();
+</script>
 
 </html>

@@ -144,6 +144,12 @@ var Order = (function () {
     //   let token = this.appService.getToken();
     //   this.appService.httpPost('post:save:order', { token: token, order: finalOrder });
     // };
+    Order.prototype.allAllocation = function () {
+        var ords = this.orders.filter(function (a) {
+            a.orderQty = a.availableQty;
+        });
+    };
+    ;
     Order.prototype.request = function () {
         var totalRequestedBottles = 0;
         var totalRequestedPackagess = 0;
@@ -165,7 +171,22 @@ var Order = (function () {
         var negativeValue = this.orders.find(function (order, index) {
             return ((order.orderQty < 0) || (order.wishList < 0));
         });
+        var nonNumericValue = this.orders.find(function (order, index) {
+            if (order.orderQty == null) {
+                return true;
+            }
+            else if (order.wishList == null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
         var index = this.orders.findIndex(function (a) { return a.orderQty > a.availableQty; });
+        if (nonNumericValue) {
+            this.alert.show = true;
+            this.alert.message = ("Invalid quantity exists in your request.");
+        }
         if (negativeValue) {
             this.alert.show = true;
             this.alert.message = this.appService.getValidationErrorMessage('someNegativeValues');
@@ -184,7 +205,7 @@ var Order = (function () {
                     if (this.user.noMinimumOrder == "True") {
                         minmumrequestSatisfied = true;
                     }
-                    if (minmumrequestSatisfied) {
+                    if (minmumrequestSatisfied && !nonNumericValue) {
                         this.alert.show = false;
                         this.alert.message = '';
                         //this.orders.isholidayGift=this.isholidayGift;
@@ -193,9 +214,11 @@ var Order = (function () {
                         this.router.navigate(['approve/order']);
                     }
                     else {
-                        //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
-                        this.alert.show = true;
-                        this.alert.message = "Invalid request. Minimum request should be " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
+                        if (!nonNumericValue) {
+                            //'minimumOrderviolation': 'One or many of the requests exceeds available quantity'
+                            this.alert.show = true;
+                            this.alert.message = "Invalid request. Minimum request should be " + this.minOrderBottles + " bottles or " + this.minOrderPackages + " 6-bottle package";
+                        }
                     }
                 }
                 else {

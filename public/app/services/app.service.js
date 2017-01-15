@@ -408,6 +408,9 @@ var LoginGuard = (function () {
                 this.router.navigate(['/login']);
             }
         }
+        else {
+            this.router.navigate(['/login']);
+        }
         return (ret);
     };
     ;

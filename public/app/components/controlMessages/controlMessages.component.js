@@ -18,11 +18,28 @@ var ControlMessages = (function () {
     ;
     ControlMessages.prototype.isValid = function () {
         var ret = true;
-        if (this.control.errors) {
-            var propertyArray = Object.keys(this.control.errors);
-            if ((propertyArray.length > 0) && this.control.touched) {
-                ret = false;
-                this.errorMessage = this.appService.getValidationErrorMessage(propertyArray[0]);
+        if (this.formGroup) {
+            if (this.formGroup.invalid) {
+                if (this.formGroup.errors) {
+                    var propertyArray = Object.keys(this.formGroup.errors);
+                    if ((propertyArray.length > 0) && this.formGroup.touched) {
+                        ret = false;
+                        this.errorMessage = this.appService.getValidationErrorMessage(propertyArray[0]);
+                    }
+                }
+                else {
+                    ret = false;
+                    this.errorMessage = this.appService.getValidationErrorMessage('invalidForm');
+                }
+            }
+        }
+        else {
+            if (this.control.errors) {
+                var propertyArray = Object.keys(this.control.errors);
+                if ((propertyArray.length > 0) && this.control.touched) {
+                    ret = false;
+                    this.errorMessage = this.appService.getValidationErrorMessage(propertyArray[0]);
+                }
             }
         }
         return (ret);
@@ -34,6 +51,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", forms_1.FormControl)
 ], ControlMessages.prototype, "control", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", forms_1.FormGroup)
+], ControlMessages.prototype, "formGroup", void 0);
 ControlMessages = __decorate([
     core_1.Component({
         selector: 'control-messages',

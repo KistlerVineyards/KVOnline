@@ -54,7 +54,7 @@
             <label *ngIf="isShowHolidayGiftOption"><input type="checkbox" [(ngModel)]="isholidayGift"> {{staticTexts.holidayGift}}</label>
         </div>
         <div class="col-xs-2">
-            <button (click)="request()" class="btn btn-md btn-kistler pull-right">Request</button>
+            <button (click)="allAllocation()" class="btn btn-md btn-kistler pull-right">Enter Full Allocation</button> <button (click)="request()" class="btn btn-md btn-kistler pull-right">Request</button>
         </div>
     </div>
     <alert *ngIf="alert.show" [type]="alert.type" dismissable="true"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{alert.message}}</alert>

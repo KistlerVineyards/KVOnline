@@ -92,6 +92,11 @@ var AppComponent = (function () {
         }).subscribe(function (event) {
             var url = event.urlAfterRedirects.split('?')[0];
             _this.viewBox = config_1.viewBoxConfig[url];
+            if (_this.currentRoute != url) {
+                ga('send', 'pageview', url);
+                appInsights.trackPageView(url);
+                _this.currentRoute = url;
+            }
         });
     }
     ;

@@ -17,6 +17,7 @@ var api_1 = require("primeng/components/common/api");
 //import { TextMaskModule } from 'angular2-text-mask';
 var PaymentMethodForm = (function () {
     function PaymentMethodForm(appService, fb, confirmationService) {
+        // console.log(this.testData);
         var _this = this;
         this.appService = appService;
         this.fb = fb;
@@ -26,7 +27,6 @@ var PaymentMethodForm = (function () {
         this.isDataReady = false;
         this.selectedISOCode = '';
         this.selectedCreditCardType = '';
-        // console.log(this.testData);
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
             _this.countries = _this.appService.getCountries();
             _this.creditCardTypes = _this.appService.getSetting('creditCardTypes');
@@ -38,6 +38,7 @@ var PaymentMethodForm = (function () {
                 console.log('Error occured fetching default billing address');
             }
             else {
+                _this.initPayMethodForm();
                 var defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
                 _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
                 _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
@@ -47,6 +48,7 @@ var PaymentMethodForm = (function () {
                 _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
                 _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
                 _this.selectedISOCode = defaultBillingAddress.isoCode;
+                _this.reset();
             }
         });
         this.postPayMethodSub = appService.filterOn("post:payment:method")
@@ -61,15 +63,6 @@ var PaymentMethodForm = (function () {
         });
     }
     ;
-    PaymentMethodForm.prototype.onBlurMethod = function (obj) {
-        var value = obj.value;
-        var monthTemp = value[0];
-        if (monthTemp == "0" && value.length == 3) {
-            monthTemp = value.substring(1, 3);
-            obj.value = monthTemp;
-        }
-        //alert(this.month);
-    };
     PaymentMethodForm.prototype.initPayMethodForm = function () {
         this.year = (new Date()).getFullYear();
         this.month = (new Date()).getMonth() + 1;
@@ -152,9 +145,25 @@ var PaymentMethodForm = (function () {
         }
     };
     ;
+    PaymentMethodForm.prototype.isNumber = function (evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    };
+    ;
     PaymentMethodForm.prototype.cancel = function () {
         this.initPayMethodForm();
         this.appService.request('close:pay:method:modal')();
+    };
+    ;
+    PaymentMethodForm.prototype.reset = function () {
+        this.payMethodForm.controls["countryName"].setValue("US");
+        this.selectedISOCode = "US";
+        this.payMethodForm.controls['ccType'].setValue('Visa');
+        this.selectedCreditCardType = "Visa";
     };
     ;
     PaymentMethodForm.prototype.select = function () {

@@ -6,7 +6,8 @@ import { AppService } from '../services/app.service';
 import { viewBoxConfig } from '../config';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core'
 import { SpinnerComponent } from './app.spinner';
-
+declare var ga:Function;
+declare var appInsights: any;
 @Component({
   selector: 'my-app',
   templateUrl: 'app/components/app.component.html'
@@ -19,8 +20,8 @@ export class AppComponent {
   home: string = '#';
   kistler: string = '#';
   viewBox: {} = viewBoxConfig['/login'];
-
- showMenu: boolean = false;
+  currentRoute:string;
+  showMenu: boolean = false;
   myAccountshowMenu: boolean = false;
   currentEmail: string = "";
   needHelpText: string = "";
@@ -48,6 +49,11 @@ export class AppComponent {
     }).subscribe((event: any) => {
       let url = event.urlAfterRedirects.split('?')[0];
       this.viewBox = viewBoxConfig[url];
+      if(this.currentRoute !=url){
+        ga('send', 'pageview', url);
+        appInsights.trackPageView(url);
+        this.currentRoute = url;
+      }
     });
   };
 

@@ -35,6 +35,7 @@ export class PaymentMethodForm {
     getDefaultBillingAddressSub: Subscription;
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         // console.log(this.testData);
+        
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
             this.countries = this.appService.getCountries();
             this.creditCardTypes = this.appService.getSetting('creditCardTypes');
@@ -46,7 +47,7 @@ export class PaymentMethodForm {
                 if (d.data.error) {
                     console.log('Error occured fetching default billing address');
                 } else {
-                    
+                    this.initPayMethodForm();
                     let defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
                     this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
                     this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
@@ -56,7 +57,7 @@ export class PaymentMethodForm {
                     this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
                     this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
                     this.selectedISOCode = defaultBillingAddress.isoCode;
-                    
+                    this.reset(); 
                 }
             });
         this.postPayMethodSub = appService.filterOn("post:payment:method")
@@ -70,17 +71,7 @@ export class PaymentMethodForm {
                 }
             });            
     };
-    onBlurMethod(obj){
-    let value =obj.value;
-    let monthTemp = value[0];
-    if(monthTemp == "0" && value.length == 3)
-    {
-        monthTemp = value.substring(1,3);
-        obj.value = monthTemp;
-    }
-    //alert(this.month);
     
-    }
     initPayMethodForm() {
         this.year = (new Date()).getFullYear();
         this.month = (new Date()).getMonth() + 1;
@@ -163,12 +154,24 @@ export class PaymentMethodForm {
             this.getFormFromNewCard();
         }
     };
-
+    isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    };  
     cancel() {
         this.initPayMethodForm();
         this.appService.request('close:pay:method:modal')();
     };
-
+    public reset() {
+        this.payMethodForm.controls["countryName"].setValue("US");
+        this.selectedISOCode = "US";
+        this.payMethodForm.controls['ccType'].setValue('Visa');
+        this.selectedCreditCardType = "Visa";    
+    };
     select() {
         this.getNewCardFromForm();
         if(this.newCard.isSaveForLaterUse){

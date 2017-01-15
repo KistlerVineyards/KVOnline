@@ -184,7 +184,7 @@ var ApproveOrder = (function () {
     };
     ;
     ApproveOrder.prototype.resetNewCard = function () {
-        this.newCard = {};
+        //this.payMethodModal.dismiss();
     };
     ;
     ApproveOrder.prototype.changeSelectedAddress = function () {

@@ -18,16 +18,33 @@ import { AppService } from '../../services/app.service';
 
 export class ControlMessages {
     @Input() control: FormControl;
+     @Input() formGroup: FormGroup;
     errorMessage: string;
     constructor(private appService: AppService) { };
 
     isValid() {
         let ret = true;
-        if (this.control.errors) {
-            let propertyArray = Object.keys(this.control.errors);
-            if ((propertyArray.length > 0) && this.control.touched) {
-                ret = false;
-                this.errorMessage = this.appService.getValidationErrorMessage(propertyArray[0]);
+        if (this.formGroup) {
+            if (this.formGroup.invalid) {
+                if (this.formGroup.errors) {
+                    let propertyArray = Object.keys(this.formGroup.errors);
+                    if ((propertyArray.length > 0) && this.formGroup.touched) {
+                        ret = false;
+                        this.errorMessage = this.appService.getValidationErrorMessage(propertyArray[0]);
+                    }
+                } else{
+                    ret=false;
+                    this.errorMessage=this.appService.getValidationErrorMessage('invalidForm');
+                }
+            }
+
+        } else {
+            if (this.control.errors) {
+                let propertyArray = Object.keys(this.control.errors);
+                if ((propertyArray.length > 0) && this.control.touched) {
+                    ret = false;
+                    this.errorMessage = this.appService.getValidationErrorMessage(propertyArray[0]);
+                }
             }
         }
         return (ret);

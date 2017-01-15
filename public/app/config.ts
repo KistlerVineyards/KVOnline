@@ -85,7 +85,8 @@ export var validationErrorMessages = {
     'invalidPwd': 'Password must satisfy at least three out of following four criterias: 1) Lower case, 2) Upper case, 3) Number, 4)  Special character like �!@#$%^&*()', 
     'invalidExpiryYear':'Expiry year of card is not valid',
     'InvalidExpiryMonthYear':'Expiry month and expiry year combination is not valid',
-    'invalidExpiryMonth':'Expiry month is not valid'
+    'invalidExpiryMonth':'Expiry month is not valid',
+    'invalidForm':'Data in the form is invalid'
     // , 'testSyncValidation':'test sync validation'
     // , 'testAsyncError':'Test async error'
 };
