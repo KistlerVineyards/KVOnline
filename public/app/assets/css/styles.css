@@ -96,7 +96,7 @@ border-radius: 5px 5px 5px 5px;}
 .ui-inputtext{width: 100%; padding: 6px;}
 .helpLink{cursor: pointer;}
 
-.ProductPanel .requestPanel{padding:15px 0px; margin-bottom: 10px;}
+.requestPanel{margin-bottom: 10px;}
 .ProductPanel .requestPanel .btn{ text-align: right;}
 
 .hidefieldvalidationMsg{display: none; }
