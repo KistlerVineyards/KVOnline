@@ -123,7 +123,7 @@ var Profile = (function () {
         var mDate = util_1.Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
             id: [this.user.userId],
-            email: [this.profile.email, forms_1.Validators.required],
+            email: [this.profile.email, [forms_1.Validators.required, customValidators_1.CustomValidators.emailValidation]],
             firstName: [this.profile.firstName, forms_1.Validators.required],
             co: [this.profile.co],
             phone: [this.profile.phone, [forms_1.Validators.required, customValidators_1.CustomValidators.phoneValidator]],
@@ -131,7 +131,7 @@ var Profile = (function () {
             mailingAddress1: [this.profile.mailingAddress1, forms_1.Validators.required],
             mailingAddress2: [this.profile.mailingAddress2],
             mailingCity: [this.profile.mailingCity, forms_1.Validators.required],
-            mailingState: [this.profile.mailingState, forms_1.Validators.required],
+            mailingState: [this.profile.mailingState],
             mailingZip: [this.profile.mailingZip, forms_1.Validators.required],
             mailingCountry: [this.profile.mailingCountry, forms_1.Validators.required]
         });
@@ -146,7 +146,7 @@ var Profile = (function () {
         var mDate = util_1.Util.getISODate(this.profileForm.controls['birthDay'].value);
         var pr = {};
         pr.id = this.profile.id;
-        pr.email = this.profile.email;
+        pr.email = this.profileForm.controls['email'].value;
         pr.firstName = this.profileForm.controls['firstName'].value;
         //pr.lastName = this.profileForm.controls['lastName'].value;
         pr.co = this.profileForm.controls['co'].value;

@@ -140,7 +140,7 @@ export class PaymentMethodForm {
         this.newCard.country = this.payMethodForm.controls['countryName'].value;
         this.newCard.isoCode = this.payMethodForm.controls['isoCode'].value;
         this.newCard.phone = this.payMethodForm.controls['phone'].value;
-        this.newCard.isSaveForLaterUse = this.payMethodForm.controls['isSaveForLaterUse'].value;        
+        this.newCard.isSaveForLaterUse = this.payMethodForm.controls['isSaveForLaterUse'].value;       
     };
 
     ngOnInit() {

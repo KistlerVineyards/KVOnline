@@ -97,6 +97,7 @@ border-radius: 5px 5px 5px 5px;}
 .helpLink{cursor: pointer;}
 
 .requestPanel{margin-bottom: 10px;}
+.requestPanel button{ margin-left: 10px;} 
 .ProductPanel .requestPanel .btn{ text-align: right;}
 
 .hidefieldvalidationMsg{display: none; }
@@ -215,11 +216,11 @@ border-radius: 5px 5px 5px 5px;}
 .alertExcesOrder span{ margin-top: 5px;}
 
 input.ng-valid{
-          border: 1px solid #42A948;
-        }
-        input.ng-invalid{
-            border: 1px solid #a94442;
-        }
+border: 1px solid #42A948;
+}
+input.ng-invalid{
+border: 1px solid #a94442;
+}
 .name-shipping-address{ color: #a75b02; font-size: 1.1em; font-weight: 700; }
 
 .paymentPageFixGap{ padding-top: 10px;}
@@ -288,7 +289,8 @@ padding-right: 30px;
 
 
 	/* Small Devices, Tablets */
-	@media only screen and (max-width : 1024px) and (max-device-width:1024px) and (-webkit-min-device-pixel-ratio: 2), screen and (max-device-width:1024px) and (-webkit-max-device-pixel-ratio: 3){
+	@media only screen and (max-width : 1024px){
+
 
 .shippingAddressButtonPanel{ display: block;}
 .shippingAddressButtonPanel button{ float: left; margin-right: 10px;}
@@ -330,7 +332,7 @@ padding-right: 30px;
 	}
 
 	/* Extra Small Devices, Phones */
-		@media only screen and (max-width : 640px) and (max-device-width:640px) and (-webkit-min-device-pixel-ratio: 2), screen and (max-device-width:640px) and (-webkit-min-device-pixel-ratio: 3){
+		@media only screen and (max-width : 640px){
 			.productInfoPanel .orderWith{ width: 46px;}
 			.requestListOrder {
     width: 48%;
@@ -340,10 +342,11 @@ padding-right: 30px;
     width: 52%;
   
 }
+
 		}
 
 
-	@media only screen and (max-width: 480px) and (max-device-width:480px) and (-webkit-min-device-pixel-ratio: 2), screen and (max-device-width:480px) and (-webkit-min-device-pixel-ratio: 3){
+	@media only screen and (max-width: 480px) {
 		.orderDetailsPaneltbl .panel-body{padding: 2px;}
 		.btnApprovedpayment button, .btnApprovedOrder button{ margin-right: 5px; margin-left: 0px; margin-top:10px; }
 .panel-heading {
@@ -572,8 +575,63 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 	}
 
-	/* Custom, iPhone Retina */
-	@media only screen and (max-width : 320px) and (max-device-width:320px) and (-webkit-min-device-pixel-ratio: 2) {
+
+
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) { 
+
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) { 
+
+}
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+
+}
+
+
+	@media only screen and (max-width : 320px){
         .reviewsDetails li{font-size: .9em;	}
 		.orderDescPanel{ font-size: .9em;	}
 		.col-xs-6 span{display: block;}
@@ -602,3 +660,6 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 
 
 	}
+
+
+	

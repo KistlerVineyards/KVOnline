@@ -109,7 +109,8 @@ export class ApproveOrder {
                     this.isPaymentOptionSelected=true;
                     this.isExistingPaymentMethodavailable=true;
                     this.selectedCard = this.defaultCard = artifacts.Table[0];
-                    this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length)
+                    this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length);
+                    this.selectedCard.isEncryptionRequired=false;
                 } else {
                     this.isPaymentOptionSelected=false;
                     this.isExistingPaymentMethodavailable=false;
@@ -158,6 +159,7 @@ export class ApproveOrder {
             if (this.newCard.isSaveForLaterUse) {
                 this.isExistingPaymentMethodavailable=true;
             }
+            this.selectedCard.isEncryptionRequired = true;
             this.payMethodModal.close();
         });        
         this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(d => {
@@ -237,7 +239,7 @@ export class ApproveOrder {
     selectCard(card) {
         this.selectedCard = card;
         this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length -4, this.selectedCard.ccNumber.length)
-
+        this.selectedCard.isEncryptionRequired=false;
         this.cardModal.close();
     };
 
@@ -296,6 +298,8 @@ export class ApproveOrder {
             MailISOCode:this.profile.mailingISOCode,
             HolidayGift:this.holidaygift,
             Notes : this.specialInstructions,
+            IsEncryptionRequired : this.selectedCard.isEncryptionRequired ? this.selectedCard.isEncryptionRequired : false
+            billid : this.selectedCard.billid ? this.selectedCard.billid : 0;
         };
         let master = orderBundle.orderMaster;
         orderBundle.orderMaster.Amount = master.TotalPriceWine + master.TotalPriceAddl + master.SalesTaxWine

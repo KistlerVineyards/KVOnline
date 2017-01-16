@@ -32,7 +32,7 @@ import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
 import { BlockUIModule } from 'primeng/primeng';
 import { SpinnerComponent } from './components/app.spinner';
-import { TextMaskModule } from 'angular2-text-mask';
+//import { TextMaskModule } from 'angular2-text-mask';
 import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodForm.component';
 
 @NgModule({
@@ -48,7 +48,7 @@ import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodF
     , GrowlModule
     , NgIdleModule.forRoot()
     , BlockUIModule
-    , TextMaskModule
+    //, TextMaskModule
   ]
   , declarations: [AppComponent
     , Login

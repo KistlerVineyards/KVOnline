@@ -9,6 +9,27 @@ var CustomValidators = (function () {
         }
     };
     ;
+    CustomValidators.emailValidation = function (control) {
+        var filter = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        if (control.value != null) {
+            if (!filter.test(control.value)) {
+                return { 'invalidEmail': true };
+            }
+        }
+        else {
+            return { 'invalidEmail': true };
+        }
+    };
+    ;
+    CustomValidators.stateValidation = function (state, country) {
+        //if(formGroup["mailingState"] && country != null){
+        var state = state.value;
+        var country = country.value;
+        //  }
+        var t = 0;
+        t = t + 1;
+    };
+    ;
     CustomValidators.usZipCodeValidator = function (control) {
         if (!control.value.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)) {
             return ({ 'invalidZipCode': true });

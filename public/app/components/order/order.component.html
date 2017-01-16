@@ -19,10 +19,10 @@
                     </div>
                     <div class="requestListOrder">
 						 <div class="requestPanelOrder">
-                        <span>Request: </span><input class="form-control orderWith" type="number" min="0" onfocus="this.select()" [(ngModel)]="order.orderQty">
+                        <span>Request: </span><input (keypress)="isNumber($event)" class="form-control orderWith" type="number" min="0"  onfocus="this.select()" [(ngModel)]="order.orderQty">
                     </div>
                     <div class="requestWishOrder">Additional Request: 
-					 	<input class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList">
+					 	<input (keypress)="isNumber($event)" class="form-control orderWith" type="number" min="1" onfocus="this.select()" [(ngModel)]="order.wishList">
 					 </div>
                 </div>
 				</div>
@@ -30,6 +30,7 @@
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
 					{{excessOrder}}
 				</div>
+                
                 <div class=" showproductDetails" *ngIf="order.isShowDetails || order.packing !='b'">
                     <div class="row orderDescPanel">
                         <div *ngIf="order.imageUrl" class="col-sm-2"><img [src]="order.imageUrl" class="img-thumbnail"></div>
@@ -49,18 +50,16 @@
             </div>
         </div>
     </div>
+    <alert *ngIf="alert.show" [type]="alert.type" dismissable="true"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{alert.message}}</alert>
     <div class="row requestPanel">
         <div class="checkbox col-xs-10" >
             <label *ngIf="isShowHolidayGiftOption"><input type="checkbox" [(ngModel)]="isholidayGift"> {{staticTexts.holidayGift}}</label>
         </div>
-        <div class="col-xs-6">
-            <button (click)="allAllocation()" class="btn btn-md btn-kistler pull-right">Enter Full Allocation</button>
-        </div>
-        <div class="col-xs-6">
-          <button (click)="request()" class="btn btn-md btn-kistler pull-right">Request</button>
+        <div class="col-xs-12">
+             <button (click)="request()" class="btn btn-md btn-kistler pull-right">Request</button>
+             <button (click)="allAllocation()" class="btn btn-md btn-kistler pull-right">Enter Full Allocation</button>
         </div>
     </div>
-    <alert *ngIf="alert.show" [type]="alert.type" dismissable="true"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{alert.message}}</alert>
     <label>{{staticTexts.minimumRequest}}</label>
     <div><label><span class="glyphicon glyphicon-asterisk brandColor" aria-hidden="true"></span>{{staticTexts.bottomNotes}}</label></div>
 </div>

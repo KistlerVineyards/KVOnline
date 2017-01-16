@@ -97,6 +97,7 @@ var ApproveOrder = (function () {
                     _this.isExistingPaymentMethodavailable = true;
                     _this.selectedCard = _this.defaultCard = artifacts.Table[0];
                     _this.selectedCard.ccNumber = "x" + _this.selectedCard.ccNumber.substring(_this.selectedCard.ccNumber.length - 4, _this.selectedCard.ccNumber.length);
+                    _this.selectedCard.isEncryptionRequired = false;
                 }
                 else {
                     _this.isPaymentOptionSelected = false;
@@ -147,6 +148,7 @@ var ApproveOrder = (function () {
             if (_this.newCard.isSaveForLaterUse) {
                 _this.isExistingPaymentMethodavailable = true;
             }
+            _this.selectedCard.isEncryptionRequired = true;
             _this.payMethodModal.close();
         });
         this.allCardSubscription = appService.filterOn('get:payment:method').subscribe(function (d) {
@@ -218,6 +220,7 @@ var ApproveOrder = (function () {
     ApproveOrder.prototype.selectCard = function (card) {
         this.selectedCard = card;
         this.selectedCard.ccNumber = "x" + this.selectedCard.ccNumber.substring(this.selectedCard.ccNumber.length - 4, this.selectedCard.ccNumber.length);
+        this.selectedCard.isEncryptionRequired = false;
         this.cardModal.close();
     };
     ;
@@ -277,6 +280,8 @@ var ApproveOrder = (function () {
             MailISOCode: this.profile.mailingISOCode,
             HolidayGift: this.holidaygift,
             Notes: this.specialInstructions,
+            IsEncryptionRequired: this.selectedCard.isEncryptionRequired ? this.selectedCard.isEncryptionRequired : false,
+            billid: this.selectedCard.billid ? this.selectedCard.billid : 0
         };
         var master = orderBundle.orderMaster;
         orderBundle.orderMaster.Amount = master.TotalPriceWine + master.TotalPriceAddl + master.SalesTaxWine

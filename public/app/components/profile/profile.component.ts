@@ -125,7 +125,7 @@ export class Profile {
         let mDate = Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
             id: [this.user.userId]
-            ,email: [this.profile.email, Validators.required]
+            ,email: [this.profile.email, [Validators.required,CustomValidators.emailValidation]]
             ,firstName: [this.profile.firstName, Validators.required]
             //, lastName: [this.profile.lastName, Validators.required]
 	        , co:[this.profile.co]
@@ -134,7 +134,7 @@ export class Profile {
             , mailingAddress1: [this.profile.mailingAddress1, Validators.required]
             , mailingAddress2: [this.profile.mailingAddress2]
             , mailingCity: [this.profile.mailingCity, Validators.required]
-            , mailingState: [this.profile.mailingState, Validators.required]
+            , mailingState: [this.profile.mailingState]
             , mailingZip: [this.profile.mailingZip, Validators.required]
 	    , mailingCountry: [this.profile.mailingCountry, Validators.required]
         });
@@ -148,7 +148,7 @@ export class Profile {
         let mDate = Util.getISODate(this.profileForm.controls['birthDay'].value);
         let pr: any = {};
         pr.id = this.profile.id;
-        pr.email=this.profile.email;
+        pr.email=this.profileForm.controls['email'].value;
         pr.firstName = this.profileForm.controls['firstName'].value;
         //pr.lastName = this.profileForm.controls['lastName'].value;
 	    pr.co=this.profileForm.controls['co'].value;
