@@ -43,7 +43,8 @@ export class AppService {
             'masters:download:success': new BehaviorSubject({ id: '1', data: {} }),
             'settings:download:success': new BehaviorSubject({ id: '1', data: {} }),
             'login:page:text': new BehaviorSubject({id:1,data:{}}),
-            'spinner:hide:show': new BehaviorSubject(false)
+            'spinner:hide:show': new BehaviorSubject(false),
+            'open:new:address:modal': new BehaviorSubject({id: '1', data: {}})
         };
         this.channel = {};
         this.mastersSubscription = this.filterOn('get:all:masters').subscribe(
@@ -174,7 +175,7 @@ export class AppService {
         // if (this.spinnerObserver) { this.spinnerObserver.next(true); }
         this.behEmit('spinner:hide:show',true);
         this.http.post(url, body, { headers: headers })
-            .map(response => response.json())
+            .map(response => response.json()) 
             .subscribe(d => {
                 this.subject.next({
                     id: id, data: d, body: body
@@ -324,6 +325,7 @@ export class AppService {
         this.mastersSubscription.unsubscribe();
         this.settingsSubscription.unsubscribe();
     };
+    
 };
 
 @Injectable()

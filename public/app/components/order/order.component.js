@@ -134,6 +134,16 @@ var Order = (function () {
         return true;
     };
     ;
+    Order.prototype.isValidEntry = function (a) {
+        if (a.orderQty == null) {
+            return false;
+        }
+        if (a.wishList == null) {
+            return false;
+        }
+        return true;
+    };
+    ;
     Order.prototype.toggleDetails = function (order) {
         if (order.isShowDetails) {
             order.isShowDetails = false;
@@ -156,10 +166,15 @@ var Order = (function () {
     Order.prototype.allAllocation = function () {
         var ords = this.orders.filter(function (a) {
             a.orderQty = a.availableQty;
+            if (a.wishList == null)
+                a.wishList = 0;
         });
+        this.alert.show = false;
+        this.alert.message = '';
     };
     ;
     Order.prototype.request = function () {
+        var _this = this;
         var totalRequestedBottles = 0;
         var totalRequestedPackagess = 0;
         var ords = this.orders.filter(function (a) {
@@ -191,7 +206,7 @@ var Order = (function () {
                 return false;
             }
         });
-        var index = this.orders.findIndex(function (a) { return a.orderQty > a.availableQty; });
+        var index = this.orders.findIndex(function (a) { return (a.orderQty > a.availableQty && !_this.user.isAdmin); });
         if (nonNumericValue) {
             this.alert.show = true;
             this.alert.message = ("Invalid quantity exists in your request.");
@@ -211,7 +226,7 @@ var Order = (function () {
                     if (totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0)) {
                         minmumrequestSatisfied = true;
                     }
-                    if (this.user.noMinimumOrder == "True") {
+                    if (this.user.noMinimumOrder == "True" || this.user.isAdmin) {
                         minmumrequestSatisfied = true;
                     }
                     if (minmumrequestSatisfied && !nonNumericValue) {

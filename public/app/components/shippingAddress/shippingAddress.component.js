@@ -147,7 +147,7 @@ var ShippingAddress = (function () {
             street1: [address.street1 || '', forms_1.Validators.required],
             street2: [address.street2 || ''],
             city: [address.city || '', forms_1.Validators.required],
-            state: [address.state || ''],
+            state: [address.state || '', customValidators_1.CustomValidators.StateLengthValidator],
             zip: [address.zip || '', forms_1.Validators.required],
             countryName: [address.country || '', forms_1.Validators.required],
             isoCode: [address.isoCode || ''],
@@ -248,6 +248,7 @@ var ShippingAddress = (function () {
     ShippingAddress.prototype.editedAddressConfirmBeforeSave = function (data) {
         var _this = this;
         var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        street = street.trim();
         var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
         this.confirmationService.confirm({
             message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),

@@ -119,7 +119,7 @@ var PaymentMethod = (function () {
         this.month = (new Date()).getMonth() + 1;
         this.payMethodForm = this.fb.group({
             id: [''],
-            cardName: ['', forms_1.Validators.required],
+            cardName: ['My Card', forms_1.Validators.required],
             ccFirstName: ['', forms_1.Validators.required],
             ccLastName: ['', forms_1.Validators.required],
             ccType: ['', forms_1.Validators.required],

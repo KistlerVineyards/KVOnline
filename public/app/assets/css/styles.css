@@ -271,6 +271,14 @@ padding-right: 30px;
 .popupText{ font-size: 1.3em;}
 .popupText a{ text-decoration: underline;}
 .popupText a:hover{ text-decoration:none;}
+#shippinAddressForm .ui-dialog{
+	position: absolute !important;
+	left: 50% !important;
+	margin-left: -150px !important;
+	z-index: 1030 !important;
+	top: 50% !important;
+	margin-top: -150px !important;
+} 
 	/*==========  Mobile First Method  ==========*/
 
 
@@ -291,7 +299,9 @@ padding-right: 30px;
 	/* Small Devices, Tablets */
 	@media only screen and (max-width : 1024px){
 
-
+.modal {
+    position: absolute!important;
+	}
 .shippingAddressButtonPanel{ display: block;}
 .shippingAddressButtonPanel button{ float: left; margin-right: 10px;}
 .ProductPanel .productTitle{ width:100%; float: none; border-bottom: solid 1px #ddd; padding-bottom: 5px; margin-bottom: 5px; padding-top: 0px; }
@@ -330,6 +340,14 @@ padding-right: 30px;
 		}
 
 	}
+/*
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px){
+	.mainContainer .modal-body {
+		height: 708px!important;
+	}
+
+}*/
+
 
 	/* Extra Small Devices, Phones */
 		@media only screen and (max-width : 640px){
@@ -576,11 +594,13 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
 	}
 
 
-
 /* ----------- iPhone 6 ----------- */
 
 /* Portrait and Landscape */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) { 
+	.modal {
+    position: absolute!important;
+	}
 
 }
 
@@ -590,6 +610,10 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
+	 
+
+	/*  .modal-body{ overflow: auto; height:428px; } */
+	  	 
 
 }
 
@@ -599,6 +623,10 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: landscape) { 
+	  	
+	  	 
+	/*   .modal-body{ overflow: auto; height:200px; }  */
+
 
 }
 
@@ -609,6 +637,12 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
   and (min-device-width: 414px) 
   and (max-device-width: 736px) 
   and (-webkit-min-device-pixel-ratio: 3) { 
+	.modal {
+    position: absolute!important;
+	}
+	  	  
+/* .modal-body{ overflow: auto; height:500px; } */
+
 
 }
 
@@ -619,6 +653,10 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
   and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: portrait) { 
 
+ 
+	  	 /*
+.modal-body{ overflow: auto; height:300px; } */
+
 }
 
 /* Landscape */
@@ -627,6 +665,10 @@ box-shadow: 0 0 2px 2px #dddddd; margin-left: -10px; margin-right: -10px;}
   and (max-device-width: 736px) 
   and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: landscape) { 
+	  	 
+	  	 
+	/*  .modal-body{ overflow: auto; height:500px; }*/
+
 
 }
 

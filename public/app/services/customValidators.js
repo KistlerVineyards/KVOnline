@@ -147,6 +147,36 @@ var CustomValidators = (function () {
             return null;
         }
     };
+    CustomValidators.StateLengthValidator = function (control) {
+        if (control.value != null) {
+            if (control.value.length > 11) {
+                return { 'invalidState': true };
+            }
+            else {
+                return null;
+            }
+        }
+    };
+    CustomValidators.CCFirstNameLengthValidator = function (control) {
+        if (control.value != null) {
+            if (control.value.length > 20) {
+                return { 'invalidCCFirstName': true };
+            }
+            else {
+                return null;
+            }
+        }
+    };
+    CustomValidators.CCLastNameLengthValidator = function (control) {
+        if (control.value != null) {
+            if (control.value.length > 20) {
+                return { 'invalidCCLastName': true };
+            }
+            else {
+                return null;
+            }
+        }
+    };
     return CustomValidators;
 }());
 exports.CustomValidators = CustomValidators;

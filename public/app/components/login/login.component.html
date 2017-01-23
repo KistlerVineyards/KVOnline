@@ -14,9 +14,11 @@
       <control-messages [control]="loginForm.controls.password"></control-messages>
     </div>
     <alert  *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
+    <alert  *ngIf="localstoragealert.show" [type]="alert.type" >{{localstoragealert.message}}</alert>
+
     <div class="form-inline signInPanel">
       <div class="form-group">
-        <button type="submit" class="btn btn-md btn-kistler" [disabled]="!loginForm.valid">Submit</button>
+        <button type="submit" class="btn btn-md btn-kistler" [disabled]="!loginForm.valid || !iscookieEnabled || !isLocalStorageSupported">Submit</button>
       </div>
       <div class="form-group forgotPassword">
         <a routerLink='/forgot/password'>Forgot password</a>

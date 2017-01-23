@@ -150,7 +150,7 @@ export class ShippingAddress {
             street1: [address.street1 || '', Validators.required],
             street2: [address.street2 || ''],
             city: [address.city || '', Validators.required],
-            state: [address.state || ''],
+            state: [address.state || '', CustomValidators.StateLengthValidator],
             zip: [address.zip || '', Validators.required],
             countryName: [address.country || '', Validators.required],
             isoCode: [address.isoCode || ''],
@@ -244,6 +244,7 @@ export class ShippingAddress {
 
     editedAddressConfirmBeforeSave(data) {
         let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        street = street.trim();
         let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
         this.confirmationService.confirm({
             message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),

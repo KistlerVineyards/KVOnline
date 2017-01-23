@@ -94,8 +94,11 @@ var AppComponent = (function () {
             _this.viewBox = config_1.viewBoxConfig[url];
             if (_this.currentRoute != url) {
                 ga('send', 'pageview', url);
+                appInsights.disableAjaxTracking = true;
                 appInsights.trackPageView(url);
+                console.log("appInsights.disableAjaxTracking= " + appInsights.disableAjaxTracking);
                 _this.currentRoute = url;
+                document.body.scrollTop = 0;
             }
         });
     }

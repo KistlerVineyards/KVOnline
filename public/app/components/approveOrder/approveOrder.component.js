@@ -40,6 +40,7 @@ var ApproveOrder = (function () {
         // allCards: [any] = [{}];
         this.payMethods = [{}];
         this.newCard = {};
+        this.newAddress = {};
         this.ccNumberOrig = '';
         this.holidaygift = false;
         this.isChangeAddress = false;
@@ -60,6 +61,8 @@ var ApproveOrder = (function () {
                 return ('');
             }
         };
+        this.defaultBillingAddress = {};
+        this.growlMessages = [];
         var ords = appService.request('orders');
         if (!ords) {
             this.router.navigate(['order']);
@@ -177,6 +180,21 @@ var ApproveOrder = (function () {
             }
             _this.computeTotals();
         });
+        this.useNewAddressSub = this
+            .appService
+            .filterOn('close:new:address:modal')
+            .subscribe(function (d) {
+            _this
+                .newAddressModal
+                .close();
+            if (d.data.success) {
+                _this.growlMessages = [];
+                _this
+                    .growlMessages
+                    .push({ severity: 'success', summary: 'Saved', detail: 'Data saved successfully' });
+                _this.selectedAddress = d.data.address;
+            }
+        });
     }
     ApproveOrder.prototype.useNewCard = function () {
         var body = {};
@@ -189,7 +207,15 @@ var ApproveOrder = (function () {
         //this.payMethodModal.dismiss();
     };
     ;
-    ApproveOrder.prototype.changeSelectedAddress = function () {
+    ApproveOrder.prototype.useNewAddress = function () {
+        this
+            .appService
+            .behEmit('open:new:address:modal');
+        this
+            .newAddressModal
+            .open();
+    };
+    ApproveOrder.prototype.useExistingAddress = function () {
         this.isAlert = false;
         this.isChangeAddress = true;
         this.appService.httpGet('get:shipping:address');
@@ -270,6 +296,7 @@ var ApproveOrder = (function () {
             BillingISOCode: this.selectedCard.isoCode,
             DayPhone: this.profile.phone,
             MailName: this.profile.firstName,
+            Email: this.profile.email,
             MailCo: this.profile.Co ? this.profile.Co : '',
             MailStreet1: this.profile.mailingAddress1,
             MailStreet2: this.profile.mailingAddress2,
@@ -427,6 +454,7 @@ var ApproveOrder = (function () {
         this.allAddrSubscription.unsubscribe();
         this.allCardSubscription.unsubscribe();
         this.selectNewCardSub.unsubscribe();
+        this.useNewAddressSub.unsubscribe();
     };
     ;
     ApproveOrder.prototype.getArtifact = function () {
@@ -480,6 +508,10 @@ __decorate([
     core_1.ViewChild('payMethodModal'),
     __metadata("design:type", ng2_modal_1.Modal)
 ], ApproveOrder.prototype, "payMethodModal", void 0);
+__decorate([
+    core_1.ViewChild('newAddressModal'),
+    __metadata("design:type", ng2_modal_1.Modal)
+], ApproveOrder.prototype, "newAddressModal", void 0);
 __decorate([
     core_1.ViewChild('addrModal'),
     __metadata("design:type", ng2_modal_1.Modal)

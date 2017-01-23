@@ -43,6 +43,7 @@ var primeng_1 = require("primeng/primeng");
 var app_spinner_1 = require("./components/app.spinner");
 //import { TextMaskModule } from 'angular2-text-mask';
 var paymentMethodForm_component_1 = require("./components/paymentMethodForm/paymentMethodForm.component");
+var shippingAddressForm_component_1 = require("./components/shippingAddressForm/shippingAddressForm.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -78,7 +79,8 @@ AppModule = __decorate([
             controlMessages_component_1.ControlMessages,
             createPassword_component_1.CreatePassword,
             app_spinner_1.SpinnerComponent,
-            paymentMethodForm_component_1.PaymentMethodForm
+            paymentMethodForm_component_1.PaymentMethodForm,
+            shippingAddressForm_component_1.ShippingAddressForm
         ],
         providers: [app_service_1.AppService, app_service_1.LoginGuard, customValidators_1.CustomValidators, api_1.ConfirmationService],
         bootstrap: [app_component_1.AppComponent]

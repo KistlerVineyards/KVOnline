@@ -18,6 +18,7 @@ import { ControlMessages } from '../controlMessages/controlMessages.component';
 })
 export class PaymentMethodForm {
     @Input('newCard') newCard: any;
+    @Input('defaultBillingAddress') defaultBillingAddress: any;
     dataReadySubs: Subscription;
     // @ViewChild('payMethodModal') payMethodModal: Modal;
     payMethodForm: FormGroup;
@@ -35,7 +36,6 @@ export class PaymentMethodForm {
     getDefaultBillingAddressSub: Subscription;
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
         // console.log(this.testData);
-        
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
             this.countries = this.appService.getCountries();
             this.creditCardTypes = this.appService.getSetting('creditCardTypes');
@@ -48,8 +48,9 @@ export class PaymentMethodForm {
                     console.log('Error occured fetching default billing address');
                 } else {
                     this.initPayMethodForm();
+                    this.alert={};
                     let defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
-                    this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                    /*this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
                     this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
                     this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
                     this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
@@ -57,6 +58,15 @@ export class PaymentMethodForm {
                     this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
                     this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
                     this.selectedISOCode = defaultBillingAddress.isoCode;
+                    */
+                    this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.mailingAddress1);
+                    this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.mailingAddress2);
+                    this.payMethodForm.controls['city'].setValue(defaultBillingAddress.mailingCity);
+                    this.payMethodForm.controls['state'].setValue(defaultBillingAddress.mailingState);
+                    this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.mailingZip);                    
+                    this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
+                    this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.mailingISOCode);
+                    this.selectedISOCode = defaultBillingAddress.mailingISOCode;
                     this.reset(); 
                 }
             });
@@ -77,9 +87,9 @@ export class PaymentMethodForm {
         this.month = (new Date()).getMonth() + 1;
         this.payMethodForm = this.fb.group({
             id: ['']
-            , cardName: ['', Validators.required]
-            , ccFirstName: ['', Validators.required]
-            , ccLastName: ['', Validators.required]
+            , cardName: ['My Card', Validators.required]
+            , ccFirstName: ['', [Validators.required, CustomValidators.CCFirstNameLengthValidator]]
+            , ccLastName: ['', [Validators.required, CustomValidators.CCLastNameLengthValidator]]
             , ccType: ['', Validators.required]
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
             , ccExpiryMonth: [this.month, [Validators.required, CustomValidators.creditCardexpiryMonthValidator]]
@@ -89,7 +99,7 @@ export class PaymentMethodForm {
             , street1: ['', Validators.required]
             , street2: ['']
             , city: ['', Validators.required]
-            , state: ['', Validators.required]
+            , state: ['', CustomValidators.StateLengthValidator]
             , zip: ['', Validators.required]
             , countryName: ['', Validators.required]
             , isoCode: ['']
@@ -121,7 +131,7 @@ export class PaymentMethodForm {
         this.payMethodForm.controls['phone'].setValue(this.newCard.phone);
         this.payMethodForm.controls['isSaveForLaterUse'].setValue(this.newCard.isSaveForLaterUse);        
     };
-    @ViewChild('isSaveForLaterUse') isSaveForLaterUse: any;
+    //@ViewChild('isSaveForLaterUse') isSaveForLaterUse: any;
     getNewCardFromForm() {
         this.newCard.cardName = this.payMethodForm.controls['cardName'].value;
         this.newCard.ccFirstName = this.payMethodForm.controls['ccFirstName'].value;
@@ -140,7 +150,10 @@ export class PaymentMethodForm {
         this.newCard.country = this.payMethodForm.controls['countryName'].value;
         this.newCard.isoCode = this.payMethodForm.controls['isoCode'].value;
         this.newCard.phone = this.payMethodForm.controls['phone'].value;
-        this.newCard.isSaveForLaterUse = this.payMethodForm.controls['isSaveForLaterUse'].value;       
+        this.newCard.isSaveForLaterUse = this.payMethodForm.controls['isSaveForLaterUse'].value;  
+        this.newCard.isoCode = this.selectedISOCode;
+        this.newCard.country = this.countries.filter(d => d.isoCode == this.selectedISOCode)[0].countryName;
+     
     };
 
     ngOnInit() {
@@ -161,7 +174,18 @@ export class PaymentMethodForm {
             return false;
         }
         return true;
-    };  
+    };
+    
+    logCheckbox(element: HTMLInputElement): void {
+        //var t=100;
+        //t=t+1;
+        //alert("3rd test");
+        //element.focus();
+        //alert("1st alert.");
+        //document.querySelector("btnsave").focus();
+        //alert("2nd alert.");
+        //this.log += `Checkbox ${element.value} was ${element.checked ? '' : 'un'}checked\n`
+    }
     cancel() {
         this.initPayMethodForm();
         this.appService.request('close:pay:method:modal')();

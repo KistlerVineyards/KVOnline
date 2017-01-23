@@ -114,15 +114,15 @@
     <div class="form-group">
         <div class="col-sm-6 formGap">
             <div class="checkbox">
-                <label><input type="checkbox" formControlName="isSaveForLaterUse"> Save payment information for later use</label>
+                <label><input #savelater (change)="logCheckbox(savelater)" type="checkbox" formControlName="isSaveForLaterUse"> Save payment information for later use</label>
             </div>
         </div>
     </div>
     <control-messages [formGroup]="payMethodForm"></control-messages>
     <div class="row paymentSubmit">
-        <alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
+        <alert *ngIf="alert.show" [type]="alert.type">{{alert.message}}</alert>
         <div class="text-center ">
-            <button *ngIf="isDataReady" (click)="select()" type="button" class="btn btn-md btn-kistler" [disabled]="!payMethodForm.valid">Save</button>
+            <button #btnsave *ngIf="isDataReady" (click)="select()" type="button" class="btn btn-md btn-kistler" [disabled]="!payMethodForm.valid">Save</button>
             <button type="button" class="btn btn-md btn-kistler" (click)="cancel()">Cancel</button>
         </div>
     </div>

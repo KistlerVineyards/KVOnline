@@ -34,6 +34,7 @@ import { BlockUIModule } from 'primeng/primeng';
 import { SpinnerComponent } from './components/app.spinner';
 //import { TextMaskModule } from 'angular2-text-mask';
 import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodForm.component';
+import { ShippingAddressForm } from './components/shippingAddressForm/shippingAddressForm.component';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, Routing, FormsModule
@@ -66,6 +67,7 @@ import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodF
     , CreatePassword
     , SpinnerComponent
     ,PaymentMethodForm
+    , ShippingAddressForm
   ]
   , providers: [AppService, LoginGuard, CustomValidators, ConfirmationService]
   , bootstrap: [AppComponent]

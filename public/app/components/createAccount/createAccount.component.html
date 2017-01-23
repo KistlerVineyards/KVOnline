@@ -18,7 +18,9 @@
         <input type="password" class="form-control" id="InputPassword2" placeholder="Confirm New Password" formControlName="confirmPassword">
         <control-messages [control]="createAccountForm.controls.confirmPassword"></control-messages>
       </div>
-      <button type="submit" class="btn btn-md btn-kistler btn-block" [disabled]="!createAccountForm.valid">Submit</button>
+      <alert  *ngIf="localstoragealert.show" [type]="localstoragealert.type" >{{localstoragealert.message}}</alert>  
+      
+      <button type="submit" class="btn btn-md btn-kistler btn-block" [disabled]="!createAccountForm.valid || !iscookieEnabled || !isLocalStorageSupported">Submit</button>
     </div>
   </form>
 </div>

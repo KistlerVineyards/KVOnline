@@ -120,7 +120,7 @@ export class PaymentMethod {
         this.month = (new Date()).getMonth() + 1;
         this.payMethodForm = this.fb.group({
             id: ['']
-            , cardName: ['', Validators.required]
+            , cardName: ['My Card', Validators.required]
             , ccFirstName: ['', Validators.required]
             , ccLastName: ['', Validators.required]
             , ccType: ['', Validators.required]

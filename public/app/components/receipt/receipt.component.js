@@ -14,9 +14,13 @@ var Receipt = (function () {
     function Receipt(appService) {
         this.appService = appService;
         this.staticTexts = {};
-        this.staticTexts.header = appService.getMessage('mess:receipt:heading');
         var email = this.appService.getCredential().user.email;
         this.staticTexts.info = appService.getMessage('mess:receipt:info').replace('@email', email);
+        var release = appService.getCredential().user.role;
+        if (!release) {
+            release = "Spring 2017";
+        }
+        this.staticTexts.header = appService.getMessage('mess:receipt:heading').replace('@release', release);
     }
     ;
     return Receipt;

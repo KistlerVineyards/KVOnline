@@ -31,7 +31,9 @@ var Profile = (function () {
         this.messages = [];
         this.isDataReady = false;
         this.user = {};
+        this.isReject = false;
         this.isVerifying = false;
+        this.confirmationServiceforIgnore = confirmationService;
         this.user = appService.getCredential().user;
         this.initProfileForm();
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
@@ -46,6 +48,16 @@ var Profile = (function () {
             else {
                 var profileArray = JSON.parse(d.data).Table;
                 if (profileArray.length > 0) {
+                    /*if(this.profile.email != profileArray[0].email)
+                    {
+                        let credential = this.appService.getCredential();
+                        this.user.email=profileArray[0].email;
+                        credential
+                        let credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };
+    l                   ocalStorage.setItem('credential', JSON.stringify(credential));
+                    }
+                    get:user:profile
+                    */
                     _this.profile = profileArray[0];
                 }
                 _this.initProfileForm();
@@ -101,6 +113,7 @@ var Profile = (function () {
     Profile.prototype.editedAddressConfirmBeforeSave = function (data) {
         var _this = this;
         var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        street = street.trim();
         var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
         this.confirmationService.confirm({
             message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
@@ -111,8 +124,19 @@ var Profile = (function () {
                 _this.profileForm.controls["mailingZip"].setValue(data.zipcode);
                 _this.appService.showAlert(_this.alert, false);
                 _this.submit(true);
+            },
+            reject: function () {
+                _this.isReject = true;
             }
         });
+        if (this.isReject) {
+            this.confirmationServiceforIgnore.confirm({
+                message: "Do you want to save this record?",
+                accept: function () {
+                    _this.submit(true);
+                }
+            });
+        }
     };
     ;
     Profile.prototype.ngOnInit = function () {
@@ -200,6 +224,9 @@ var Profile = (function () {
         this.dataReadySubs.unsubscribe();
     };
     ;
+    Profile.prototype.ignoreandSubmit = function () {
+        this.submit();
+    };
     return Profile;
 }());
 Profile = __decorate([

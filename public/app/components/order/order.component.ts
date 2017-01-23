@@ -147,7 +147,16 @@ export class Order {
         }
         return true;
     };  
-
+  isValidEntry(a) {
+    if(a.orderQty == null){
+       return false;
+    }
+    
+    if(a.wishList == null){
+       return false;
+    }
+    return true;
+  };  
   toggleDetails(order) {
     if (order.isShowDetails) {
       order.isShowDetails = false;
@@ -169,7 +178,11 @@ export class Order {
   {
     let ords = this.orders.filter((a) => {
       a.orderQty = a.availableQty;
+      if(a.wishList == null)
+       a.wishList = 0; 
     });
+     this.alert.show = false;
+     this.alert.message = '';
   };
   request() {
     let totalRequestedBottles = 0;
@@ -207,7 +220,7 @@ export class Order {
         return false;
       }
     });
-    let index = this.orders.findIndex(a => a.orderQty > a.availableQty);
+    let index = this.orders.findIndex(a => (a.orderQty > a.availableQty && !this.user.isAdmin));
     if(nonNumericValue){
       this.alert.show = true;
       this.alert.message = ("Invalid quantity exists in your request.");    
@@ -226,7 +239,7 @@ export class Order {
         if(totalRequestedBottles >= this.minOrderBottles || (totalRequestedPackagess >= this.minOrderPackages && this.minOrderPackages > 0) ){
           minmumrequestSatisfied = true;
         }
-        if(this.user.noMinimumOrder == "True")
+        if(this.user.noMinimumOrder == "True" || this.user.isAdmin)
         {
           minmumrequestSatisfied = true;
         }

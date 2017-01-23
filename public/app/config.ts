@@ -37,7 +37,7 @@ export var urlHash = {
     'post:delete:shipping:address':'/api/generic/non/query',
     'post:set:default:payment:method':'/api/generic/non/query',
     'get:approve:artifacts:ShippingandSalesTax':'/api/approve/artifact/shippingandsalestax',
-    'get:default:billing:address': '/api/generic/query',
+    'get:default:billing:address': '/api/profile',//api/generic/query',
     'get:smartyStreet':'https://us-street.api.smartystreets.com/street-address?auth-id=:authId&auth-token=:authToken&street=:street&street2=:street2&city=:city&state=:state&zipcode=:zipcode&'
     , 'get:all:settings': '/api/generic/query'
     ,'get:offer:settings': '/api/generic/query'
@@ -49,7 +49,7 @@ export var messages = {
     'mess:order:minimum:request': '',
     'mess:order:bottom:notes': 'Wines in 6-bottle packages are subject to change',
     'mess:approve:heading': 'Please review your shipping address & payment method information for your order.',
-    'mess:receipt:heading': 'Thank you for your Kistler Fall 2016 Request.',
+    'mess:receipt:heading': 'Thank you for your Kistler @release Request.',
     'mess:receipt:info': 'An acknowledgement email has been sent to @email. If you do not receive the email within 10 minutes, please check your Spam / Junk mail folder. Otherwise, contact us for assistance. ',
     'mess:confirm:save:invalid:address':'This address could not be verified. Do you still want to proceed with this unverified address? ',
     'mess:confirm:save:edited:address':'This address has been verified by US Postal Service but some minor changes are required. \nPlease confirm you accept the revised address below: \n\n'
@@ -86,7 +86,10 @@ export var validationErrorMessages = {
     'invalidExpiryYear':'Expiry year of card is not valid',
     'InvalidExpiryMonthYear':'Expiry month and expiry year combination is not valid',
     'invalidExpiryMonth':'Expiry month is not valid',
-    'invalidForm':'Data in the form is invalid'
+    'invalidForm':'Data in the form is invalid',
+    'invalidState':'State name is invalid',
+    'invalidCCFirstName': 'First name is invalid',
+    'invalidCCLastName': 'Last name is invalid'
     // , 'testSyncValidation':'test sync validation'
     // , 'testAsyncError':'Test async error'
 };

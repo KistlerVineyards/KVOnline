@@ -143,4 +143,40 @@ export class CustomValidators {
             return null;
         }
     }
+    static StateLengthValidator(control) {
+        if(control.value!=null){
+            if(control.value.length > 11)
+            {
+                return { 'invalidState': true };
+            }
+            else 
+            {
+                return null;
+            }
+        }
+    }
+    static CCFirstNameLengthValidator(control) {
+        if(control.value!=null){
+            if(control.value.length > 20)
+            {
+                return { 'invalidCCFirstName': true };
+            }
+            else 
+            {
+                return null;
+            }
+        }
+    }
+    static CCLastNameLengthValidator(control) {
+        if(control.value!=null){
+            if(control.value.length > 20)
+            {
+                return { 'invalidCCLastName': true };
+            }
+            else 
+            {
+                return null;
+            }
+        }
+    }
 }

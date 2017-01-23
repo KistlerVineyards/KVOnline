@@ -7,8 +7,13 @@ import { AppService } from '../../services/app.service';
 export class Receipt {
     staticTexts: any = {};
     constructor(private appService: AppService) {
-        this.staticTexts.header = appService.getMessage('mess:receipt:heading');
         let email = this.appService.getCredential().user.email;
         this.staticTexts.info = appService.getMessage('mess:receipt:info').replace('@email', email);
+        let release = appService.getCredential().user.role;
+        if(!release){
+            release ="Spring 2017";
+        }
+        this.staticTexts.header = appService.getMessage('mess:receipt:heading').replace('@release', release);
+        
     };
 }

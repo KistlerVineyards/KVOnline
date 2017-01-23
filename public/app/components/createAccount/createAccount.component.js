@@ -23,6 +23,9 @@ var CreateAccount = (function () {
         this.activatedRoute = activatedRoute;
         this.newUserText = '';
         this.allowCreateNewUser = false;
+        this.iscookieEnabled = true;
+        this.isLocalStorageSupported = true;
+        this.localstoragealert = { type: 'danger' };
         this.createAccountForm = fb.group({
             code: [''],
             password: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.pwdComplexityValidator]],
@@ -83,6 +86,7 @@ var CreateAccount = (function () {
     ;
     CreateAccount.prototype.ngOnInit = function () {
         var _this = this;
+        this.CheckCookieandLocalstorage();
         this.querySub = this.activatedRoute.queryParams.take(1).subscribe(function (params) {
             _this.code = params['code'];
             _this.offerId = params['offerId'];
@@ -100,6 +104,47 @@ var CreateAccount = (function () {
         this.newUserSub.unsubscribe();
     };
     ;
+    CreateAccount.prototype.CheckCookieandLocalstorage = function () {
+        this.iscookieEnabled = this.AreCookiesEnabled();
+        this.isLocalStorageSupported = this.IsLocalStorageSupported();
+        //alert("AreCookiesEnabled " + AreCookiesEnabled());
+        //alert("IsLocalStorageSupported " + this.isLocalStorageSupported);
+        if (this.iscookieEnabled || this.isLocalStorageSupported) {
+            this.localstoragealert.show = false;
+            this.localstoragealert.message = "";
+        }
+        if (!this.iscookieEnabled) {
+            this.localstoragealert.show = true;
+            this.localstoragealert.message = "This application requires cookies to be enabled in your browser. Please enable cookies to run this application.";
+        }
+        if (!this.isLocalStorageSupported) {
+            this.localstoragealert.show = true;
+            this.localstoragealert.message += "This application requires local storage to be enabled in your browser. Please disable private browsing to run this application.";
+        }
+    };
+    CreateAccount.prototype.AreCookiesEnabled = function () {
+        try {
+            var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+            if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
+                document.cookie = "KistlerVineyardsCookie";
+                cookieEnabled = (document.cookie.indexOf("KistlerVineyardsCookie") != -1) ? true : false;
+            }
+            return (cookieEnabled);
+        }
+        catch (e) {
+            return false;
+        }
+    };
+    CreateAccount.prototype.IsLocalStorageSupported = function () {
+        try {
+            var localStorageSupported = 'localStorage' in window && window['localStorage'] !== null;
+            window.localStorage.setItem("KVLSCheck", "Supported");
+            return localStorageSupported;
+        }
+        catch (e) {
+            return false;
+        }
+    };
     return CreateAccount;
 }());
 CreateAccount = __decorate([

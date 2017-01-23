@@ -67,6 +67,7 @@ filterOn('authenticate').subscribe(d => {
                     authenticated: true,
                     token: token,
                     user:result.user,
+                    isAdmin:result.isAdmin,
                     inactivityTimeoutSecs:inactivityTimeoutSecs
                 });
             } else {

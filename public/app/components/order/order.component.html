@@ -26,11 +26,14 @@
 					 </div>
                 </div>
 				</div>
-                <div *ngIf="order.orderQty > order.availableQty" class="alertExcesOrder">
+                <div *ngIf="order.orderQty > order.availableQty && !this.user.isAdmin" class="alertExcesOrder">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
 					{{excessOrder}}
 				</div>
-                
+                <div *ngIf="!isValidEntry(order)" class="alertExcesOrder">
+					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
+					Invalid quantity
+				</div>
                 <div class=" showproductDetails" *ngIf="order.isShowDetails || order.packing !='b'">
                     <div class="row orderDescPanel">
                         <div *ngIf="order.imageUrl" class="col-sm-2"><img [src]="order.imageUrl" class="img-thumbnail"></div>

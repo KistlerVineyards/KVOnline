@@ -33,7 +33,8 @@ var AppService = (function () {
             'masters:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
             'settings:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
             'login:page:text': new behaviorsubject_1.BehaviorSubject({ id: 1, data: {} }),
-            'spinner:hide:show': new behaviorsubject_1.BehaviorSubject(false)
+            'spinner:hide:show': new behaviorsubject_1.BehaviorSubject(false),
+            'open:new:address:modal': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} })
         };
         this.channel = {};
         this.mastersSubscription = this.filterOn('get:all:masters').subscribe(function (d) {

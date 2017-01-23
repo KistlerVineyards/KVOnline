@@ -8,6 +8,7 @@ import { messages } from '../../config';
 import { ModalModule, Modal } from "ng2-modal";
 import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { PaymentMethodForm } from '../../components/paymentMethodForm/paymentMethodForm.component';
+import { ShippingAddressForm } from '../../components/shippingAddressForm/shippingAddressForm.component';
 import {uiText} from '../../config';
 @Component({
     templateUrl: 'app/components/approveOrder/approveOrder.component.html'
@@ -43,6 +44,7 @@ export class ApproveOrder {
     payMethods:[any]=[{}];
     orders: any[];
     newCard: any = {};
+    newAddress : any = {};
     ccNumberOrig: string = '';
     holidaygift:boolean = false;
     isChangeAddress:boolean=false;
@@ -55,7 +57,7 @@ export class ApproveOrder {
     isAlert: boolean;
     alert: any = { type: "success" };
     sameNofBottles : boolean =false;
-    otherOptions:string=uiText.otherOptions
+    otherOptions:string=uiText.otherOptions;
     payLater: any = () => {
         if (!this.selectedCard || Object.keys(this.selectedCard).length == 0) {
             return ('Pay later');
@@ -63,6 +65,9 @@ export class ApproveOrder {
             return ('');
         }
     };
+    defaultBillingAddress: any = {};
+    useNewAddressSub : Subscription;
+    growlMessages : any = [];
     @ViewChild('payMethodModal') payMethodModal: Modal;
     useNewCard() {
         let body: any = {};
@@ -122,6 +127,7 @@ export class ApproveOrder {
                         this.selectedAddress.salesTaxPerc=this.selectedAddress.isoCode !="US" ? 0 : this.selectedAddress.salesTaxPerc;
                         this.selectedAddress.shippingCharges=this.selectedAddress.isoCode !="US" ? 0 : this.selectedAddress.shippingCharges;
                         this.selectedAddress.addlshippingCharges=this.selectedAddress.isoCode !="US" ? 0 : this.selectedAddress.addlshippingCharges;
+                        
                     }
                 } else {
                     this.selectedAddress = {};
@@ -204,10 +210,33 @@ export class ApproveOrder {
             }
         this.computeTotals();
         });
-
+        this.useNewAddressSub = this
+            .appService
+            .filterOn('close:new:address:modal')
+            .subscribe((d) => {
+                this
+                    .newAddressModal
+                    .close();
+                if (d.data.success) {
+                    this.growlMessages = [];
+                    this
+                        .growlMessages
+                        .push({severity: 'success', summary: 'Saved', detail: 'Data saved successfully'});
+                    this.selectedAddress = d.data.address;
+                }
+            });
     };
+    @ViewChild('newAddressModal')newAddressModal : Modal;
+    useNewAddress() {
+        this
+            .appService
+            .behEmit('open:new:address:modal');
+        this
+            .newAddressModal
+            .open();
+    }
     @ViewChild('addrModal') addrModal: Modal;
-    changeSelectedAddress() {
+    useExistingAddress() {
         this.isAlert = false;
         this.isChangeAddress=true;
         this.appService.httpGet('get:shipping:address');
@@ -288,6 +317,7 @@ export class ApproveOrder {
             BillingISOCode:this.selectedCard.isoCode,
             DayPhone: this.profile.phone,
             MailName: this.profile.firstName,
+            Email: this.profile.email,
             MailCo:this.profile.Co ? this.profile.Co : '',
             MailStreet1: this.profile.mailingAddress1,
             MailStreet2:this.profile.mailingAddress2,
@@ -298,8 +328,8 @@ export class ApproveOrder {
             MailISOCode:this.profile.mailingISOCode,
             HolidayGift:this.holidaygift,
             Notes : this.specialInstructions,
-            IsEncryptionRequired : this.selectedCard.isEncryptionRequired ? this.selectedCard.isEncryptionRequired : false
-            billid : this.selectedCard.billid ? this.selectedCard.billid : 0;
+            IsEncryptionRequired : this.selectedCard.isEncryptionRequired ? this.selectedCard.isEncryptionRequired : false,
+            billid : this.selectedCard.billid ? this.selectedCard.billid : 0
         };
         let master = orderBundle.orderMaster;
         orderBundle.orderMaster.Amount = master.TotalPriceWine + master.TotalPriceAddl + master.SalesTaxWine
@@ -449,7 +479,7 @@ export class ApproveOrder {
         this.allAddrSubscription.unsubscribe();
         this.allCardSubscription.unsubscribe();
         this.selectNewCardSub.unsubscribe();
-        
+        this.useNewAddressSub.unsubscribe();
     };
     getArtifact(){
        this.orders = this.appService.request('orders');

@@ -8,10 +8,12 @@
       <div class="col-sm-7">
 	            <span *ngIf = "!selectedAddress.name" class="noRecord">You must provide a shipping address</span>
 				<span *ngIf="selectedAddress.name">
-					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}
+					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}, {{selectedAddress.phone}}
 				</span>
 	  </div>
-     <div class="col-sm-5 btnApprovedOrder"><button type="button" class="btn btn-xs pull-right btn-kistler" (click)="changeSelectedAddress()">Change</button></div>
+     <div class="col-sm-5 btnApprovedOrder">
+       <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewAddress()">Use new address</button>
+       <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useExistingAddress()">Use existing address</button></div>
     </div>
   </div>
 </div>
@@ -119,7 +121,7 @@
         <div class="form-group shippingAdressPop" *ngFor="let address of allAddresses; let i=index">
           <!-- <input type="radio" [checked]="address.isDefault" (click)=selectAddress(address) name="isDefault">  -->
 		<button type="button" class="btn btn-link" (click)="selectAddress(address)">
-         	{{address.name}}, {{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, {{address.state}}, {{address.zip}}, {{address.country}}
+         	{{address.name}}, {{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, {{address.state}}, {{address.zip}}, {{address.country}}, {{address.phone}}
 			<span *ngIf="address.isDefault" class="DefaultColor">Default</span>
 		</button>
         </div>
@@ -147,13 +149,13 @@
       </modal-footer>
     </modal>
   </div>
-  <div>
-    <modal #payMethodModal >
+  <div  class="row">
+    <modal #payMethodModal [closeOnOutsideClick]="false">
       <modal-header>
         <h2>Payment Method</h2>
       </modal-header>
       <modal-content>
-        <paymentMethodForm [newCard]="newCard"></paymentMethodForm>
+        <paymentMethodForm [newCard]="newCard" ></paymentMethodForm>
       </modal-content>
       <modal-footer>
         <!--<div class="form-inline signInPanel">
@@ -166,5 +168,18 @@
         <button type="button" class="btn btn-md btn-kistler" (click)="payMethodModal.close()">Cancel</button>-->
       </modal-footer>
     </modal>
-  </div>
+  </div>  
+<div class="row">
+  <modal #newAddressModal>
+    <modal-header>
+      <h2>Use new address</h2>
+    </modal-header>
+    <modal-content>
+      <shippingAddressForm [newAddress]="newAddress"></shippingAddressForm>
+    </modal-content>
+    <modal-footer>
+    </modal-footer>
+  </modal>
+</div>
+<p-growl [value]="growlMessages"></p-growl>
 </div>

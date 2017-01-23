@@ -1,0 +1,161 @@
+<div class="container mainContainer">
+  <h3>{{approveHeading}}</h3>
+
+<div class="panel panel-default approveOrderAddress">
+  <div class="panel-heading">Shipping Address</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-10">
+	            <span *ngIf = "!selectedAddress.name" class="noRecord">You must provide a shipping address</span>
+				<span *ngIf="selectedAddress.name">
+					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}
+				</span>
+	  </div>
+     <div class="col-sm-2 btnApprovedOrder"><button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedAddress()">Change</button></div>
+    </div>
+  </div>
+</div>
+
+  <div class="panel panel-default approveOrderPayment">
+    <div class="panel-heading">Payment Method</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <span *ngIf="!selectedCard.cardName" class="noRecord">Pay Later - Once your order is finalized, we will send you an order confirmation with payment instructions.</span>
+          <span *ngIf="selectedCard.cardName"><span class="name-shipping-address">{{selectedCard.cardName}}</span>, {{selectedCard.ccNumber}}</span>
+        </div>        
+		<div class="col-sm-6 btnApprovedpayment">
+		    <button type="button" class="btn btn-md btn-kistler" (click)="changeSelectedCard()">Use Existing</button>
+        <button type="button" class="btn btn-md btn-kistler" (click)="useNewCard()">Use New</button>
+        <button class="btn btn-md btn-kistler" (click)="removePayMethod()">Pay Later</button>		</div>
+      </div>
+    </div>
+
+  </div>
+
+<div class="panel panel-default kistlarOderHistory movieViewApproveOrder">
+
+<table class="table">
+            <thead>
+                <tr>
+                    <th>Wine Request</th>
+                    <th class="text-center">Request</th>
+                    <th class="priceFldAlign">Total</th>
+                    <th class="text-center additionalRequestCont">Additional Requested</th>
+                    <th class="priceFldAlign">Totals With Additional</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let order of orders" class="divider">
+                <td class="producTitle">{{order.item}}</td>
+                <td class="text-center">{{order.orderQty}}</td>
+                <td class="productPrice priceFldAlign">${{(order.orderQty * order.price)  | number : '1.2-2'}}</td>
+                <td class="text-center">{{order.wishList}}</td>
+                <td class="productPrice priceFldAlign">${{((order.orderQty + order.wishList) * order.price) | number : '1.2-2'}}</td>
+              </tr>
+
+              <tr class="totalaWineCosts">
+                <td class="subTotalTtitle">Total Wine Cost</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{footer.wineTotals.wine | number : '1.2-2'}}</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(footer.wineTotals.wine + footer.wineTotals.addl) | number : '1.2-2'}}</td>
+              </tr>
+              <tr  class="mobSalesTax">
+                <td class="subTotalTtitle">Sales Tax @ {{footer.salesTaxPerc}}%</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{footer.salesTaxTotals.wine | number : '1.2-2'}}</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(footer.salesTaxTotals.wine + footer.salesTaxTotals.addl) | number : '1.2-2'}}</td>
+              </tr>
+              <tr  class="mobShipping">
+                <td class="subTotalTtitle">Shipping</td>
+                <td class="text-center" >{{shippingBottles.totalRequestedBottles}}</td>
+                <td class="productPrice priceFldAlign">${{footer.shippingTotals.wine | number : '1.2-2'}}</td>
+                <td class="text-center" >{{shippingBottles.totalWishlistBottles}}</td>
+                <td class="productPrice priceFldAlign">${{(footer.shippingTotals.wine + footer.shippingTotals.addl) | number : '1.2-2'}}</td>
+              </tr>                            
+              <tr  class="mobBalance-Credit">
+                <td class="subTotalTtitle">Previous Balance / Credit</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{footer.prevBalances.wine | number : '1.2-2'}}</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{footer.prevBalances.addl | number : '1.2-2'}}</td>
+              </tr>  
+              <tr class="grandTotals">
+                <td class="subTotalTtitle">Grand Total</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{footer.grandTotals.wine | number : '1.2-2'}}</td>
+                <td>&nbsp;</td>
+                <td class="productPrice priceFldAlign">${{(footer.grandTotals.wine + footer.grandTotals.addl) | number : '1.2-2'}}</td>
+              </tr>
+            </tbody>
+
+</table>
+</div>
+<div class="row apporveOderBtn">
+      <button type="button" class="btn btn-md btn-kistler pull-right" [disabled]="!selectedAddress.name" (click)="approve()">Approve</button> 
+      <button type="button" class="btn btn-md btn-kistler pull-right" (click)="editWineRequest()">Edit Wine Request</button>
+   </div>
+
+  <div class="row">
+    <modal #addrModal>
+      <modal-header>
+        <h2>Select a shipping address</h2>
+      </modal-header>
+      <modal-content>
+        <div class="form-group shippingAdressPop" *ngFor="let address of allAddresses; let i=index">
+          <!-- <input type="radio" [checked]="address.isDefault" (click)=selectAddress(address) name="isDefault">  -->
+		<button type="button" class="btn btn-link" (click)="selectAddress(address)">
+         	{{address.name}}, {{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, {{address.state}}, {{address.zip}}, {{address.country}}
+			<span *ngIf="address.isDefault" class="DefaultColor">Default</span>
+		</button>
+        </div>
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-md btn-kistler" (click)="addrModal.close()">Cancel</button>
+      </modal-footer>
+    </modal>
+  </div>
+  <div class="row">
+    <modal #cardModal>
+      <modal-header>
+        <h2>Select a credit card</h2>
+      </modal-header>
+      <modal-content>
+        <div class="form-group shippingAdressPop" *ngFor="let card of payMethods; let i=index">
+          <!-- <input type="radio" [checked]="card.isDefault" (click)=selectCard(card) name="isDefaultCard"> -->
+		  <button type="button" class="btn btn-link" (click)="selectCard(card)">
+			  {{card.cardName}},
+	          {{card.ccNumber}}
+		  	  <span *ngIf="card.isDefault" class="DefaultColor">Default</span>
+          </button>
+        </div>
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-md btn-kistler" (click)="cardModal.close()">Cancel</button>
+      </modal-footer>
+    </modal>
+  </div>
+  <div>
+    <modal #payMethodModal>
+      <modal-header>
+        <h2>Payment Method</h2>
+      </modal-header>
+      <modal-content>
+        <paymentMethodForm [newCard]="newCard"></paymentMethodForm>
+      </modal-content>
+      <modal-footer>
+        <!--<div class="form-inline signInPanel">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid">Submit</button>
+                            <button class="btn btn-md btn-kistler" (click)="shippingForm.reset(); shippingModal.close()">Cancel</button>
+                        </div>
+                    </div>-->
+        <!--<button type="button" class="btn btn-md btn-kistler" [disabled]="!shippingForm.valid">Submit</button>
+        <button type="button" class="btn btn-md btn-kistler" (click)="payMethodModal.close()">Cancel</button>-->
+      </modal-footer>
+    </modal>
+  </div>
+</div>
