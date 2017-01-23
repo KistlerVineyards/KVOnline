@@ -120,8 +120,8 @@ var PaymentMethod = (function () {
         this.payMethodForm = this.fb.group({
             id: [''],
             cardName: ['My Card', forms_1.Validators.required],
-            ccFirstName: ['', forms_1.Validators.required],
-            ccLastName: ['', forms_1.Validators.required],
+            ccFirstName: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.CCFirstNameLengthValidator]],
+            ccLastName: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.CCLastNameLengthValidator]],
             ccType: ['', forms_1.Validators.required],
             ccNumber: ['', [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardValidator]],
             ccExpiryMonth: [this.month, [forms_1.Validators.required, customValidators_1.CustomValidators.creditCardexpiryMonthValidator]],

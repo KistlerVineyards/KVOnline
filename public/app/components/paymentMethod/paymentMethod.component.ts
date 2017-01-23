@@ -121,8 +121,8 @@ export class PaymentMethod {
         this.payMethodForm = this.fb.group({
             id: ['']
             , cardName: ['My Card', Validators.required]
-            , ccFirstName: ['', Validators.required]
-            , ccLastName: ['', Validators.required]
+            , ccFirstName: ['', [Validators.required, CustomValidators.CCFirstNameLengthValidator]]
+            , ccLastName: ['', [Validators.required, CustomValidators.CCLastNameLengthValidator]]
             , ccType: ['', Validators.required]
             , ccNumber: ['', [Validators.required, CustomValidators.creditCardValidator]]
             , ccExpiryMonth: [this.month, [Validators.required, CustomValidators.creditCardexpiryMonthValidator]]
