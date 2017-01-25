@@ -182,6 +182,7 @@ var Profile = (function () {
         pr.mailingAddress2 = pr.mailingAddress2 ? pr.mailingAddress2 : '';
         pr.mailingCity = this.profileForm.controls['mailingCity'].value;
         pr.mailingState = this.profileForm.controls['mailingState'].value;
+        pr.mailingState = pr.mailingState ? pr.mailingState : '';
         pr.mailingZip = this.profileForm.controls['mailingZip'].value;
         pr.mailingCountry = this.profileForm.controls['mailingCountry'].value; // this.profileForm.controls['mailingCountry'].value;
         pr.mailingCountryisoCode = this.countries.filter(function (d) { return d.countryName == pr.mailingCountry; })[0].isoCode;

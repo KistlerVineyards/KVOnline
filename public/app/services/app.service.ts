@@ -32,7 +32,7 @@ export class AppService {
     channel: any;
     globalSettings: any = {};
     countries: [{ any }];
-
+    userCredential: any = {};
     constructor(private http: Http) {
         // this.spinnerObservable = new Observable(observer => {
         //     this.spinnerObserver = observer;
@@ -129,17 +129,28 @@ export class AppService {
     };
 
     setCredential(user, token, inactivityTimeoutSecs) {
-        let credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };
+        let credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };        
+        try{
         localStorage.setItem('credential', JSON.stringify(credential));
+        }
+        catch(e){
+            this.userCredential = credential;
+        }
     };
 
     getCredential(): any {
-        let credentialString = localStorage.getItem('credential');
-        let credential;
-        if (credentialString) {
-            credential = JSON.parse(credentialString);
+        try{
+            let credentialString = localStorage.getItem('credential');
+            let credential;
+            if (credentialString) {
+                credential = JSON.parse(credentialString);
+            }
+            return (credential);
         }
-        return (credential);
+        catch(e){
+            return (this.userCredential);
+        }
+        
     };
 
     getToken(): string {
@@ -152,7 +163,12 @@ export class AppService {
     };
 
     resetCredential() {
-        localStorage.removeItem('credential');
+        try{
+            localStorage.removeItem('credential');
+        }
+        catch(e){
+            this.userCredential={};
+        }
     };
 
     showAlert(alert: any, show: boolean, id?: string, type?: string) {

@@ -203,7 +203,7 @@ var ShippingAddress = (function () {
             street1: this.shippingForm.controls['street1'].value,
             street2: this.shippingForm.controls['street2'].value ? this.shippingForm.controls['street2'].value : '',
             city: this.shippingForm.controls['city'].value,
-            state: this.shippingForm.controls['state'].value,
+            state: this.shippingForm.controls['state'].value ? this.shippingForm.controls['state'].value : '',
             zip: this.shippingForm.controls['zip'].value,
             country: this.selectedCountryName,
             isoCode: '',

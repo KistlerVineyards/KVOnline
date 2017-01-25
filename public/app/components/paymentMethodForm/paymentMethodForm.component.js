@@ -224,7 +224,7 @@ var PaymentMethodForm = (function () {
             street1: this.payMethodForm.controls['street1'].value,
             street2: this.payMethodForm.controls['street2'].value ? this.payMethodForm.controls['street2'].value : '',
             city: this.payMethodForm.controls['city'].value,
-            state: this.payMethodForm.controls['state'].value,
+            state: this.payMethodForm.controls['state'].value ? this.payMethodForm.controls['state'].value : '',
             zip: this.payMethodForm.controls['zip'].value,
             country: '',
             isoCode: '',

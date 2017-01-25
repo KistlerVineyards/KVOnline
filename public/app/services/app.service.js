@@ -28,6 +28,7 @@ var AppService = (function () {
         var _this = this;
         this.http = http;
         this.globalSettings = {};
+        this.userCredential = {};
         this.subject = new subject_1.Subject();
         this.behaviorSubjects = {
             'masters:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
@@ -119,16 +120,26 @@ var AppService = (function () {
     ;
     AppService.prototype.setCredential = function (user, token, inactivityTimeoutSecs) {
         var credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };
-        localStorage.setItem('credential', JSON.stringify(credential));
+        try {
+            localStorage.setItem('credential', JSON.stringify(credential));
+        }
+        catch (e) {
+            this.userCredential = credential;
+        }
     };
     ;
     AppService.prototype.getCredential = function () {
-        var credentialString = localStorage.getItem('credential');
-        var credential;
-        if (credentialString) {
-            credential = JSON.parse(credentialString);
+        try {
+            var credentialString = localStorage.getItem('credential');
+            var credential = void 0;
+            if (credentialString) {
+                credential = JSON.parse(credentialString);
+            }
+            return (credential);
         }
-        return (credential);
+        catch (e) {
+            return (this.userCredential);
+        }
     };
     ;
     AppService.prototype.getToken = function () {
@@ -141,7 +152,12 @@ var AppService = (function () {
     };
     ;
     AppService.prototype.resetCredential = function () {
-        localStorage.removeItem('credential');
+        try {
+            localStorage.removeItem('credential');
+        }
+        catch (e) {
+            this.userCredential = {};
+        }
     };
     ;
     AppService.prototype.showAlert = function (alert, show, id, type) {

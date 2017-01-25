@@ -8,12 +8,12 @@
       <div class="col-sm-7">
 	            <span *ngIf = "!selectedAddress.name" class="noRecord">You must provide a shipping address</span>
 				<span *ngIf="selectedAddress.name">
-					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, {{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, {{selectedAddress.state}}, {{selectedAddress.zip}}, {{selectedAddress.country}}, {{selectedAddress.phone}}
+					  <span class="name-shipping-address">{{selectedAddress.name}}</span>, <span *ngIf="selectedAddress.co">C/O {{selectedAddress.co}},</span>{{selectedAddress.street1}}, <span *ngIf="selectedAddress.street2">{{selectedAddress.street2}},</span> {{selectedAddress.city}}, <span *ngIf="selectedAddress.state">{{selectedAddress.state}},</span> {{selectedAddress.zip}}, {{selectedAddress.country}}, {{selectedAddress.phone}}
 				</span>
 	  </div>
      <div class="col-sm-5 btnApprovedOrder">
-       <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewAddress()">Use new address</button>
-       <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useExistingAddress()">Use existing address</button></div>
+       <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewAddress()">Create New Address</button>
+       <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useExistingAddress()">Use Existing Address</button></div>
     </div>
   </div>
 </div>
@@ -29,7 +29,7 @@
       </div>        
 		    <div class="col-md-5 btnApprovedpayment">
           <button class="btn btn-xs pull-right btn-kistler btnOtherOptions" (click)="otherOptionsClicked()">Other Options</button>
-          <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewCard()">Use New Card</button>
+          <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="useNewCard()">Enter New Card</button>
           <button type="button" class="btn btn-xs  pull-right btn-kistler" *ngIf="isExistingPaymentMethodavailable" (click)="changeSelectedCard()">Use Existing Card</button>
          </div>
       </div>
@@ -121,7 +121,7 @@
         <div class="form-group shippingAdressPop" *ngFor="let address of allAddresses; let i=index">
           <!-- <input type="radio" [checked]="address.isDefault" (click)=selectAddress(address) name="isDefault">  -->
 		<button type="button" class="btn btn-link" (click)="selectAddress(address)">
-         	{{address.name}}, {{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, {{address.state}}, {{address.zip}}, {{address.country}}, {{address.phone}}
+         	{{address.name}}, <span *ngIf="address.co">C/O {{address.co}}, </span>{{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, <span *ngIf="address.state">{{address.state}},</span> {{address.zip}}, {{address.country}}, {{address.phone}}
 			<span *ngIf="address.isDefault" class="DefaultColor">Default</span>
 		</button>
         </div>
