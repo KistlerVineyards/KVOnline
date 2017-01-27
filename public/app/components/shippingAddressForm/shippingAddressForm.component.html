@@ -1,5 +1,31 @@
 <div id="shippinAddressForm">
     <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="300"></p-confirmDialog>
+    <p-dialog header="Confirm" [(visible)]="confirmAddress" modal="modal" responsive="true" width="320" resizable="false" 
+    [ngStyle]="{'z-index': 1070, 'background-color': 'white', 'position':'absolute', 'top':'50%', 'left':'50%'}">
+        <span>
+            This address has been verified by US Postal Service but some minor changes are required.
+            Please confirm you accept the revised address below: <br/><br/>
+            <pre>{{addressMessage}}</pre>
+        </span>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="confirmAddress=false;" label="Cancel"></button>
+                <button type="button" pButton icon="fa-close" (click)="submit(false);" label="Ignore"></button>
+
+                <button type="button" pButton icon="fa-check" (click)="editedAddressConfirmBeforeSave();" label="Accept"></button>
+            </div>
+        </footer>
+    </p-dialog>
+
+    <p-dialog header="Confirm" [(visible)]="unverifiedAddress" modal="modal" responsive="true" width="320" resizable="false" [ngStyle]="{'z-index': 1070, 'background-color': 'white', 'position':'absolute', 'top':'50%', 'left':'50%'}">
+        <span>This address could not be verified. Do you still want to proceed with this unverified address?</span>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="unverifiedAddress=false;" label="Cancel"></button>
+                <button type="button" pButton icon="fa-check" (click)="submit(false);" label="Accept"></button>
+            </div>
+        </footer>
+    </p-dialog>
     <form [formGroup]="shippingForm" novalidate (ngSubmit)="verifyOrSubmit()" class="form-horizontal">
         <div class="form-group">
             <label class="control-label col-sm-3" for="kvName">Full name:</label>

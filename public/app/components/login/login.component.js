@@ -54,7 +54,7 @@ var Login = (function () {
     ;
     Login.prototype.ngOnInit = function () {
         var _this = this;
-        this.CheckCookieandLocalstorage();
+        //this.CheckCookieandLocalstorage();
         this.activatedRoute.queryParams.take(1).subscribe(function (params) {
             var email = params['email'];
             if (email) {

@@ -39,7 +39,8 @@ var confirmdialog_1 = require("primeng/components/confirmdialog/confirmdialog");
 var growl_1 = require("primeng/components/growl/growl");
 var api_1 = require("primeng/components/common/api");
 var inputMask_1 = require("primeng/components/inputMask/inputMask");
-var primeng_1 = require("primeng/primeng");
+var blockui_1 = require("primeng/components/blockui/blockui");
+var dialog_1 = require("primeng/components/dialog/dialog");
 var app_spinner_1 = require("./components/app.spinner");
 //import { TextMaskModule } from 'angular2-text-mask';
 var paymentMethodForm_component_1 = require("./components/paymentMethodForm/paymentMethodForm.component");
@@ -62,7 +63,8 @@ AppModule = __decorate([
             inputMask_1.InputMaskModule,
             growl_1.GrowlModule,
             core_2.NgIdleModule.forRoot(),
-            primeng_1.BlockUIModule
+            blockui_1.BlockUIModule,
+            dialog_1.DialogModule
         ],
         declarations: [app_component_1.AppComponent,
             login_component_1.Login,

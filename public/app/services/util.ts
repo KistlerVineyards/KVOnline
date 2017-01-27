@@ -37,5 +37,16 @@ export class Util {
         //ccNumber = ccNumber.toString();
         ccNumber = "x" + ccNumber.substring(ccNumber.length -4, ccNumber.length);
         return(ccNumber);
-    } 
+    }
+    static storageAvailable(type) {
+        try {
+            let storage : any = window[type],
+                x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+        } catch (e) {
+            return false;
+        }
+}
 }

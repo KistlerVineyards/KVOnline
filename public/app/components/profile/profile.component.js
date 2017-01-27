@@ -16,6 +16,7 @@ var util_1 = require("../../services/util");
 //import { TextMaskModule } from 'angular2-text-mask';
 var api_1 = require("primeng/components/common/api");
 var Profile = (function () {
+    // confirmationServiceforIgnore:ConfirmationService;
     function Profile(appService, fb, confirmationService) {
         var _this = this;
         this.appService = appService;
@@ -31,9 +32,8 @@ var Profile = (function () {
         this.messages = [];
         this.isDataReady = false;
         this.user = {};
-        this.isReject = false;
         this.isVerifying = false;
-        this.confirmationServiceforIgnore = confirmationService;
+        //this.confirmationServiceforIgnore = confirmationService;
         this.user = appService.getCredential().user;
         this.initProfileForm();
         this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(function (d) {
@@ -78,7 +78,32 @@ var Profile = (function () {
                 else {
                     //verification succeeded with maybe corrected address as return
                     var data = d.data[0].components;
-                    _this.editedAddressConfirmBeforeSave(data);
+                    //this.editedAddressConfirmBeforeSave(data);
+                    var street = '';
+                    if (data.primary_number) {
+                        street = data.primary_number;
+                    }
+                    if (data.street_predirection) {
+                        street += " " + data.street_predirection;
+                    }
+                    if (data.street_name) {
+                        street += " " + data.street_name;
+                    }
+                    if (data.street_suffix) {
+                        street += " " + data.street_suffix;
+                    }
+                    if (data.street_postdirection) {
+                        street += " " + data.street_postdirection;
+                    }
+                    street = street.trim();
+                    if (_this.profileForm.controls['mailingAddress2'].value) {
+                        street = street.concat('\n', _this.profileForm.controls['mailingAddress2'].value);
+                    }
+                    //street = street.concat('\n', this.shippingForm.controls['street2'].value);
+                    var addr = street.concat("\n", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+                    _this.smartyStreeData = data;
+                    _this.addressMessage = addr;
+                    _this.confirmAddress = true;
                 }
             }
         });
@@ -110,35 +135,64 @@ var Profile = (function () {
         });
     };
     ;
-    Profile.prototype.editedAddressConfirmBeforeSave = function (data) {
-        var _this = this;
-        var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
-        street = street.trim();
-        var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
-        this.confirmationService.confirm({
-            message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
-            accept: function () {
-                _this.profileForm.controls["mailingAddress1"].setValue(street);
-                _this.profileForm.controls["mailingCity"].setValue(data.city_name);
-                _this.profileForm.controls["mailingState"].setValue(data.state_abbreviation);
-                _this.profileForm.controls["mailingZip"].setValue(data.zipcode);
-                _this.appService.showAlert(_this.alert, false);
-                _this.submit(true);
-            },
-            reject: function () {
-                _this.isReject = true;
-            }
-        });
-        if (this.isReject) {
-            this.confirmationServiceforIgnore.confirm({
-                message: "Do you want to save this record?",
-                accept: function () {
-                    _this.submit(true);
-                }
-            });
+    Profile.prototype.editedAddressConfirmBeforeSave = function () {
+        if (this.smartyStreeData) {
+            var data = this.smartyStreeData;
+            var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            street = street.trim();
+            var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+            this.profileForm.controls["mailingAddress1"].setValue(street);
+            this.profileForm.controls["mailingCity"].setValue(data.city_name);
+            this.profileForm.controls["mailingState"].setValue(data.state_abbreviation);
+            this.profileForm.controls["mailingZip"].setValue(data.zipcode);
+            this.appService.showAlert(this.alert, false);
+            this.submit(true);
+        }
+        else {
+            this.submit(false);
         }
     };
     ;
+    /*isReject:Boolean=false;
+    editedAddressConfirmBeforeSave(data) {
+        //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let street ='';
+        if(data.primary_number)
+        {
+            street = data.primary_number;
+        }
+        if(data.street_predirection)
+        {
+            street += " " + data.street_predirection;
+        }
+        if(data.street_name)
+        {
+            street += " " + data.street_name;
+        }
+        if(data.street_suffix)
+        {
+            street += " " + data.street_suffix;
+        }
+        if(data.street_postdirection)
+        {
+            street += " " + data.street_postdirection;
+        }
+        street = street.trim();
+        //street = (data.primary_number || '').concat(' ', data.street_predirection || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+        this.confirmationService.confirm({
+            message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
+            accept: () => {
+                this.profileForm.controls["mailingAddress1"].setValue(street);
+                this.profileForm.controls["mailingCity"].setValue(data.city_name);
+                this.profileForm.controls["mailingState"].setValue(data.state_abbreviation);
+                this.profileForm.controls["mailingZip"].setValue(data.zipcode);
+                this.appService.showAlert(this.alert, false);
+                this.submit(true);
+            }
+        });
+        
+    };*/
     Profile.prototype.ngOnInit = function () {
         this.appService.httpGet('get:user:profile');
     };
@@ -216,6 +270,9 @@ var Profile = (function () {
         var profile = this.getUpdatedProfile();
         profile.isAddressVerified = isVerified || false;
         this.appService.httpPost('post:save:profile', { profile: profile });
+        //close the dialog
+        this.confirmAddress = false;
+        this.unverifiedAddress = false;
     };
     ;
     Profile.prototype.ngOnDestroy = function () {

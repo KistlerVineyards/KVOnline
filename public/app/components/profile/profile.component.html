@@ -1,4 +1,29 @@
 <div class="container mainContainer">
+    <p-dialog header="Confirm" [(visible)]="confirmAddress" modal="modal" responsive="true" width="320" resizable="false" [ngStyle]="{'z-index': 1070, 'background-color': 'white', 'position':'absolute'}">
+        <span>
+            This address has been verified by US Postal Service but some minor changes are required.
+            Please confirm you accept the revised address below: <br/><br/>
+            <pre>{{addressMessage}}</pre>
+        </span>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="confirmAddress=false;" label="Cancel"></button>
+                <button type="button" pButton icon="fa-close" (click)="submit(false);" label="Ignore"></button>
+
+                <button type="button" pButton icon="fa-check" (click)="editedAddressConfirmBeforeSave();" label="Accept"></button>
+            </div>
+        </footer>
+    </p-dialog>
+
+    <p-dialog header="Confirm" [(visible)]="unverifiedAddress" modal="modal" responsive="true" width="320" resizable="false" [ngStyle]="{'z-index': 1070, 'background-color': 'white', 'position':'absolute'}">
+        <span>This address could not be verified. Do you still want to proceed with this unverified address?</span>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="unverifiedAddress=false;" label="Cancel"></button>
+                <button type="button" pButton icon="fa-check" (click)="submit(false);" label="Accept"></button>
+            </div>
+        </footer>
+    </p-dialog>
     <h2>Profile</h2>
     <div class="panel panel-default">
         <div class="panel-body">
@@ -114,8 +139,9 @@
     </div>
     <p-growl [value]="messages"></p-growl>
     <div style="position: relative; z-index: 30000">
-     <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="300">
+     <p-confirmDialog  header="Confirmation" icon="fa fa-question-circle" width="300">
          
      </p-confirmDialog>
+     
     </div>
 </div>

@@ -86,7 +86,7 @@ var CreateAccount = (function () {
     ;
     CreateAccount.prototype.ngOnInit = function () {
         var _this = this;
-        this.CheckCookieandLocalstorage();
+        //this.CheckCookieandLocalstorage();
         this.querySub = this.activatedRoute.queryParams.take(1).subscribe(function (params) {
             _this.code = params['code'];
             _this.offerId = params['offerId'];

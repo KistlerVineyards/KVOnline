@@ -19,7 +19,7 @@ import 'rxjs/add/operator/filter';
 import { Message } from 'primeng/components/common/api';
 //import * as _ from 'lodash';
 import { urlHash, messages, validationErrorMessages } from '../config';
-
+import {Util} from './util';
 @Injectable()
 export class AppService {
     private spinnerObserver: Observer<boolean>;
@@ -32,7 +32,7 @@ export class AppService {
     channel: any;
     globalSettings: any = {};
     countries: [{ any }];
-    userCredential: any = {};
+    globalCredential : any;
     constructor(private http: Http) {
         // this.spinnerObservable = new Observable(observer => {
         //     this.spinnerObserver = observer;
@@ -130,26 +130,23 @@ export class AppService {
 
     setCredential(user, token, inactivityTimeoutSecs) {
         let credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };        
-        try{
-        localStorage.setItem('credential', JSON.stringify(credential));
-        }
-        catch(e){
-            this.userCredential = credential;
-        }
+        if (Util.storageAvailable('localStorage')) {
+            localStorage.setItem('credential', JSON.stringify(credential));
+        } else {
+            this.globalCredential = credential;
+}
     };
 
     getCredential(): any {
-        try{
+        let credential;
+        // credentialString;
+        if (Util.storageAvailable('localStorage')) {
             let credentialString = localStorage.getItem('credential');
-            let credential;
-            if (credentialString) {
-                credential = JSON.parse(credentialString);
-            }
-            return (credential);
+            credential = JSON.parse(credentialString);
+        } else {
+            credential = this.globalCredential;
         }
-        catch(e){
-            return (this.userCredential);
-        }
+        return (credential);
         
     };
 
@@ -163,12 +160,10 @@ export class AppService {
     };
 
     resetCredential() {
-        try{
+        if (Util.storageAvailable('localStorage')) {
             localStorage.removeItem('credential');
         }
-        catch(e){
-            this.userCredential={};
-        }
+        this.globalCredential = undefined;
     };
 
     showAlert(alert: any, show: boolean, id?: string, type?: string) {

@@ -20,6 +20,7 @@ require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
 //import * as _ from 'lodash';
 var config_1 = require("../config");
+var util_1 = require("./util");
 var AppService = (function () {
     function AppService(http) {
         // this.spinnerObservable = new Observable(observer => {
@@ -28,7 +29,6 @@ var AppService = (function () {
         var _this = this;
         this.http = http;
         this.globalSettings = {};
-        this.userCredential = {};
         this.subject = new subject_1.Subject();
         this.behaviorSubjects = {
             'masters:download:success': new behaviorsubject_1.BehaviorSubject({ id: '1', data: {} }),
@@ -120,26 +120,25 @@ var AppService = (function () {
     ;
     AppService.prototype.setCredential = function (user, token, inactivityTimeoutSecs) {
         var credential = { user: user, token: token, inactivityTimeoutSecs: inactivityTimeoutSecs };
-        try {
+        if (util_1.Util.storageAvailable('localStorage')) {
             localStorage.setItem('credential', JSON.stringify(credential));
         }
-        catch (e) {
-            this.userCredential = credential;
+        else {
+            this.globalCredential = credential;
         }
     };
     ;
     AppService.prototype.getCredential = function () {
-        try {
+        var credential;
+        // credentialString;
+        if (util_1.Util.storageAvailable('localStorage')) {
             var credentialString = localStorage.getItem('credential');
-            var credential = void 0;
-            if (credentialString) {
-                credential = JSON.parse(credentialString);
-            }
-            return (credential);
+            credential = JSON.parse(credentialString);
         }
-        catch (e) {
-            return (this.userCredential);
+        else {
+            credential = this.globalCredential;
         }
+        return (credential);
     };
     ;
     AppService.prototype.getToken = function () {
@@ -152,12 +151,10 @@ var AppService = (function () {
     };
     ;
     AppService.prototype.resetCredential = function () {
-        try {
+        if (util_1.Util.storageAvailable('localStorage')) {
             localStorage.removeItem('credential');
         }
-        catch (e) {
-            this.userCredential = {};
-        }
+        this.globalCredential = undefined;
     };
     ;
     AppService.prototype.showAlert = function (alert, show, id, type) {

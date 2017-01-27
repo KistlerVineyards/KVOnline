@@ -12,7 +12,7 @@ import { Util } from '../../services/util';
 //import { TextMaskModule } from 'angular2-text-mask';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
-
+import { DialogModule } from 'primeng/components/dialog/dialog';
 
 @Component({
     templateUrl: 'app/components/profile/profile.component.html'
@@ -36,11 +36,15 @@ export class Profile {
     isDataReady: boolean = false;
     user: any = {};
     //public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    confirmAddress: boolean;
+    unverifiedAddress: boolean;
+    addressMessage: string;
+    smartyStreeData: any;
 
     verifyAddressSub: Subscription;
-    confirmationServiceforIgnore:ConfirmationService;
+   // confirmationServiceforIgnore:ConfirmationService;
     constructor(private appService: AppService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
-        this.confirmationServiceforIgnore = confirmationService;
+        //this.confirmationServiceforIgnore = confirmationService;
         this.user = appService.getCredential().user;
         this.initProfileForm();
 	this.dataReadySubs = appService.behFilterOn('masters:download:success').subscribe(d => {
@@ -82,7 +86,38 @@ export class Profile {
                 } else {
                     //verification succeeded with maybe corrected address as return
                     let data = d.data[0].components;
-                    this.editedAddressConfirmBeforeSave(data);
+                    //this.editedAddressConfirmBeforeSave(data);
+                    let street ='';
+                    if(data.primary_number)
+                    {
+                        street = data.primary_number;
+                    }
+                    if(data.street_predirection)
+                    {
+                        street += " " + data.street_predirection;
+                    }
+                    if(data.street_name)
+                    {
+                        street += " " + data.street_name;
+                    }
+                    if(data.street_suffix)
+                    {
+                        street += " " + data.street_suffix;
+                    }
+                    if(data.street_postdirection)
+                    {
+                        street += " " + data.street_postdirection;
+                    }
+                    street = street.trim();
+                    if(this.profileForm.controls['mailingAddress2'].value)
+                    {
+                            street = street.concat('\n', this.profileForm.controls['mailingAddress2'].value);
+                    }
+                    //street = street.concat('\n', this.shippingForm.controls['street2'].value);
+                    let addr = street.concat("\n", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+                    this.smartyStreeData = data;
+                    this.addressMessage = addr;
+                    this.confirmAddress = true;
                 }
             }
         });
@@ -112,10 +147,49 @@ export class Profile {
             }
         });
     };
-    isReject:Boolean=false;
+    editedAddressConfirmBeforeSave() {
+        if(this.smartyStreeData){
+            let data = this.smartyStreeData;
+            let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            street = street.trim();
+            let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+            
+            this.profileForm.controls["mailingAddress1"].setValue(street);
+            this.profileForm.controls["mailingCity"].setValue(data.city_name);
+            this.profileForm.controls["mailingState"].setValue(data.state_abbreviation);
+            this.profileForm.controls["mailingZip"].setValue(data.zipcode);
+            this.appService.showAlert(this.alert, false);
+            this.submit(true);                
+        }else{
+            this.submit(false);
+        }
+    };
+    /*isReject:Boolean=false;
     editedAddressConfirmBeforeSave(data) {
-        let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let street ='';
+        if(data.primary_number)
+        {
+            street = data.primary_number;
+        }
+        if(data.street_predirection)
+        {
+            street += " " + data.street_predirection;
+        }
+        if(data.street_name)
+        {
+            street += " " + data.street_name;
+        }
+        if(data.street_suffix)
+        {
+            street += " " + data.street_suffix;
+        }
+        if(data.street_postdirection)
+        {
+            street += " " + data.street_postdirection;
+        }
         street = street.trim();
+        //street = (data.primary_number || '').concat(' ', data.street_predirection || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
         let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
         this.confirmationService.confirm({
             message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
@@ -126,20 +200,10 @@ export class Profile {
                 this.profileForm.controls["mailingZip"].setValue(data.zipcode);
                 this.appService.showAlert(this.alert, false);
                 this.submit(true);
-            },
-            reject: () => {
-                this.isReject=true;      
             }
         });
-        if(this.isReject){
-            this.confirmationServiceforIgnore.confirm({
-                     message: "Do you want to save this record?",
-                    accept: () => {                
-                    this.submit(true);
-                    }
-                });         
-        }
-    };
+        
+    };*/
 
     ngOnInit() {
         this.appService.httpGet('get:user:profile');
@@ -218,6 +282,10 @@ export class Profile {
         let profile = this.getUpdatedProfile();
         profile.isAddressVerified = isVerified || false;
         this.appService.httpPost('post:save:profile', { profile: profile });
+        //close the dialog
+        this.confirmAddress=false;
+        this.unverifiedAddress=false;
+        
     };
     
     ngOnDestroy() {

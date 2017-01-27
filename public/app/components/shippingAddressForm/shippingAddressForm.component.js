@@ -102,12 +102,38 @@ var ShippingAddressForm = (function () {
                 if (d.data.length == 0) {
                     // Verification failed since there is no return
                     _this.isVerifying = false;
-                    _this.invalidAddressConfirmBeforeSave();
+                    //this.invalidAddressConfirmBeforeSave();
+                    _this.smartyStreeData = false;
+                    _this.unverifiedAddress = true;
                 }
                 else {
                     //verification succeeded with maybe corrected address as return
                     var data = d.data[0].components;
-                    _this.editedAddressConfirmBeforeSave(data);
+                    //this.editedAddressConfirmBeforeSave(data);
+                    var street = '';
+                    if (data.primary_number) {
+                        street = data.primary_number;
+                    }
+                    if (data.street_predirection) {
+                        street += " " + data.street_predirection;
+                    }
+                    if (data.street_name) {
+                        street += " " + data.street_name;
+                    }
+                    if (data.street_suffix) {
+                        street += " " + data.street_suffix;
+                    }
+                    if (data.street_postdirection) {
+                        street += " " + data.street_postdirection;
+                    }
+                    street = street.trim();
+                    if (_this.shippingForm.controls['street2'].value) {
+                        street = street.concat('\n', _this.shippingForm.controls['street2'].value);
+                    }
+                    var addr = street.concat("\n", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+                    _this.smartyStreeData = data;
+                    _this.addressMessage = addr;
+                    _this.confirmAddress = true;
                 }
             }
         });
@@ -158,42 +184,80 @@ var ShippingAddressForm = (function () {
         });
     };
     ;
-    ShippingAddressForm.prototype.editedAddressConfirmBeforeSave = function (data) {
-        var _this = this;
-        var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
-        var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+    ShippingAddressForm.prototype.editedAddressConfirmBeforeSave = function () {
+        if (this.smartyStreeData) {
+            var data = this.smartyStreeData;
+            var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            street = street.trim();
+            var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+            this.shippingForm.controls["street1"].setValue(street);
+            this.shippingForm.controls["city"].setValue(data.city_name);
+            this.shippingForm.controls["state"].setValue(data.state_abbreviation);
+            this.shippingForm.controls["zip"].setValue(data.zipcode);
+            this.appService.showAlert(this.alert, false);
+            this.submit(true);
+        }
+        else {
+            this.submit(false);
+        }
+    };
+    ;
+    /*
+    editedAddressConfirmBeforeSave(data) {
+        //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let street ='';
+        if(data.primary_number)
+        {
+            street = data.primary_number;
+        }
+        if(data.street_predirection)
+        {
+            street += " " + data.street_predirection;
+        }
+        if(data.street_name)
+        {
+            street += " " + data.street_name;
+        }
+        if(data.street_suffix)
+        {
+            street += " " + data.street_suffix;
+        }
+        if(data.street_postdirection)
+        {
+            street += " " + data.street_postdirection;
+        }
+        let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
         this
             .confirmationService
             .confirm({
-            message: this
-                .appService
-                .getMessage('mess:confirm:save:edited:address')
-                .concat(addr),
-            accept: function () {
-                _this
-                    .shippingForm
-                    .controls["street1"]
-                    .setValue(street);
-                _this
-                    .shippingForm
-                    .controls["city"]
-                    .setValue(data.city_name);
-                _this
-                    .shippingForm
-                    .controls["state"]
-                    .setValue(data.state_abbreviation);
-                _this
-                    .shippingForm
-                    .controls["zip"]
-                    .setValue(data.zipcode);
-                _this
+                message: this
                     .appService
-                    .showAlert(_this.alert, false);
-                _this.submit(true);
-            }
-        });
-    };
-    ;
+                    .getMessage('mess:confirm:save:edited:address')
+                    .concat(addr),
+                accept: () => {
+                    this
+                        .shippingForm
+                        .controls["street1"]
+                        .setValue(street);
+                    this
+                        .shippingForm
+                        .controls["city"]
+                        .setValue(data.city_name);
+                    this
+                        .shippingForm
+                        .controls["state"]
+                        .setValue(data.state_abbreviation);
+                    this
+                        .shippingForm
+                        .controls["zip"]
+                        .setValue(data.zipcode);
+                    this
+                        .appService
+                        .showAlert(this.alert, false);
+                    this.submit(true);
+                }
+            });
+    };*/
     ShippingAddressForm.prototype.verifyOrSubmit = function () {
         if (this.shippingForm.controls['countryName'].value == 'United States') {
             this.verify();
@@ -241,6 +305,9 @@ var ShippingAddressForm = (function () {
         this
             .appService
             .httpPost('post:shipping:address', { address: this.address });
+        //close the dialog
+        this.confirmAddress = false;
+        this.unverifiedAddress = false;
     };
     ;
     ShippingAddressForm.prototype.cancel = function () {

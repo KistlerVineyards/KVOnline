@@ -47,12 +47,39 @@ var ShippingAddress = (function () {
                 if (d.data.length == 0) {
                     // Verification failed since there is no return
                     _this.isVerifying = false;
-                    _this.invalidAddressConfirmBeforeSave();
+                    //this.invalidAddressConfirmBeforeSave();
+                    _this.smartyStreeData = false;
+                    _this.unverifiedAddress = true;
                 }
                 else {
                     //verification succeeded with maybe corrected address as return
                     var data = d.data[0].components;
-                    _this.editedAddressConfirmBeforeSave(data);
+                    //this.editedAddressConfirmBeforeSave(data);
+                    var street = '';
+                    if (data.primary_number) {
+                        street = data.primary_number;
+                    }
+                    if (data.street_predirection) {
+                        street += " " + data.street_predirection;
+                    }
+                    if (data.street_name) {
+                        street += " " + data.street_name;
+                    }
+                    if (data.street_suffix) {
+                        street += " " + data.street_suffix;
+                    }
+                    if (data.street_postdirection) {
+                        street += " " + data.street_postdirection;
+                    }
+                    street = street.trim();
+                    if (_this.shippingForm.controls['street2'].value) {
+                        street = street.concat('\n', _this.shippingForm.controls['street2'].value);
+                    }
+                    //street = street.concat('\n', this.shippingForm.controls['street2'].value);
+                    var addr = street.concat("\n", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+                    _this.smartyStreeData = data;
+                    _this.addressMessage = addr;
+                    _this.confirmAddress = true;
                 }
             }
         });
@@ -218,6 +245,9 @@ var ShippingAddress = (function () {
         else {
             this.appService.httpPost('post:shipping:address', { address: addr });
         }
+        //close the dialog
+        this.confirmAddress = false;
+        this.unverifiedAddress = false;
     };
     ;
     ShippingAddress.prototype.addAddress = function () {
@@ -245,25 +275,63 @@ var ShippingAddress = (function () {
         });
     };
     ;
-    ShippingAddress.prototype.editedAddressConfirmBeforeSave = function (data) {
-        var _this = this;
-        var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
-        street = street.trim();
-        var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
-        this.confirmationService.confirm({
-            message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
-            accept: function () {
-                // let street = (data.street_predirection || '').concat(' ', data.primary_number, ' ', data.street_name, ' ', data.street_suffix, ' ', data.street_postdirection);
-                _this.shippingForm.controls["street1"].setValue(street);
-                _this.shippingForm.controls["city"].setValue(data.city_name);
-                _this.shippingForm.controls["state"].setValue(data.state_abbreviation);
-                _this.shippingForm.controls["zip"].setValue(data.zipcode);
-                _this.appService.showAlert(_this.alert, false);
-                _this.submit(true);
-            }
-        });
+    ShippingAddress.prototype.editedAddressConfirmBeforeSave = function () {
+        if (this.smartyStreeData) {
+            var data = this.smartyStreeData;
+            var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            street = street.trim();
+            var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
+            this.shippingForm.controls["street1"].setValue(street);
+            this.shippingForm.controls["city"].setValue(data.city_name);
+            this.shippingForm.controls["state"].setValue(data.state_abbreviation);
+            this.shippingForm.controls["zip"].setValue(data.zipcode);
+            this.appService.showAlert(this.alert, false);
+            this.submit(true);
+        }
+        else {
+            this.submit(false);
+        }
     };
     ;
+    /*
+    editedAddressConfirmBeforeSave(data) {
+        //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let street ='';
+        if(data.primary_number)
+        {
+            street = data.primary_number;
+        }
+        if(data.street_predirection)
+        {
+            street += " " + data.street_predirection;
+        }
+        if(data.street_name)
+        {
+            street += " " + data.street_name;
+        }
+        if(data.street_suffix)
+        {
+            street += " " + data.street_suffix;
+        }
+        if(data.street_postdirection)
+        {
+            street += " " + data.street_postdirection;
+        }
+        street = street.trim();
+        let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+        this.confirmationService.confirm({
+            message: this.appService.getMessage('mess:confirm:save:edited:address').concat(addr),
+            accept: () => {
+                // let street = (data.street_predirection || '').concat(' ', data.primary_number, ' ', data.street_name, ' ', data.street_suffix, ' ', data.street_postdirection);
+                this.shippingForm.controls["street1"].setValue(street);
+                this.shippingForm.controls["city"].setValue(data.city_name);
+                this.shippingForm.controls["state"].setValue(data.state_abbreviation);
+                this.shippingForm.controls["zip"].setValue(data.zipcode);
+                this.appService.showAlert(this.alert, false);
+                this.submit(true);
+            }
+        });
+    };*/
     ShippingAddress.prototype.ngOnDestroy = function () {
         this.getSubscription.unsubscribe();
         this.postSubscription.unsubscribe();

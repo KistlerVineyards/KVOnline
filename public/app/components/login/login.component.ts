@@ -56,7 +56,7 @@ export class Login {
     };
 
     ngOnInit() {
-        this.CheckCookieandLocalstorage();
+        //this.CheckCookieandLocalstorage();
         this.activatedRoute.queryParams.take(1).subscribe((params: any) => {
             let email = params['email'];
             if (email) {

@@ -6,6 +6,7 @@ import {CustomValidators} from '../../services/customValidators';
 import {Modal, ModalModule} from "ng2-modal"
 import {AlertModule} from 'ng2-bootstrap/components/alert';
 import {ConfirmDialogModule} from 'primeng/components/confirmdialog/confirmdialog';
+import { DialogModule } from 'primeng/components/dialog/dialog';
 import {GrowlModule} from 'primeng/components/growl/growl';
 import {Message, ConfirmationService} from 'primeng/components/common/api';
 import {ControlMessages} from '../controlMessages/controlMessages.component';
@@ -41,7 +42,10 @@ export class ShippingAddressForm {
     };
     countries : [any];
     isDataReady : boolean = false;
-
+    confirmAddress: boolean;
+    unverifiedAddress: boolean;
+    addressMessage: string;
+    smartyStreeData: any;
     constructor(private appService : AppService, private fb : FormBuilder, private confirmationService : ConfirmationService) {
         this.initShippingForm();
     };
@@ -101,11 +105,43 @@ export class ShippingAddressForm {
                     if (d.data.length == 0) {
                         // Verification failed since there is no return
                         this.isVerifying = false;
-                        this.invalidAddressConfirmBeforeSave();
+                        //this.invalidAddressConfirmBeforeSave();
+                        this.smartyStreeData = false;
+                        this.unverifiedAddress = true;
                     } else {
                         //verification succeeded with maybe corrected address as return
                         let data = d.data[0].components;
-                        this.editedAddressConfirmBeforeSave(data);
+                        //this.editedAddressConfirmBeforeSave(data);
+                        let street ='';
+                        if(data.primary_number)
+                        {
+                            street = data.primary_number;
+                        }
+                        if(data.street_predirection)
+                        {
+                            street += " " + data.street_predirection;
+                        }
+                        if(data.street_name)
+                        {
+                            street += " " + data.street_name;
+                        }
+                        if(data.street_suffix)
+                        {
+                            street += " " + data.street_suffix;
+                        }
+                        if(data.street_postdirection)
+                        {
+                            street += " " + data.street_postdirection;
+                        }
+                        street = street.trim();
+                        if(this.shippingForm.controls['street2'].value)
+                        {
+                            street = street.concat('\n', this.shippingForm.controls['street2'].value);
+                        }
+                        let addr = street.concat("\n", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+                        this.smartyStreeData = data;
+                        this.addressMessage = addr;
+                        this.confirmAddress = true;
                     }
                 }
             });
@@ -153,9 +189,47 @@ export class ShippingAddressForm {
                 }
             });
     };
-
+    editedAddressConfirmBeforeSave() {
+        if(this.smartyStreeData){
+            let data = this.smartyStreeData;
+            let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            street = street.trim();
+            let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
+            
+            this.shippingForm.controls["street1"].setValue(street);
+            this.shippingForm.controls["city"].setValue(data.city_name);
+            this.shippingForm.controls["state"].setValue(data.state_abbreviation);
+            this.shippingForm.controls["zip"].setValue(data.zipcode);
+            this.appService.showAlert(this.alert, false);
+            this.submit(true);                
+        }else{
+            this.submit(false);
+        }
+    };
+    /*
     editedAddressConfirmBeforeSave(data) {
-        let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+        let street ='';
+        if(data.primary_number)
+        {
+            street = data.primary_number;
+        }
+        if(data.street_predirection)
+        {
+            street += " " + data.street_predirection;
+        }
+        if(data.street_name)
+        {
+            street += " " + data.street_name;
+        }
+        if(data.street_suffix)
+        {
+            street += " " + data.street_suffix;
+        }
+        if(data.street_postdirection)
+        {
+            street += " " + data.street_postdirection;
+        }
         let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
         this
             .confirmationService
@@ -187,7 +261,7 @@ export class ShippingAddressForm {
                     this.submit(true);
                 }
             });
-    };
+    };*/
 
     verifyOrSubmit() {
         if (this.shippingForm.controls['countryName'].value == 'United States') {
@@ -239,6 +313,10 @@ export class ShippingAddressForm {
         this
             .appService
             .httpPost('post:shipping:address', {address: this.address});
+        //close the dialog
+        this.confirmAddress=false;
+        this.unverifiedAddress=false;
+
     };
 
     cancel() {

@@ -78,7 +78,7 @@ export class CreateAccount {
     offerId: string;
     querySub: Subscription;
     ngOnInit() {
-        this.CheckCookieandLocalstorage();
+        //this.CheckCookieandLocalstorage();
         this.querySub = this.activatedRoute.queryParams.take(1).subscribe((params: any) => {
             this.code = params['code'];
             this.offerId = params['offerId']

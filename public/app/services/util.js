@@ -40,6 +40,17 @@ var Util = (function () {
         ccNumber = "x" + ccNumber.substring(ccNumber.length - 4, ccNumber.length);
         return (ccNumber);
     };
+    Util.storageAvailable = function (type) {
+        try {
+            var storage = window[type], x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    };
     return Util;
 }());
 exports.Util = Util;

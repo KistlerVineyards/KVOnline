@@ -30,7 +30,8 @@ import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdia
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { InputMaskModule } from 'primeng/components/inputMask/inputMask';
-import { BlockUIModule } from 'primeng/primeng';
+import { BlockUIModule } from 'primeng/components/blockui/blockui';
+import { DialogModule } from 'primeng/components/dialog/dialog';
 import { SpinnerComponent } from './components/app.spinner';
 //import { TextMaskModule } from 'angular2-text-mask';
 import { PaymentMethodForm } from './components/paymentMethodForm/paymentMethodForm.component';
@@ -49,6 +50,7 @@ import { ShippingAddressForm } from './components/shippingAddressForm/shippingAd
     , GrowlModule
     , NgIdleModule.forRoot()
     , BlockUIModule
+    , DialogModule
     //, TextMaskModule
   ]
   , declarations: [AppComponent
