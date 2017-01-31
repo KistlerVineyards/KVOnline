@@ -38,10 +38,12 @@ export var urlHash = {
     'post:set:default:payment:method':'/api/generic/non/query',
     'get:approve:artifacts:ShippingandSalesTax':'/api/approve/artifact/shippingandsalestax',
     'get:default:billing:address': '/api/profile',//api/generic/query',
-    'get:smartyStreet':'https://us-street.api.smartystreets.com/street-address?auth-id=:authId&auth-token=:authToken&street=:street&street2=:street2&city=:city&state=:state&zipcode=:zipcode&'
-    , 'get:all:settings': '/api/generic/query'
-    ,'get:offer:settings': '/api/generic/query'
-    ,'post:new:user:login': '/api/newuser/login',
+    'get:smartyStreet':'https://us-street.api.smartystreets.com/street-address?auth-id=:authId&auth-token=:authToken&street=:street&street2=:street2&city=:city&state=:state&zipcode=:zipcode&',
+    'get:all:settings': '/api/generic/query',
+    'get:offer:settings': '/api/generic/query',
+    'post:new:user:login': '/api/newuser/login',
+    'post:order:change:shipping:address': '/api/generic/deprecatedscalarscalar',
+    'post:order:change:payment:method': '/api/generic/deprecatedscalarscalar',
 };
 export var messages = {
     'mess:order:intro:text': '',

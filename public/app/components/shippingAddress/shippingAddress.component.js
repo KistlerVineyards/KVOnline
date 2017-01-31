@@ -278,7 +278,23 @@ var ShippingAddress = (function () {
     ShippingAddress.prototype.editedAddressConfirmBeforeSave = function () {
         if (this.smartyStreeData) {
             var data = this.smartyStreeData;
-            var street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            var street = '';
+            if (data.primary_number) {
+                street = data.primary_number;
+            }
+            if (data.street_predirection) {
+                street += " " + data.street_predirection;
+            }
+            if (data.street_name) {
+                street += " " + data.street_name;
+            }
+            if (data.street_suffix) {
+                street += " " + data.street_suffix;
+            }
+            if (data.street_postdirection) {
+                street += " " + data.street_postdirection;
+            }
             street = street.trim();
             var addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode);
             this.shippingForm.controls["street1"].setValue(street);

@@ -182,6 +182,9 @@ export class ApproveOrder {
         this.shippingandSalesTaxSub=appService.filterOn('get:approve:artifacts:ShippingandSalesTax').subscribe(d => {
             if (d.data.error) {
                 console.log(d.data.error);
+                this.selectedAddress.shippingCharges=0;
+                this.selectedAddress.addlshippingCharges=0;
+                this.selectedAddress.salesTaxPerc=0;
             } else {
                 var shippingandSaletax=JSON.parse(d.data).Table;                
                 if(shippingandSaletax.length > 0){

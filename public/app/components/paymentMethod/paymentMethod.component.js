@@ -91,15 +91,23 @@ var PaymentMethod = (function () {
             }
             else {
                 var defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
-                _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
-                _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
-                _this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
-                _this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
-                _this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.zip);
+                /*this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
+                this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
+                this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
+                this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.zip);
                 // this.payMethodForm.controls['phone'].reset();
+                this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
+                this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
+                this.selectedISOCode = defaultBillingAddress.isoCode;*/
+                _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.mailingAddress1);
+                _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.mailingAddress2);
+                _this.payMethodForm.controls['city'].setValue(defaultBillingAddress.mailingCity);
+                _this.payMethodForm.controls['state'].setValue(defaultBillingAddress.mailingState);
+                _this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.mailingZip);
                 _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
-                _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
-                _this.selectedISOCode = defaultBillingAddress.isoCode;
+                _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.mailingISOCode);
+                _this.selectedISOCode = defaultBillingAddress.mailingISOCode;
             }
         });
     }
@@ -131,7 +139,7 @@ var PaymentMethod = (function () {
             street1: ['', forms_1.Validators.required],
             street2: [''],
             city: ['', forms_1.Validators.required],
-            state: ['', forms_1.Validators.required],
+            state: ['', customValidators_1.CustomValidators.StateLengthValidator],
             zip: ['', forms_1.Validators.required],
             countryName: ['', forms_1.Validators.required],
             isoCode: [''],

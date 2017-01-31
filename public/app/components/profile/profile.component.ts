@@ -150,8 +150,31 @@ export class Profile {
     editedAddressConfirmBeforeSave() {
         if(this.smartyStreeData){
             let data = this.smartyStreeData;
-            let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            //let street = (data.street_predirection || '').concat(' ', data.primary_number || '', ' ', data.street_name || '', ' ', data.street_suffix || '', ' ', data.street_postdirection || '');
+            //street = street.trim();
+            let street ='';
+            if(data.primary_number)
+            {
+                street = data.primary_number;
+            }
+            if(data.street_predirection)
+            {
+                street += " " + data.street_predirection;
+            }
+            if(data.street_name)
+            {
+                street += " " + data.street_name;
+            }
+            if(data.street_suffix)
+            {
+                street += " " + data.street_suffix;
+            }
+            if(data.street_postdirection)
+            {
+                street += " " + data.street_postdirection;
+            }
             street = street.trim();
+            
             let addr = street.concat(", ", data.city_name, ", ", data.state_abbreviation, ", ", data.zipcode)
             
             this.profileForm.controls["mailingAddress1"].setValue(street);

@@ -95,7 +95,7 @@ export class PaymentMethod {
                     console.log('Error occured fetching default billing address');
                 } else {
                     let defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
-                    this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
+                    /*this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
                     this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
                     this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
                     this.payMethodForm.controls['state'].setValue(defaultBillingAddress.state);
@@ -103,7 +103,16 @@ export class PaymentMethod {
                     // this.payMethodForm.controls['phone'].reset();
                     this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);                    
                     this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
-                    this.selectedISOCode = defaultBillingAddress.isoCode;
+                    this.selectedISOCode = defaultBillingAddress.isoCode;*/
+
+                    this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.mailingAddress1);
+                    this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.mailingAddress2);
+                    this.payMethodForm.controls['city'].setValue(defaultBillingAddress.mailingCity);
+                    this.payMethodForm.controls['state'].setValue(defaultBillingAddress.mailingState);
+                    this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.mailingZip);                    
+                    this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
+                    this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.mailingISOCode);
+                    this.selectedISOCode = defaultBillingAddress.mailingISOCode;
                 }
             });
     };
@@ -133,7 +142,7 @@ export class PaymentMethod {
             , street1: ['', Validators.required]
             , street2: ['']
             , city: ['', Validators.required]
-            , state: ['', Validators.required]
+            , state: ['', CustomValidators.StateLengthValidator]
             , zip: ['', Validators.required]
             , countryName: ['', Validators.required]
             , isoCode: ['']

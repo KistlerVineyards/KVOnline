@@ -617,13 +617,24 @@ router.post('/api/generic/scalar', function (req, res, next) {
     try {
         let sqlParms = req.body.sqlParms;
         sqlParms.userId = req.user.userId;
-        sqlParms.release = req.user.role;
-        if(sqlParms.release =='')
-        {
-            sqlParms.release = "Spring 2017";
-        }
+        //sqlParms.release = req.user.role;
+        sqlParms.release = "Spring 2017";// Though this is intialized here however the value insertion of release will take care by sql key InsertPaymentMethod
         //let sql = handler.insertSqlFromObject(req.body.tableName, req.body.sqlObject);
         let data = { action: 'sql:scalar', sqlKey: req.body.sqlKey, sqlParms : sqlParms };        
+        handler.edgePush(res, next, 'common:result:data', data);
+    } catch (error) {
+        let err = new def.NError(500, messages.errInternalServerError, error.message);
+        next(err);
+    }
+});
+router.post('/api/generic/deprecatedscalarscalar', function (req, res, next) {
+    try {
+        let sqlParms = req.body.sqlParms;
+        sqlParms.userId = req.user.userId;
+        //sqlParms.release = req.user.role;
+        sqlParms.release = "Spring 2017";// Though this is intialized here however the value insertion of release will take care by sql key InsertPaymentMethod
+        //let sql = handler.insertSqlFromObject(req.body.tableName, req.body.sqlObject);
+        let data = { action: 'sql:deprecatedscalar', sqlKey: req.body.sqlKey, sqlParms : sqlParms };        
         handler.edgePush(res, next, 'common:result:data', data);
     } catch (error) {
         let err = new def.NError(500, messages.errInternalServerError, error.message);

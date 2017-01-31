@@ -41,6 +41,8 @@ exports.urlHash = {
     'get:all:settings': '/api/generic/query',
     'get:offer:settings': '/api/generic/query',
     'post:new:user:login': '/api/newuser/login',
+    'post:order:change:shipping:address': '/api/generic/deprecatedscalarscalar',
+    'post:order:change:payment:method': '/api/generic/deprecatedscalarscalar',
 };
 exports.messages = {
     'mess:order:intro:text': '',

@@ -71,9 +71,9 @@
             </tr>            
             <tr  class="mobShipping">
                 <td class="subTotalTtitle">Shipping</td>
-                <td>&nbsp;</td>
+                <td class="text-center" >{{shippingBottles.totalRequestedBottles}}</td>
                 <td class="productPrice priceFldAlign">${{selectedOrder.shippingWine | number : '1.2-2'}}&nbsp;</td>
-                <td>&nbsp;</td>
+                <td class="text-center" >{{shippingBottles.totalWishlistBottles}}</td>
                 <td class="productPrice priceFldAlign">${{(selectedOrder.shippingAddl) | number : '1.2-2'}}&nbsp;</td>
             </tr>            
             <tr class="grandTotals">
@@ -103,7 +103,9 @@
             
 
    <div class="panel panel-default" name="shippingAddress">
-          <div class="panel-heading">Shipping Address</div>
+          <div class="panel-heading">Shipping Address<span>
+                    <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="changeAddress()">Change Address</button>
+                    </span></div>
         <div class="panel-body">
             <table class="table">
             <tr>
@@ -149,11 +151,13 @@
         </div>
 
     <div class="panel panel-default" name="creditCardInfo">
-            <div class="panel-heading">Payment Details</div>
+            <div class="panel-heading">Payment Details<span>
+                    <button type="button" class="btn btn-xs pull-right btn-kistler" (click)="changePaymentMethod()">Change Payment Method</button>
+                    </span></div>
         <div class="panel-body">
         <form class="form-horizontal">
             <!--<div class="panelPaymentGap">Card Name: <span class="cardname">{{orderDetails.card.CCFirstName + ' ' +orderDetails.card.CCLastName}}</span></div>-->
-            <div class="panelPaymentGap">Card Type: <span class="cardNumber">{{orderDetails.card.CCType}}({{orderDetails.card.PaymentType}})</span></div>
+            <div class="panelPaymentGap">Card Type: <span class="cardNumber">{{orderDetails.card.CCType}} ({{orderDetails.card.PaymentType}})</span></div>
             <!--<div class="panelPaymentGap">Card Number: <span class="cardNumber">{{orderDetails.card.CCNumber}}</span></div>-->
         </form>
         </div>
@@ -174,4 +178,43 @@
 
     </div>
 
+<div class="row">
+        <modal #addrModal>
+            <modal-header>
+                <h2>Select a shipping address</h2>
+            </modal-header>
+            <modal-content>
+                <div class="form-group shippingAdressPop" *ngFor="let address of allAddresses; let i=index">
+                    <button type="button" class="btn btn-link" (click)="selectAddress(address)">
+          {{address.name}}, <span *ngIf="address.co">C/O {{address.co}}, </span>{{address.street1}}, <span *ngIf="address.street2">{{address.street2}},</span> {{address.city}}, <span *ngIf="address.state">{{address.state}},</span> {{address.zip}}, {{address.country}}, {{address.phone}}
+			<span *ngIf="address.isDefault" class="DefaultColor">Default</span>
+          </button>
+                </div>
+            </modal-content>
+            <modal-footer>
+                <button class="btn btn-md btn-kistler" (click)="addrModal.close()">Cancel</button>
+            </modal-footer>
+        </modal>
+    </div>
+    <div class="row">
+        <modal #cardModal>
+            <modal-header>
+                <h2>Select a credit card</h2>
+            </modal-header>
+            <modal-content>
+                <div class="form-group" *ngFor="let card of payMethods; let i=index">
+                    <button type="button" class="btn btn-link" (click)="selectCard(card)">
+          {{card.cardName}},
+          {{card.ccNumber}}
+          <span *ngIf="card.isDefault" class="DefaultColor">Default</span>
+          </button>
+                </div>
+            </modal-content>
+            <modal-footer>
+                <button class="btn btn-md btn-kistler" (click)="cardModal.close()">Cancel</button>
+            </modal-footer>
+        </modal>
+    </div>
+    <p-growl [value]="growlMessages"></p-growl>
+    <alert *ngIf="alert.show" [type]="alert.type" dismissable="true">{{alert.message}}</alert>
 </div>

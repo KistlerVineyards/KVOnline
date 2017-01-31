@@ -169,6 +169,9 @@ var ApproveOrder = (function () {
         this.shippingandSalesTaxSub = appService.filterOn('get:approve:artifacts:ShippingandSalesTax').subscribe(function (d) {
             if (d.data.error) {
                 console.log(d.data.error);
+                _this.selectedAddress.shippingCharges = 0;
+                _this.selectedAddress.addlshippingCharges = 0;
+                _this.selectedAddress.salesTaxPerc = 0;
             }
             else {
                 var shippingandSaletax = JSON.parse(d.data).Table;
