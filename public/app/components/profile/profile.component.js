@@ -32,6 +32,7 @@ var Profile = (function () {
         this.messages = [];
         this.isDataReady = false;
         this.user = {};
+        this.errorCSS = "";
         this.isVerifying = false;
         //this.confirmationServiceforIgnore = confirmationService;
         this.user = appService.getCredential().user;
@@ -215,6 +216,16 @@ var Profile = (function () {
     };
     ;
     Profile.prototype.initProfileForm = function () {
+        var _this = this;
+        try {
+            var userselectedCountry = this.countries.filter(function (d) { return d.countryName == _this.profile.mailingCountry; });
+            if (userselectedCountry.length == 0) {
+                this.profile.mailingCountry = "United States";
+            }
+        }
+        catch (ex) {
+            this.profile.mailingCountry = "United States";
+        }
         var mDate = util_1.Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
             id: [this.user.userId],
@@ -235,6 +246,12 @@ var Profile = (function () {
         }
         this.profileForm.controls['phone'].markAsDirty();
         this.profileForm.markAsPristine();
+        if (!mDate) {
+            this.errorCSS = "undefined ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled ng-invalid";
+        }
+        else {
+            this.errorCSS = "undefined ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled";
+        }
     };
     ;
     Profile.prototype.getUpdatedProfile = function () {
@@ -257,6 +274,17 @@ var Profile = (function () {
         pr.mailingZip = this.profileForm.controls['mailingZip'].value;
         pr.mailingCountry = this.profileForm.controls['mailingCountry'].value; // this.profileForm.controls['mailingCountry'].value;
         pr.mailingCountryisoCode = this.countries.filter(function (d) { return d.countryName == pr.mailingCountry; })[0].isoCode;
+        try {
+            var userselectedCountry = this.countries.filter(function (d) { return d.countryName == pr.mailingCountry; });
+            if (!userselectedCountry) {
+                pr.mailingCountry = "United States";
+                pr.mailingCountryisoCode = "US";
+            }
+        }
+        catch (ex) {
+            pr.mailingCountry = "United States";
+            pr.mailingCountryisoCode = "US";
+        }
         return (pr);
     };
     ;

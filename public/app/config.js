@@ -43,6 +43,7 @@ exports.urlHash = {
     'post:new:user:login': '/api/newuser/login',
     'post:order:change:shipping:address': '/api/generic/deprecatedscalarscalar',
     'post:order:change:payment:method': '/api/generic/deprecatedscalarscalar',
+    'post:new:user:signup': '/api/newuser/signup',
 };
 exports.messages = {
     'mess:order:intro:text': '',

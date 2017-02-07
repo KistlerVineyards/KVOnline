@@ -12,14 +12,14 @@ router.init = function (app) {
     config = app.get('config');
     def = app.get('def');
     messages = app.get('messages');
-    data = { action: 'init', env : config.env, conn: config.connString.replace('@dbName', config.dbName), conn2: config.connString2.replace('@dbName2', config.dbName2) };
+    data = { action: 'init', instrumentkey : config.instrumentkey, env : config.env, conn: config.connString.replace('@dbName', config.dbName), conn2: config.connString2.replace('@dbName2', config.dbName2) };
     if(config.connString == "" || config.connString2 == ""){
         var sqlCONNSTRDBserver = process.env.SQLCONNSTRDBserver;
         var sqlCONNSTRDBuser = process.env.SQLCONNSTRDBuser;
         var sqlCONNSTRDBPassword = process.env.SQLCONNSTRDBPassword;
         var conn1 = "Server=" + sqlCONNSTRDBserver + ";Initial Catalog=" + config.dbName+ ";Persist Security Info=False;User ID=" + sqlCONNSTRDBuser + ";Password=" + sqlCONNSTRDBPassword + ";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         var conn2 = "Server=" + sqlCONNSTRDBserver + ";Initial Catalog=" + config.dbName2+ ";Persist Security Info=False;User ID=" + sqlCONNSTRDBuser + ";Password=" + sqlCONNSTRDBPassword + ";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        data = { action: 'init', env : config.env, conn: conn1, conn2: conn2 };
+        data = { action: 'init', instrumentkey : config.instrumentkey, env : config.env, conn: conn1, conn2: conn2 };
     }
     if(config.sendMail.host == "" || config.sendMail.fromUser == "" || config.sendMail.fromUserPassword == ""){
         var ewsMailHost = process.env.EWSMailHost;
@@ -53,7 +53,12 @@ router.post('/api/validate/token', function (req, res, next) {
         next(err);
     }
 });
-
+router.post('/api/init/data', function (req, res, next) {
+    let data = { kistler: config.homePageUrl, host: config.host, action: 'sql:query', sqlKey: 'GetLoginPageText', sqlParms: {} };
+    handler.edgePush(res, next, 'common:result:data:carry:source', data);
+    // let initData = { kistler: config.homePageUrl, host: config.host };
+    // res.status(200).json(initData);
+});
 router.get('/api/init/data', function (req, res, next) {
     let data = { kistler: config.homePageUrl, host: config.host, action: 'sql:query', sqlKey: 'GetLoginPageText', sqlParms: {} };
     handler.edgePush(res, next, 'common:result:data:carry:source', data);
@@ -232,7 +237,53 @@ router.post('/api/create/account', function (req, res, next) {
     }
 });
 
-
+router.post('/api/newuser/signup', function (req, res, next) {
+    //let a=0;
+    //let data = { kistler: config.homePageUrl, host: config.host, action: 'sql:query', sqlKey: 'GetLoginPageText', sqlParms: {} };
+    //handler.edgePush(res, next, 'common:result:no:data', data);
+    try {
+        let data = {
+            action: 'new:signup',
+            sqlKey: 'UserSigup',
+            sqlParms: {
+                Salutation: req.body.Salutation,
+                FirstName: req.body.FirstName,
+                LastName: req.body.LastName,
+                Suffix: req.body.Suffix,
+                DOB: req.body.DOB,
+                Email: req.body.Email,
+                VerifyEmail: req.body.VerifyEmail,
+                DayPhone: req.body.DayPhone,
+                AltPhone: req.body.AltPhone,
+                Fax: req.body.Fax,
+                MailName: req.body.MailName,
+                MailCo: req.body.MailCo,
+                MailStreet1: req.body.MailStreet1,
+                MailStreet2: req.body.MailStreet2,
+                MailCity: req.body.MailCity,
+                MailState: req.body.MailState,
+                MailZip: req.body.MailZip,
+                MailCountry: req.body.MailCountry,
+                States: req.body.States,
+                ShipPhone: req.body.ShipPhone,
+                UseMailing: req.body.UseMailing,
+                ShipName: req.body.ShipName,
+                ShipCo: req.body.ShipCo,
+                ShipStreet1: req.body.ShipStreet1,
+                ShipStreet2: req.body.ShipStreet2,
+                ShipCity: req.body.ShipCity,
+                ShipState: req.body.ShipState,
+                ShippingZip: req.body.ShippingZip,
+                ShipCountry: req.body.ShipCountry,
+                Notes: req.body.Notes
+            }
+        };
+        handler.edgePush(res, next, 'common:result:no:data', data);
+    } catch (error) {
+        let err = new def.NError(500, messages.errInternalServerError, error.message);
+        next(err);
+    }
+});
 router.all('/api*', function (req, res, next) {
     // implementation for token verification
     try {
@@ -653,4 +704,5 @@ router.get('/api/approve/artifact/shippingandsalestax', function (req, res, next
         next(err);
     }
 });
+
 module.exports = router;

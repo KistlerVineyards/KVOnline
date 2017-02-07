@@ -53,7 +53,7 @@ export class AppComponent {
         ga('send', 'pageview', url);
         appInsights.disableAjaxTracking=true;
         appInsights.trackPageView(url);
-        console.log("appInsights.disableAjaxTracking= "+appInsights.disableAjaxTracking);
+        //console.log("appInsights.disableAjaxTracking= "+appInsights.disableAjaxTracking);
         this.currentRoute = url;
         document.body.scrollTop = 0;
 

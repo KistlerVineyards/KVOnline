@@ -236,7 +236,6 @@ var AppService = (function () {
             // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
             _this.behEmit('spinner:hide:show', false);
         }, function (err) {
-            console.log("somnath1111");
             _this.subject.next({
                 id: id,
                 data: { error: err },

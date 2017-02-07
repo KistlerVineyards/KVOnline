@@ -46,8 +46,8 @@ export class Login {
     authenticate(pwd) {
         if (this.loginForm.valid) {
             let base64Encoded = this.appService.encodeBase64(this.loginForm.controls["email"].value + ':' + md5(pwd));
-            console.log('md5:' + md5(pwd));
-            console.log(base64Encoded);
+           // console.log('md5:' + md5(pwd));
+           // console.log(base64Encoded);
             this.appService.httpPost('post:authenticate', { auth: base64Encoded });            
         }
         else {

@@ -59,6 +59,17 @@ export class PaymentMethodForm {
                     this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
                     this.selectedISOCode = defaultBillingAddress.isoCode;
                     */
+                    try{
+                        let userselectedCountry = this.countries.filter(d => d.countryName == defaultBillingAddress.mailingCountry);
+                        if(userselectedCountry.length == 0){
+                            defaultBillingAddress.mailingCountry ="United States";
+                            defaultBillingAddress.mailingISOCode="US";
+                        }
+                    }
+                    catch(ex){
+                            defaultBillingAddress.mailingCountry ="United States";
+                            defaultBillingAddress.mailingISOCode="US";
+                    }
                     this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.mailingAddress1);
                     this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.mailingAddress2);
                     this.payMethodForm.controls['city'].setValue(defaultBillingAddress.mailingCity);

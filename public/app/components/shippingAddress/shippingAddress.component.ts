@@ -181,6 +181,19 @@ export class ShippingAddress {
     };
 
     initShippingForm(address) {
+        if(this.isDataReady){
+            try{
+                let userselectedCountry = this.countries.filter(d => d.countryName == address.country);
+                if(userselectedCountry.length == 0){
+                    address.country ="United States";
+                    address.isoCode ="US";
+                }
+            }
+            catch(ex){
+                address.country ="United States";
+                address.isoCode ="US";
+            }
+        }
         this.shippingForm = this.fb.group({
             id: [address.shippid || ''],
             co: [address.co || ''],
@@ -197,6 +210,7 @@ export class ShippingAddress {
         });
         this.shippingForm.controls['phone'].markAsDirty();
         this.selectedCountryName = address.country;
+        
         if(!address.phone){
             //separate reset is required to clear the input mask control
             this.shippingForm.controls['phone'].reset();
@@ -207,6 +221,7 @@ export class ShippingAddress {
         this.appService.httpGet('get:shipping:address');
     };
     edit(address) {
+        
         this.selectedISOCode = address.isoCode;
         this.initShippingForm(address);
         
@@ -235,6 +250,15 @@ export class ShippingAddress {
     };
 
     submit(isVerified?: boolean) {
+        try{
+            let userselectedCountry = this.countries.filter(d => d.countryName == this.selectedCountryName);
+            if(userselectedCountry.length == 0){
+                this.selectedCountryName ="United States";
+            }
+        }
+        catch(ex){
+                this.selectedCountryName ="United States";
+        }
         let addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,

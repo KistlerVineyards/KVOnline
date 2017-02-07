@@ -69,7 +69,7 @@
                     <div class="col-sm-4">
                         <div class="ui-g">
                             <div class="ui-g-12 ui-md-4">
-                                <p-calendar formControlName='birthDay' [(ngModel)]="primeDate" [showIcon]="true" placeholder='mm/dd/yyyy' [monthNavigator]="true"
+                                <p-calendar [inputStyleClass]="errorCSS"  formControlName='birthDay' [(ngModel)]="primeDate" [showIcon]="true" placeholder='mm/dd/yyyy' [monthNavigator]="true"
                                     [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
                             </div>
                         </div>

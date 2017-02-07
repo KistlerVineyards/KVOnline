@@ -231,8 +231,17 @@ export class Profile {
     ngOnInit() {
         this.appService.httpGet('get:user:profile');
     };
-
+    errorCSS:string="";
     initProfileForm() {
+        try{
+            let userselectedCountry = this.countries.filter(d => d.countryName == this.profile.mailingCountry);
+            if(userselectedCountry.length == 0){
+                this.profile.mailingCountry ="United States";
+            }
+        }
+        catch(ex){
+                this.profile.mailingCountry ="United States";
+        }
         let mDate = Util.convertToUSDate(this.profile.birthDay);
         this.profileForm = this.fb.group({
             id: [this.user.userId]
@@ -252,8 +261,15 @@ export class Profile {
         if (!this.profile.mailingCountry) {
             this.profileForm.controls['mailingCountry'].setValue('United States');
         }
+        
         this.profileForm.controls['phone'].markAsDirty();
         this.profileForm.markAsPristine();
+        if(!mDate){
+            this.errorCSS="undefined ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled ng-invalid";
+        }
+        else{
+            this.errorCSS="undefined ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled";
+        }
     };
     getUpdatedProfile() {
         let mDate = Util.getISODate(this.profileForm.controls['birthDay'].value);
@@ -275,6 +291,17 @@ export class Profile {
         pr.mailingZip = this.profileForm.controls['mailingZip'].value;
 	    pr.mailingCountry = this.profileForm.controls['mailingCountry'].value;// this.profileForm.controls['mailingCountry'].value;
         pr.mailingCountryisoCode = this.countries.filter(d => d.countryName == pr.mailingCountry)[0].isoCode;
+        try{
+            let userselectedCountry = this.countries.filter(d => d.countryName == pr.mailingCountry);
+            if(!userselectedCountry){
+                pr.mailingCountry ="United States";
+                pr.mailingCountryisoCode="US";
+            }
+        }
+        catch(ex){
+                pr.mailingCountry ="United States";
+                pr.mailingCountryisoCode="US";
+        }
         return (pr);
     };
 

@@ -248,7 +248,6 @@ export class AppService {
                 // if (this.spinnerObserver) { this.spinnerObserver.next(false); }
                 this.behEmit('spinner:hide:show',false);
             }, err => {
-                    console.log("somnath1111");
                 this.subject.next({
                     id: id,
                     data: { error: err },

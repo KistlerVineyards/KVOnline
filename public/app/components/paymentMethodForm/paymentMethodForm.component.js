@@ -40,7 +40,7 @@ var PaymentMethodForm = (function () {
             else {
                 _this.initPayMethodForm();
                 _this.alert = {};
-                var defaultBillingAddress = JSON.parse(d.data).Table[0] || {};
+                var defaultBillingAddress_1 = JSON.parse(d.data).Table[0] || {};
                 /*this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.street1);
                 this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.street2);
                 this.payMethodForm.controls['city'].setValue(defaultBillingAddress.city);
@@ -50,14 +50,25 @@ var PaymentMethodForm = (function () {
                 this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.isoCode);
                 this.selectedISOCode = defaultBillingAddress.isoCode;
                 */
-                _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress.mailingAddress1);
-                _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress.mailingAddress2);
-                _this.payMethodForm.controls['city'].setValue(defaultBillingAddress.mailingCity);
-                _this.payMethodForm.controls['state'].setValue(defaultBillingAddress.mailingState);
-                _this.payMethodForm.controls['zip'].setValue(defaultBillingAddress.mailingZip);
-                _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress.phone);
-                _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress.mailingISOCode);
-                _this.selectedISOCode = defaultBillingAddress.mailingISOCode;
+                try {
+                    var userselectedCountry = _this.countries.filter(function (d) { return d.countryName == defaultBillingAddress_1.mailingCountry; });
+                    if (userselectedCountry.length == 0) {
+                        defaultBillingAddress_1.mailingCountry = "United States";
+                        defaultBillingAddress_1.mailingISOCode = "US";
+                    }
+                }
+                catch (ex) {
+                    defaultBillingAddress_1.mailingCountry = "United States";
+                    defaultBillingAddress_1.mailingISOCode = "US";
+                }
+                _this.payMethodForm.controls['street1'].setValue(defaultBillingAddress_1.mailingAddress1);
+                _this.payMethodForm.controls['street2'].setValue(defaultBillingAddress_1.mailingAddress2);
+                _this.payMethodForm.controls['city'].setValue(defaultBillingAddress_1.mailingCity);
+                _this.payMethodForm.controls['state'].setValue(defaultBillingAddress_1.mailingState);
+                _this.payMethodForm.controls['zip'].setValue(defaultBillingAddress_1.mailingZip);
+                _this.payMethodForm.controls['phone'].setValue(defaultBillingAddress_1.phone);
+                _this.payMethodForm.controls['countryName'].setValue(defaultBillingAddress_1.mailingISOCode);
+                _this.selectedISOCode = defaultBillingAddress_1.mailingISOCode;
                 _this.reset();
             }
         });

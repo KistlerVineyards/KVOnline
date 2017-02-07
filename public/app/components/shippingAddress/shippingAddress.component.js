@@ -167,6 +167,19 @@ var ShippingAddress = (function () {
     };
     ;
     ShippingAddress.prototype.initShippingForm = function (address) {
+        if (this.isDataReady) {
+            try {
+                var userselectedCountry = this.countries.filter(function (d) { return d.countryName == address.country; });
+                if (userselectedCountry.length == 0) {
+                    address.country = "United States";
+                    address.isoCode = "US";
+                }
+            }
+            catch (ex) {
+                address.country = "United States";
+                address.isoCode = "US";
+            }
+        }
         this.shippingForm = this.fb.group({
             id: [address.shippid || ''],
             co: [address.co || ''],
@@ -223,6 +236,15 @@ var ShippingAddress = (function () {
     ;
     ShippingAddress.prototype.submit = function (isVerified) {
         var _this = this;
+        try {
+            var userselectedCountry = this.countries.filter(function (d) { return d.countryName == _this.selectedCountryName; });
+            if (userselectedCountry.length == 0) {
+                this.selectedCountryName = "United States";
+            }
+        }
+        catch (ex) {
+            this.selectedCountryName = "United States";
+        }
         var addr = {
             id: this.shippingForm.controls['id'].value,
             name: this.shippingForm.controls['name'].value,

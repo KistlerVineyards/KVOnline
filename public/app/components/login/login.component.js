@@ -43,8 +43,8 @@ var Login = (function () {
     Login.prototype.authenticate = function (pwd) {
         if (this.loginForm.valid) {
             var base64Encoded = this.appService.encodeBase64(this.loginForm.controls["email"].value + ':' + md5_1.md5(pwd));
-            console.log('md5:' + md5_1.md5(pwd));
-            console.log(base64Encoded);
+            // console.log('md5:' + md5(pwd));
+            // console.log(base64Encoded);
             this.appService.httpPost('post:authenticate', { auth: base64Encoded });
         }
         else {
