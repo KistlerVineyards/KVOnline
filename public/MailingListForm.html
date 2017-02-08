@@ -22,7 +22,8 @@
         var debug = true;					// Toggle debug mode
 
         var ss = null;
-        var htmlKey = "1361241522202375";			// Put your HTML key here
+        var htmlKey = "16197637701494758";			// Put your HTML key here -- My localhost account: 34341261251125811
+        // UAT account: 
 
         /** INITIALIZE **/
         window.onload = function () {
@@ -30,9 +31,10 @@
             if (!disableSmartyStreets) {
                 ss = $.LiveAddress({
                     key: htmlKey,		// An HTML key from your account
-                    waitForStreet: true,	// Hides autocomplete suggestions until a street is entered
+                    //waitForStreet: true,	// Hides autocomplete suggestions until a street is entered
                     debug: debug,		// Show debug stuff
-                    target: "US|INTERNATIONAL",
+                    target: "US|International",
+                    geocode: true,
                     addresses: [{
                         id: "mailing",
                         address1: '#MailStreet1Field',
@@ -356,7 +358,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/api/newuser/signup",
+                url: "api/newuser/signup",
                 data: dataStr,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -476,10 +478,12 @@
                         </li>
                         <li>
                             <label for="FirstNameField">First name</label><span class="justify"><input name="FirstNameField" type="text" maxlength="50" size="25" id="FirstNameField" onblur="validateField(this)" required /></span>
+                            <span style="color:Red;">*</span>
                             <span id="FirstNameFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
                             <label for="LastNameField">Last name</label><span class="justify"><input name="LastNameField" type="text" maxlength="50" size="25" id="LastNameField" onblur="validateField(this)" required/></span>
+                            <span style="color:Red;">*</span>
                             <span id="LastNameFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
@@ -488,15 +492,18 @@
                         <!-- Start DOB Field added 1/21/13, Matt Converse -->
                         <li>
                             <label for="DOBField">Date of Birth (mm/dd/yyyy)</label><span class="justify"><input name="DOBField" type="text" maxlength="20" size="20" id="DOBField" onblur="validateField(this)" required placeholder="mm/dd/yyyy" /></span>
+                            <span style="color:Red;">*</span>
                             <span id="DOBFieldRequired" style="color:Red;display:none;">required</span><br />
                         </li>
                         <!-- End DOB Field  -->
                         <li class="split">
-                            <label for="EmailField">Email address</label><span class="justify"><input name="EmailField" type="email" maxlength="50" size="32" id="EmailField" onblur="validateField(this)" required/></span>
+                            <label for="EmailField">Email address</label><span class="justify"><input name="EmailField" type="email" maxlength="50" size="25" id="EmailField" onblur="validateField(this)" required/></span>
+                            <span style="color:Red;">*</span>
                             <span id="EmailFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
-                            <label for="VerifyEmailField">Verify email address</label><span class="justify"><input name="VerifyEmailField" type="email" maxlength="50" size="32" id="VerifyEmailField" onblur="validateField(this)" required /></span>
+                            <label for="VerifyEmailField">Verify email address</label><span class="justify"><input name="VerifyEmailField" type="email" maxlength="50" size="25" id="VerifyEmailField" onblur="validateField(this)" required /></span>
+                            <span style="color:Red;">*</span>
                             <span id="VerifyEmailFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li class="split">
@@ -521,6 +528,7 @@
                         </li>
                         <li>
                             <label for="MailStreet1Field">Street line 1</label><span class="justify"><input name="MailStreet1Field" type="text" maxlength="32" size="32" id="MailStreet1Field" onblur="validateField(this)" required /></span>
+                            <span style="color:Red;">*</span>
                             <span id="MailStreet1FieldRequired" style="color:Red;display:none;">required</span>
                             
                         </li>
@@ -529,13 +537,13 @@
                         </li>
                         <li>
                             <label for="MailCityField">City</label><span class="justify"><input name="MailCityField" type="text" maxlength="30" size="30" id="MailCityField" onblur="validateField(this)" required /></span>
+                            <span style="color:Red;">*</span>
                             <span id="MailCityFieldRequired" style="color:Red;display:none;">required</span>
 
                         </li>
                         <li>
-                            <label for="MailStateField">State/Province</label><span class="justify">
-                            <!--<input name="MailStateField" type="text" id="MailStateField" placeholder="MailStateField" required />-->
-                                <select name="MailStateField" id="MailStateField" placeholder="MailStateField" onblur="validateField(this)" required>
+                            <label for="MailStateField">State/Province</label><span class="justify"><input name="MailStateField" type="text" id="MailStateField" required />
+                                <!--<select name="MailStateField" id="MailStateField" placeholder="MailStateField" onblur="validateField(this)" required>
                                     <option selected="selected" value="">&nbsp;</option>
                                     <option value="AK">AK</option>
                                     <option value="AL">AL</option>
@@ -589,18 +597,19 @@
                                     <option value="WI">WI</option>
                                     <option value="WV">WV</option>
                                     <option value="WY">WY</option>
-                                </select>
+                                </select>-->
+                                <span style="color:Red;">*</span>
                                 <span id="MailStateFieldRequired" style="color:Red;display:none;">required</span>
                             </span>
                         </li>
                         <li>
                             <label for="MailZipField">Postal code</label><span class="justify"><input name="MailZipField" type="text" maxlength="10" size="10" id="MailZipField" onblur="validateField(this)" required /></span>
+                            <span style="color:Red;">*</span>
                             <span id="MailZipFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
-                            <label for="MailCountryField">Country</label><span class="justify">
-                                <!--<input name="MailCountryField" type="text" id="MailCountryField" placeholder="MailCountryField" required />-->
-                                <select name="MailCountryField" id="MailCountryField" placeholder="MailCountryField" onblur="validateField(this)" required>
+                            <label for="MailCountryField">Country</label><span class="justify"><input name="MailCountryField" type="text" id="MailCountryField" required />
+                                <!--<select name="MailCountryField" id="MailCountryField" placeholder="MailCountryField" onblur="validateField(this)" required>
                                     <option selected="selected" value="">&nbsp;</option>
                                     <option value="Afghanistan">Afghanistan</option>
                                     <option value="Åland Islands">&#197;land Islands</option>
@@ -861,7 +870,8 @@
                                     <option value="Yemen">Yemen</option>
                                     <option value="Zambia">Zambia</option>
                                     <option value="Zimbabwe">Zimbabwe</option>
-                                </select>
+                                </select>-->
+                                <span style="color:Red;">*</span>
                                 <span id="MailCountryFieldRequired" style="color:Red;display:none;">required</span>
                             </span>
                         </li>
@@ -885,6 +895,7 @@
                         </li>
                         <li>
                             <label for="ShipStreet1Field">Street line 1</label><input name="ShipStreet1Field" type="text" maxlength="32" size="32" id="ShipStreet1Field" onblur="validateField(this)" required />
+                            <span style="color:Red;">*</span>
                             <span id="ShipStreet1FieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
@@ -892,6 +903,7 @@
                         </li>
                         <li>
                             <label for="ShipCityField">City</label><input name="ShipCityField" type="text" maxlength="30" size="30" id="ShipCityField" onblur="validateField(this)" required/>
+                            <span style="color:Red;">*</span>
                             <span id="ShipCityFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
@@ -941,6 +953,7 @@
                                 <option value="WY">WY</option>
 
                             </select>
+                            <span style="color:Red;">*</span>
                             <span id="ShipStateFieldRequired" style="color:Red;display:none;">required</span>
                             <br />
                             <span class="subdued">
@@ -951,6 +964,7 @@
                         </li>
                         <li>
                             <label for="ShipZipField">Postal code</label><input name="ShipZipField" type="text" maxlength="10" size="10" id="ShipZipField" onblur="validateField(this)" required />
+                            <span style="color:Red;">*</span>
                             <span id="ShipZipFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
@@ -1216,6 +1230,7 @@
                                 <option value="Zambia">Zambia</option>
                                 <option value="Zimbabwe">Zimbabwe</option>
                             </select>
+                            <span style="color:Red;">*</span>
                             <span id="ShipCountryFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                     </ul>
