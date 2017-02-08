@@ -19,11 +19,11 @@
         /** CONFIGURE **/
 
         var disableSmartyStreets = false; // for debugging other stuff when we need it disabled
-        var debug = true;					// Toggle debug mode
+        var debug = false;					// Toggle debug mode
 
         var ss = null;
-        var htmlKey = "16197637701494758";			// Put your HTML key here -- My localhost account: 34341261251125811
-        // UAT account: 
+        var htmlKey = "29555280319814008";			// Put your HTML key here -- My localhost account: 34341261251125811
+        // UAT account: 16197637701494758
 
         /** INITIALIZE **/
         window.onload = function () {
@@ -61,389 +61,6 @@
              initRequiredFields();
 
         }
-
-        function initAllFieldsArray()
-        {
-            allFields = new Array(
-                document.getElementById("SalutationField"),
-                document.getElementById("FirstNameField"),
-                document.getElementById("LastNameField"),
-                document.getElementById("SuffixField"),
-                document.getElementById("DOBField"),
-                document.getElementById("EmailField"),
-                document.getElementById("VerifyEmailField"),
-                document.getElementById("DayPhoneField"),
-                document.getElementById("AltPhoneField"),
-                document.getElementById("FaxField"),
-                document.getElementById("MailNameField"),
-                document.getElementById("MailCoField"),
-                document.getElementById("MailStreet1Field"),
-                document.getElementById("MailStreet2Field"),
-                document.getElementById("MailCityField"),
-                document.getElementById("MailStateField"),
-                document.getElementById("MailZipField"),
-                document.getElementById("MailCountryField"),
-                document.getElementById("ShipPhoneField"),
-                document.getElementById("UseMailingCheck"),
-                document.getElementById("ShipNameField"),
-                document.getElementById("ShipCoField"),
-                document.getElementById("ShipStreet1Field"),
-                document.getElementById("ShipStreet2Field"),
-                document.getElementById("ShipCityField"),
-                document.getElementById("ShipStateField"),
-                document.getElementById("ShipZipField"),
-                document.getElementById("ShipCountryField"),
-                document.getElementById("NotesField")
-
-            );
-        }
-
-        function initRequiredFields()
-        {
-            requiredFields = new Array(
-                document.getElementById("FirstNameField"),
-                document.getElementById("LastNameField"),
-                document.getElementById("DOBField"),
-                document.getElementById("EmailField"),
-                document.getElementById("VerifyEmailField"),
-                document.getElementById("MailStreet1Field"),
-                document.getElementById("MailCityField"),
-                document.getElementById("MailStateField"),
-                document.getElementById("MailZipField"),
-                document.getElementById("MailCountryField"),
-                document.getElementById("ShipStreet1Field"),
-                document.getElementById("ShipCityField"),
-                document.getElementById("ShipStateField"),
-                document.getElementById("ShipZipField"),
-                document.getElementById("ShipCountryField")
-
-            );
-        }
-
-        function initShipFieldsArray()
-        {
-            shippingFields = new Array(
-                document.getElementById("ShipNameField"),
-                document.getElementById("ShipCoField"),
-                document.getElementById("ShipStreet1Field"),
-                document.getElementById("ShipStreet2Field"),
-                document.getElementById("ShipCityField"),
-                document.getElementById("ShipStateField"),
-                document.getElementById("ShipZipField"),
-                document.getElementById("ShipCountryField")
-            );
-        }
-
-        function useMailingClicked()
-        {
-            if (!shippingFields)
-            {
-                initShipFieldsArray();
-            }
-
-            var checked = document.getElementById("UseMailingCheck").checked;
-
-            // activate/deactivate the smartyStreets checks for shipping
-            if (true === checked)
-            {
-
-                if (null !== ss)
-                {
-                    ss.deactivate("shipping");
-                }
-                
-                // remove required ship fields
-                shipRequiredFields = null;
-            }
-            else
-            {
-                if (null !== ss) {
-                    ss.activate("shipping");
-                }
-
-            }
-
-            // activate/deactivate shipping fields
-            for (fld in shippingFields) {
-                if (checked)
-                {
-                    // remove the values
-                    shippingFields[fld].value = "";
-                    
-                }
-
-                shippingFields[fld].disabled = checked;
-
-            }
-
-            doValidation();
-      
-           
-        }
-
-        function doValidation()
-        {
-            var retVal = true;
-
-            //alert("validate called!");
-
-            // run validation on required fields
-            if (requiredFields)
-            {
-                for(fld in requiredFields)
-                {
-                    var fldEl = requiredFields[fld];
-                    var isValid = validateField(fldEl);
-                    if (false === isValid)
-                    {
-                        retVal = false;
-                    }
-                    
-                }
-
-            }
-
-            return retVal;
-        }
-
-        function validateField(fldEl)
-        {
-            var retVal = true;
-
-            if (undefined !== fldEl && null !== fldEl) {
-                var reqEl = document.getElementById(fldEl.id + 'Required');
-
-                if (false === fldEl.disabled && undefined !== fldEl.value) {
-                    
-                    if (fldEl.id.includes("DOB"))
-                    {// validate date of birth field
-                        if (fldEl.value === null || fldEl.value === '') {
-                            reqEl.innerText = "required";
-                            setReqFieldIsVisible(true, reqEl);
-                            retVal = false;
-                        }
-                        else {
-                            if (false === validateBirthdate(fldEl)) {
-                                reqEl.innerText = "Invalid";
-                                setReqFieldIsVisible(true, reqEl);
-                                retVal = false;
-                            }
-                            else {
-                                reqEl.innerText = "required";
-                                setReqFieldIsVisible(false, reqEl);
-                            }
-                        }
-                    }
-                    else if (fldEl.id.includes("Email")) {
-                    // Validate email field
-                        if (fldEl.value === null || fldEl.value === '') {
-                            reqEl.innerText = "required";
-                            setReqFieldIsVisible(true, reqEl);
-                            retVal = false;
-                        }
-                        else if (fldEl.id.includes("Verify"))
-                        {
-                            // make sure the email addresses are the same
-                            var email1 = document.getElementById("EmailField");
-
-                            if (null !== email1)
-                            {
-                                if (email1.value !== fldEl.value)
-                                {
-                                    reqEl.innerText = "wrong";
-                                    setReqFieldIsVisible(true, reqEl);
-                                    retVal = false;
-                                }
-                                else {
-                                    reqEl.innerText = "required";
-                                    setReqFieldIsVisible(false, reqEl);
-                                }
-                            }
-                            
-                        }
-                        else {
-                            // check if we have a valid email
-                            if (false === validateEmail(fldEl)) {
-                                reqEl.innerText = "Invalid";
-                                setReqFieldIsVisible(true, reqEl);
-                                retVal = false;
-                            }
-                            else {
-                                reqEl.innerText = "required";
-                                setReqFieldIsVisible(false, reqEl);
-                            }
-                        }
-                    }
-                    else if (fldEl.value === null || fldEl.value === '') {// validate all other fields
-                        // set the required field message to visible if no value present
-                        setReqFieldIsVisible(true, reqEl);
-                        retVal = false;
-                    }
-                    else {
-                        setReqFieldIsVisible(false, reqEl);
-                    }
-
-
-                }
-                else {
-                    setReqFieldIsVisible(false, reqEl);
-                }
-                
-            }
-
-            return retVal;
-        }
-
-        function validateEmail(el) {
-            if (undefined !== el && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(el.value)) {
-                return true;
-            }
-            
-            return false;
-        }
-
-        function validateBirthdate(el)
-        {
-            if (undefined !== el && /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(el.value))
-            {
-                return true;
-            }
-            
-            return false;
-        }
-
-        function setReqFieldIsVisible(isVisible, reqEl)
-        {
-            if (null !== reqEl) {
-                if (true === isVisible)
-                {
-                    reqEl.style = "color:Red;";
-                }
-                else
-                {
-                    reqEl.style = "color:Red;display:none;";
-                }
-                
-            }
-        }
-
-        function getFormDataObj()
-        {
-            var frmDataObj = {};
-
-            if (allFields) {
-                for (fld in allFields) {
-                    var fldEl = allFields[fld];
-                    
-                    if (null !== fldEl && undefined !== fldEl.value)
-                    {
-                        frmDataObj[fldEl.id.replace("Field", "").replace("Check", "")] = fldEl.value;
-                    }
-        
-                }
-            }
-
-            //alert(JSON.stringify(frmDataObj));
-
-            return frmDataObj;
-        }
-
-        function doDataSubmit() {
-            // TODO: package data up and make AJAX call to the web API
-            //alert("data submittion routine called!");
-
-            var dataObj = getFormDataObj();
-
-            var dataStr = JSON.stringify(dataObj);
-
-            $.ajax({
-                type: "POST",
-                url: "api/newuser/signup",
-                data: dataStr,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (msg) {
-                    displaySuccessMessage();
-                    if (true === debug)
-                    {
-                        alert("return value: " + JSON.stringify(msg));
-                    }
-                    
-                },
-                error: function (msg) {
-                    displayErrorMessage("The server was not able to accept your data. Please try again and/or contact support.")
-                    if (true === debug)
-                    {
-                        alert("error: " + JSON.stringify(msg));
-                    }
-                    
-                }
-            });
-            
-        }
-
-        function displaySuccessMessage()
-        {
-            var contactFrm = document.getElementById("contactFormDiv");
-            var msgDiv = document.getElementById("userMsgDiv");
-            var msgEl = document.getElementById("userMsg");
-
-            if (null !== contactFrm) {
-                contactFrm.style = "display:none;";
-            }
-
-            if (null !== msgDiv) {
-                msgDiv.style = "";
-            }
-
-            if (null !== msgEl) {
-                msgEl.style = "color:Blue;";
-            }
-        }
-
-        function displayErrorMessage(msg)
-        {
-            var contactFrm = document.getElementById("contactFormDiv");
-            var msgDiv = document.getElementById("userMsgDiv");
-            var msgEl = document.getElementById("userMsg");
-
-            if (null !== msgDiv) {
-                msgDiv.style = "";
-            }
-
-            if (null !== msgEl) {
-                msgEl.style = "color:red;";
-                msgEl.innerText = msg;
-            }
-        }
-
-        function submitData()
-        {
-            //alert("submitData() function called!");
-            //var frm = document.getElementById("docForm");
-            //if (null !== frm)
-            //{
-            //    frm.submit();
-            //}
-
-            // do validation
-            var isValid = doValidation();
-
-            
-            if (true === isValid)
-            {
-                //alert("isvalid!");
-
-                // run data submission
-                doDataSubmit();
-            }
-            else
-            {
-                alert("Some required fields need values!");
-            }
-        }
-
-        
 
     </script>
    
@@ -907,7 +524,9 @@
                             <span id="ShipCityFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
-                            <label for="ShipStateField">State/Province</label><select name="ShipStateField" id="ShipStateField" onblur="validateField(this)" required>
+                            <label for="ShipStateField">State/Province</label>
+                            <input name="ShipStateField" type="text" maxlength="30" size="30" id="ShipStateField" onblur="validateField(this)" style="display:none;" required />
+                            <select name="ShipStateDrop" id="ShipStateDrop" onchange="SetShipStateVal(this.value)" required>
                                 <option selected="selected" value="">&nbsp;</option>
                                 <option value="AK">AK</option>
                                 <option value="AL">AL</option>
@@ -968,7 +587,7 @@
                             <span id="ShipZipFieldRequired" style="color:Red;display:none;">required</span>
                         </li>
                         <li>
-                            <label for="ShipCountryField">Country</label><select name="ShipCountryField" onchange="" id="ShipCountryField" onblur="validateField(this)" required>
+                            <label for="ShipCountryField">Country</label><select name="ShipCountryField" onchange="setShipStateVisibility()" id="ShipCountryField" onblur="validateField(this)" required>
                                 <option selected="selected" value="">&nbsp;</option>
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Åland Islands">&#197;land Islands</option>
@@ -1245,5 +864,488 @@
             </div>
         </form>
     </div>
+    <script type="text/javascript">
+        
+        var caProvinces = [
+    { name: 'AB', abbreviation: '' },
+    { name: 'BC', abbreviation: '' },
+    { name: 'MB', abbreviation: '' },
+    { name: 'NB', abbreviation: '' },
+    { name: 'NL', abbreviation: '' },
+    { name: 'NS', abbreviation: '' },
+    { name: 'NT', abbreviation: '' },
+    { name: 'NU', abbreviation: '' },
+    { name: 'ON', abbreviation: '' },
+    { name: 'PE', abbreviation: '' },
+    { name: 'QC', abbreviation: '' },
+    { name: 'SK', abbreviation: '' },
+    { name: 'YT', abbreviation: '' }
+        ];
+
+        // keep these in sync
+        var usStates = [
+    { name: 'AL', abbreviation: 'AL' },
+    { name: 'AZ', abbreviation: 'AZ' },
+    { name: 'CA', abbreviation: 'CA' },
+    { name: 'CO', abbreviation: 'CO' },
+    { name: 'CT', abbreviation: 'CT' },
+    { name: 'DC', abbreviation: 'DC' },
+    { name: 'FL', abbreviation: 'FL' },
+    { name: 'GA', abbreviation: 'GA' },
+    { name: 'HI', abbreviation: 'HI' },
+    { name: 'IA', abbreviation: 'IA' },
+    { name: 'ID', abbreviation: 'ID' },
+    { name: 'IL', abbreviation: 'IL' },
+    { name: 'IN', abbreviation: 'IN' },
+    { name: 'KS', abbreviation: 'KS' },
+    { name: 'LA', abbreviation: 'LA' },
+    { name: 'MA', abbreviation: 'MA' },
+    { name: 'MAD', abbreviation: 'MD' },
+    { name: 'ME', abbreviation: 'ME' },
+    { name: 'MI', abbreviation: 'MI' },
+    { name: 'MN', abbreviation: 'MN' },
+    { name: 'MO', abbreviation: 'MO' },
+    { name: 'MT', abbreviation: 'MT' },
+    { name: 'NC', abbreviation: 'NC' },
+    { name: 'NH', abbreviation: 'NH' },
+    { name: 'NJ', abbreviation: 'NJ' },
+    { name: 'NM', abbreviation: 'NM' },
+    { name: 'NV', abbreviation: 'NV' },
+    { name: 'NY', abbreviation: 'NY' },
+    { name: 'OH', abbreviation: 'OH' },
+    { name: 'OR', abbreviation: 'OR' },
+    { name: 'PA', abbreviation: 'PA' },
+    { name: 'PR', abbreviation: 'PR' },
+    { name: 'RI', abbreviation: 'RI' },
+    { name: 'SC', abbreviation: 'SC' },
+    { name: 'TN', abbreviation: 'TN' },
+    { name: 'TX', abbreviation: 'TX' },
+    { name: 'VA', abbreviation: 'VA' },
+    { name: 'WA', abbreviation: 'WA' },
+    { name: 'WI', abbreviation: 'WI' },
+    { name: 'WV', abbreviation: 'WV' },
+    { name: 'WY', abbreviation: 'WY' }
+        ];
+
+        
+        function setShipStateVisibility()
+        {
+            var el = document.getElementById("ShipCountryField");
+            var stateEl = document.getElementById("ShipStateField");
+            var stateDropEl = document.getElementById("ShipStateDrop");
+
+            if (null !== el && null !== stateEl && null !== stateDropEl)
+            {
+                setShipStateDropOptions(stateDropEl, el);
+
+                if (el.value === "United States" || el.value === "Canada")
+                {
+                    stateEl.style = "display:none;";
+                    stateEl.disabled = false;
+                    stateDropEl.style = "";
+                    
+                }
+                else
+                {
+                    stateEl.style = "";
+                    stateEl.disabled = true;
+                    stateDropEl.style = "display:none;";
+                }
+                
+                stateEl.value = "";
+            }
+        }
+
+        function setShipStateDropOptions(drop, cntryEl)
+        {
+            if (null !== cntryEl)
+            {
+                // remove all options
+                var i;
+                for (i = drop.options.length - 1 ; i >= 0 ; i--) {
+                    drop.remove(i);
+                }
+
+                if (cntryEl.value === "United States")
+                {
+                    populateStateFromArray(usStates, drop);
+
+                }
+                else if (cntryEl.value === "Canada")
+                {
+                    populateStateFromArray(caProvinces, drop);
+                }
+            }
+        }
+
+        function populateStateFromArray(arr, dropDown)
+        {
+            for (var i = 0; i < arr.length; i++) {
+                var option = document.createElement("option");
+                option.text = arr[i].name;
+                option.value = i;
+                dropDown.appendChild(option);
+            }
+        }
+
+        function SetShipStateVal(val)
+        {
+            var el = document.getElementById("ShipStateField");
+            if (null !== el)
+            {
+                el.value = val;
+            }
+        }
+
+        function initAllFieldsArray() {
+            allFields = new Array(
+                document.getElementById("SalutationField"),
+                document.getElementById("FirstNameField"),
+                document.getElementById("LastNameField"),
+                document.getElementById("SuffixField"),
+                document.getElementById("DOBField"),
+                document.getElementById("EmailField"),
+                document.getElementById("VerifyEmailField"),
+                document.getElementById("DayPhoneField"),
+                document.getElementById("AltPhoneField"),
+                document.getElementById("FaxField"),
+                document.getElementById("MailNameField"),
+                document.getElementById("MailCoField"),
+                document.getElementById("MailStreet1Field"),
+                document.getElementById("MailStreet2Field"),
+                document.getElementById("MailCityField"),
+                document.getElementById("MailStateField"),
+                document.getElementById("MailZipField"),
+                document.getElementById("MailCountryField"),
+                document.getElementById("ShipPhoneField"),
+                document.getElementById("UseMailingCheck"),
+                document.getElementById("ShipNameField"),
+                document.getElementById("ShipCoField"),
+                document.getElementById("ShipStreet1Field"),
+                document.getElementById("ShipStreet2Field"),
+                document.getElementById("ShipCityField"),
+                document.getElementById("ShipStateField"),
+                document.getElementById("ShipZipField"),
+                document.getElementById("ShipCountryField"),
+                document.getElementById("NotesField")
+
+            );
+        }
+
+        function initRequiredFields() {
+            requiredFields = new Array(
+                document.getElementById("FirstNameField"),
+                document.getElementById("LastNameField"),
+                document.getElementById("DOBField"),
+                document.getElementById("EmailField"),
+                document.getElementById("VerifyEmailField"),
+                document.getElementById("MailStreet1Field"),
+                document.getElementById("MailCityField"),
+                document.getElementById("MailStateField"),
+                document.getElementById("MailZipField"),
+                document.getElementById("MailCountryField"),
+                document.getElementById("ShipStreet1Field"),
+                document.getElementById("ShipCityField"),
+                document.getElementById("ShipStateField"),
+                document.getElementById("ShipZipField"),
+                document.getElementById("ShipCountryField")
+
+            );
+        }
+
+        function initShipFieldsArray() {
+            shippingFields = new Array(
+                document.getElementById("ShipNameField"),
+                document.getElementById("ShipCoField"),
+                document.getElementById("ShipStreet1Field"),
+                document.getElementById("ShipStreet2Field"),
+                document.getElementById("ShipCityField"),
+                document.getElementById("ShipStateField"),
+                document.getElementById("ShipZipField"),
+                document.getElementById("ShipCountryField")
+            );
+        }
+
+        function useMailingClicked() {
+            if (!shippingFields) {
+                initShipFieldsArray();
+            }
+
+            var checked = document.getElementById("UseMailingCheck").checked;
+
+            // activate/deactivate the smartyStreets checks for shipping
+            if (true === checked) {
+
+                if (null !== ss) {
+                    ss.deactivate("shipping");
+                }
+
+                // remove required ship fields
+                shipRequiredFields = null;
+            }
+            else {
+                if (null !== ss) {
+                    ss.activate("shipping");
+                }
+
+            }
+
+            // activate/deactivate shipping fields
+            for (fld in shippingFields) {
+                if (checked) {
+                    // remove the values
+                    shippingFields[fld].value = "";
+
+                }
+
+                shippingFields[fld].disabled = checked;
+
+            }
+
+            doValidation();
+
+
+        }
+
+        function doValidation() {
+            var retVal = true;
+
+            //alert("validate called!");
+
+            // run validation on required fields
+            if (requiredFields) {
+                for (fld in requiredFields) {
+                    var fldEl = requiredFields[fld];
+                    var isValid = validateField(fldEl);
+                    if (false === isValid) {
+                        retVal = false;
+                    }
+
+                }
+
+            }
+
+            return retVal;
+        }
+
+        function validateField(fldEl) {
+            var retVal = true;
+
+            if (undefined !== fldEl && null !== fldEl) {
+                var reqEl = document.getElementById(fldEl.id + 'Required');
+
+                if (false === fldEl.disabled && undefined !== fldEl.value) {
+
+                    if (fldEl.id.includes("DOB")) {// validate date of birth field
+                        if (fldEl.value === null || fldEl.value === '') {
+                            reqEl.innerText = "required";
+                            setReqFieldIsVisible(true, reqEl);
+                            retVal = false;
+                        }
+                        else {
+                            if (false === validateBirthdate(fldEl)) {
+                                reqEl.innerText = "Invalid";
+                                setReqFieldIsVisible(true, reqEl);
+                                retVal = false;
+                            }
+                            else {
+                                reqEl.innerText = "required";
+                                setReqFieldIsVisible(false, reqEl);
+                            }
+                        }
+                    }
+                    else if (fldEl.id.includes("Email")) {
+                        // Validate email field
+                        if (fldEl.value === null || fldEl.value === '') {
+                            reqEl.innerText = "required";
+                            setReqFieldIsVisible(true, reqEl);
+                            retVal = false;
+                        }
+                        else if (fldEl.id.includes("Verify")) {
+                            // make sure the email addresses are the same
+                            var email1 = document.getElementById("EmailField");
+
+                            if (null !== email1) {
+                                if (email1.value !== fldEl.value) {
+                                    reqEl.innerText = "wrong";
+                                    setReqFieldIsVisible(true, reqEl);
+                                    retVal = false;
+                                }
+                                else {
+                                    reqEl.innerText = "required";
+                                    setReqFieldIsVisible(false, reqEl);
+                                }
+                            }
+
+                        }
+                        else {
+                            // check if we have a valid email
+                            if (false === validateEmail(fldEl)) {
+                                reqEl.innerText = "Invalid";
+                                setReqFieldIsVisible(true, reqEl);
+                                retVal = false;
+                            }
+                            else {
+                                reqEl.innerText = "required";
+                                setReqFieldIsVisible(false, reqEl);
+                            }
+                        }
+                    }
+                    else if (fldEl.value === null || fldEl.value === '') {// validate all other fields
+                        // set the required field message to visible if no value present
+                        setReqFieldIsVisible(true, reqEl);
+                        retVal = false;
+                    }
+                    else {
+                        setReqFieldIsVisible(false, reqEl);
+                    }
+
+
+                }
+                else {
+                    setReqFieldIsVisible(false, reqEl);
+                }
+
+            }
+
+            return retVal;
+        }
+
+        function validateEmail(el) {
+            if (undefined !== el && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(el.value)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function validateBirthdate(el) {
+            if (undefined !== el && /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(el.value)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function setReqFieldIsVisible(isVisible, reqEl) {
+            if (null !== reqEl) {
+                if (true === isVisible) {
+                    reqEl.style = "color:Red;";
+                }
+                else {
+                    reqEl.style = "color:Red;display:none;";
+                }
+
+            }
+        }
+
+        function getFormDataObj() {
+            var frmDataObj = {};
+
+            if (allFields) {
+                for (fld in allFields) {
+                    var fldEl = allFields[fld];
+
+                    if (null !== fldEl && undefined !== fldEl.value) {
+                        frmDataObj[fldEl.id.replace("Field", "").replace("Check", "")] = fldEl.value;
+                    }
+
+                }
+            }
+
+            //alert(JSON.stringify(frmDataObj));
+
+            return frmDataObj;
+        }
+
+        function doDataSubmit() {
+            // TODO: package data up and make AJAX call to the web API
+            //alert("data submittion routine called!");
+
+            var dataObj = getFormDataObj();
+
+            var dataStr = JSON.stringify(dataObj);
+
+            $.ajax({
+                type: "POST",
+                url: "api/newuser/signup",
+                data: dataStr,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {
+                    displaySuccessMessage();
+                    if (true === debug) {
+                        alert("return value: " + JSON.stringify(msg));
+                    }
+
+                },
+                error: function (msg) {
+                    displayErrorMessage("The server was not able to accept your data. Please try again and/or contact support.")
+                    if (true === debug) {
+                        alert("error: " + JSON.stringify(msg));
+                    }
+
+                }
+            });
+
+        }
+
+        function displaySuccessMessage() {
+            var contactFrm = document.getElementById("contactFormDiv");
+            var msgDiv = document.getElementById("userMsgDiv");
+            var msgEl = document.getElementById("userMsg");
+
+            if (null !== contactFrm) {
+                contactFrm.style = "display:none;";
+            }
+
+            if (null !== msgDiv) {
+                msgDiv.style = "";
+            }
+
+            if (null !== msgEl) {
+                msgEl.style = "color:Blue;";
+            }
+        }
+
+        function displayErrorMessage(msg) {
+            var contactFrm = document.getElementById("contactFormDiv");
+            var msgDiv = document.getElementById("userMsgDiv");
+            var msgEl = document.getElementById("userMsg");
+
+            if (null !== msgDiv) {
+                msgDiv.style = "";
+            }
+
+            if (null !== msgEl) {
+                msgEl.style = "color:red;";
+                msgEl.innerText = msg;
+            }
+        }
+
+        function submitData() {
+            //alert("submitData() function called!");
+            //var frm = document.getElementById("docForm");
+            //if (null !== frm)
+            //{
+            //    frm.submit();
+            //}
+
+            // do validation
+            var isValid = doValidation();
+
+
+            if (true === isValid) {
+                //alert("isvalid!");
+
+                // run data submission
+                doDataSubmit();
+            }
+            else {
+                alert("Some required fields need values!");
+            }
+        }
+
+    </script>
 </body>
 </html>
