@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="https://secure.kistlervineyards.com/signup/signup.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://d79i1fxsrar4t.cloudfront.net/jquery.liveaddress/3.2/jquery.liveaddress.min.js"></script>
+    <script src="https://d79i1fxsrar4t.cloudfront.net/jquery.liveaddress/3.2/jquery.liveaddress.min.js"></script>
 
     <!--<link href="signup.css" rel="stylesheet" type="text/css" />-->
 
@@ -63,6 +63,17 @@
         }
 
     </script>
+    <style>
+
+.required {
+    color: #900;
+    display: inline-table;
+    float: right;
+}
+input[type="email"] {
+    width: 200px;
+}
+    </style>
    
 </head>
 
@@ -82,8 +93,7 @@
                     <legend>Contact Information</legend>
                     <ul>
                         <li>
-                            <label for="SalutationField">Salutation</label><span class="justify">
-                                <select name="SalutationField" id="SalutationField">
+                            <label for="SalutationField">Salutation</label><span class="justify"><select name="SalutationField" id="SalutationField">
                                     <option value="Mr.">Mr.</option>
                                     <option value="Ms.">Ms.</option>
                                     <option value="Mrs.">Mrs.</option>
@@ -95,13 +105,13 @@
                         </li>
                         <li>
                             <label for="FirstNameField">First name</label><span class="justify"><input name="FirstNameField" type="text" maxlength="50" size="25" id="FirstNameField" onblur="validateField(this)" required /></span>
-                            <span style="color:Red;">*</span>
-                            <span id="FirstNameFieldRequired" style="color:Red;display:none;">required</span>
+                            <span class="required">required</span>
+                          <!--  <span id="FirstNameFieldRequired" class="required" style="display:none;">required</span> -->
                         </li>
                         <li>
                             <label for="LastNameField">Last name</label><span class="justify"><input name="LastNameField" type="text" maxlength="50" size="25" id="LastNameField" onblur="validateField(this)" required/></span>
-                            <span style="color:Red;">*</span>
-                            <span id="LastNameFieldRequired" style="color:Red;display:none;">required</span>
+                            <span class="required">required</span>
+                           <!--  <span id="LastNameFieldRequired" class="required" style="display:none;">required</span> -->
                         </li>
                         <li>
                             <label for="SuffixField">Suffix</label><span class="justify"><input name="SuffixField" type="text" maxlength="10" size="10" id="SuffixField" /></span>
@@ -109,19 +119,19 @@
                         <!-- Start DOB Field added 1/21/13, Matt Converse -->
                         <li>
                             <label for="DOBField">Date of Birth (mm/dd/yyyy)</label><span class="justify"><input name="DOBField" type="text" maxlength="20" size="20" id="DOBField" onblur="validateField(this)" required placeholder="mm/dd/yyyy" /></span>
-                            <span style="color:Red;">*</span>
-                            <span id="DOBFieldRequired" style="color:Red;display:none;">required</span><br />
+                            <span class="required">required</span>
+                           <!-- <span id="DOBFieldRequired" class="required" style="display:none;">required</span> --><br />
                         </li>
                         <!-- End DOB Field  -->
                         <li class="split">
                             <label for="EmailField">Email address</label><span class="justify"><input name="EmailField" type="email" maxlength="50" size="25" id="EmailField" onblur="validateField(this)" required/></span>
-                            <span style="color:Red;">*</span>
-                            <span id="EmailFieldRequired" style="color:Red;display:none;">required</span>
+                            <span class="required">required</span>
+                            <!-- <span id="EmailFieldRequired" class="required" style="display:none;">required</span>-->
                         </li>
                         <li>
                             <label for="VerifyEmailField">Verify email address</label><span class="justify"><input name="VerifyEmailField" type="email" maxlength="50" size="25" id="VerifyEmailField" onblur="validateField(this)" required /></span>
-                            <span style="color:Red;">*</span>
-                            <span id="VerifyEmailFieldRequired" style="color:Red;display:none;">required</span>
+                            <span class="required">required</span>
+                            <!-- <span id="VerifyEmailFieldRequired" class="required" style="display:none;">required</span> -->
                         </li>
                         <li class="split">
                             <label for="DayPhoneField">Daytime phone number</label><span class="justify"><input name="DayPhoneField" type="text" maxlength="22" size="22" id="DayPhoneField" /></span>
@@ -144,89 +154,7 @@
                             <label for="MailCoField">Company, c/o, etc.</label><span class="justify"><input name="MailCoField" type="text" maxlength="30" size="30" id="MailCoField" /></span>
                         </li>
                         <li>
-                            <label for="MailStreet1Field">Street line 1</label><span class="justify"><input name="MailStreet1Field" type="text" maxlength="32" size="32" id="MailStreet1Field" onblur="validateField(this)" required /></span>
-                            <span style="color:Red;">*</span>
-                            <span id="MailStreet1FieldRequired" style="color:Red;display:none;">required</span>
-                            
-                        </li>
-                        <li>
-                            <label for="MailStreet2Field">Street line 2</label><span class="justify"><input name="MailStreet2Field" type="text" maxlength="32" size="32" id="MailStreet2Field" /></span>
-                        </li>
-                        <li>
-                            <label for="MailCityField">City</label><span class="justify"><input name="MailCityField" type="text" maxlength="30" size="30" id="MailCityField" onblur="validateField(this)" required /></span>
-                            <span style="color:Red;">*</span>
-                            <span id="MailCityFieldRequired" style="color:Red;display:none;">required</span>
-
-                        </li>
-                        <li>
-                            <label for="MailStateField">State/Province</label><span class="justify"><input name="MailStateField" type="text" id="MailStateField" required />
-                                <!--<select name="MailStateField" id="MailStateField" placeholder="MailStateField" onblur="validateField(this)" required>
-                                    <option selected="selected" value="">&nbsp;</option>
-                                    <option value="AK">AK</option>
-                                    <option value="AL">AL</option>
-                                    <option value="AR">AR</option>
-                                    <option value="AZ">AZ</option>
-                                    <option value="CA">CA</option>
-                                    <option value="CO">CO</option>
-                                    <option value="CT">CT</option>
-                                    <option value="DC">DC</option>
-                                    <option value="DE">DE</option>
-                                    <option value="FL">FL</option>
-                                    <option value="GA">GA</option>
-                                    <option value="HI">HI</option>
-                                    <option value="IA">IA</option>
-                                    <option value="ID">ID</option>
-                                    <option value="IL">IL</option>
-                                    <option value="IN">IN</option>
-                                    <option value="KS">KS</option>
-                                    <option value="KY">KY</option>
-                                    <option value="LA">LA</option>
-                                    <option value="MA">MA</option>
-                                    <option value="MD">MD</option>
-                                    <option value="ME">ME</option>
-                                    <option value="MI">MI</option>
-                                    <option value="MN">MN</option>
-                                    <option value="MO">MO</option>
-                                    <option value="MS">MS</option>
-                                    <option value="MT">MT</option>
-                                    <option value="NC">NC</option>
-                                    <option value="ND">ND</option>
-                                    <option value="NE">NE</option>
-                                    <option value="NH">NH</option>
-                                    <option value="NJ">NJ</option>
-                                    <option value="NM">NM</option>
-                                    <option value="NV">NV</option>
-                                    <option value="NY">NY</option>
-                                    <option value="OH">OH</option>
-                                    <option value="OK">OK</option>
-                                    <option value="OR">OR</option>
-                                    <option value="PA">PA</option>
-                                    <option value="PR">PR</option>
-                                    <option value="RI">RI</option>
-                                    <option value="SC">SC</option>
-                                    <option value="SD">SD</option>
-                                    <option value="TN">TN</option>
-                                    <option value="TX">TX</option>
-                                    <option value="UT">UT</option>
-                                    <option value="VA">VA</option>
-                                    <option value="VT">VT</option>
-                                    <option value="WA">WA</option>
-                                    <option value="WI">WI</option>
-                                    <option value="WV">WV</option>
-                                    <option value="WY">WY</option>
-                                </select>-->
-                                <span style="color:Red;">*</span>
-                                <span id="MailStateFieldRequired" style="color:Red;display:none;">required</span>
-                            </span>
-                        </li>
-                        <li>
-                            <label for="MailZipField">Postal code</label><span class="justify"><input name="MailZipField" type="text" maxlength="10" size="10" id="MailZipField" onblur="validateField(this)" required /></span>
-                            <span style="color:Red;">*</span>
-                            <span id="MailZipFieldRequired" style="color:Red;display:none;">required</span>
-                        </li>
-                        <li>
-                            <label for="MailCountryField">Country</label><span class="justify"><input name="MailCountryField" type="text" id="MailCountryField" required />
-                                <!--<select name="MailCountryField" id="MailCountryField" placeholder="MailCountryField" onblur="validateField(this)" required>
+                            <label for="MailCountryField">Country</label><span class="justify"><!--<input name="MailCountryField" type="text" id="MailCountryField" required />--><select name="MailCountryField" id="MailCountryField" placeholder="MailCountryField" onblur="validateField(this)" required>
                                     <option selected="selected" value="">&nbsp;</option>
                                     <option value="Afghanistan">Afghanistan</option>
                                     <option value="Åland Islands">&#197;land Islands</option>
@@ -487,11 +415,93 @@
                                     <option value="Yemen">Yemen</option>
                                     <option value="Zambia">Zambia</option>
                                     <option value="Zimbabwe">Zimbabwe</option>
-                                </select>-->
-                                <span style="color:Red;">*</span>
-                                <span id="MailCountryFieldRequired" style="color:Red;display:none;">required</span>
+                                </select>
+                                <span class="required">required</span>
+                              <!--  <span id="MailCountryFieldRequired" style="color:Red;display:none;">required</span> -->
                             </span>
                         </li>
+                        <li>
+                            <label for="MailStreet1Field">Street line 1</label><span class="justify"><input name="MailStreet1Field" type="text" maxlength="32" size="32" id="MailStreet1Field" onblur="validateField(this)" required /></span>
+                            <span class="required">required</span>
+                           <!--  <span id="MailStreet1FieldRequired" style="color:Red;display:none;">required</span> -->
+                            
+                        </li>
+                        <li>
+                            <label for="MailStreet2Field">Street line 2</label><span class="justify"><input name="MailStreet2Field" type="text" maxlength="32" size="32" id="MailStreet2Field" /></span>
+                        </li>
+                        <li>
+                            <label for="MailCityField">City</label><span class="justify"><input name="MailCityField" type="text" maxlength="30" size="30" id="MailCityField" onblur="validateField(this)" required /></span>
+                            <span class="required">required</span>
+                         <!--   <span id="MailCityFieldRequired" style="color:Red;display:none;">required</span> -->
+
+                        </li>
+                        <li>
+                            <label for="MailStateField">State/Province</label><span class="justify"><input name="MailStateField" type="text" id="MailStateField" required />
+                                <!--<select name="MailStateField" id="MailStateField" placeholder="MailStateField" onblur="validateField(this)" required>
+                                    <option selected="selected" value="">&nbsp;</option>
+                                    <option value="AK">AK</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AR">AR</option>
+                                    <option value="AZ">AZ</option>
+                                    <option value="CA">CA</option>
+                                    <option value="CO">CO</option>
+                                    <option value="CT">CT</option>
+                                    <option value="DC">DC</option>
+                                    <option value="DE">DE</option>
+                                    <option value="FL">FL</option>
+                                    <option value="GA">GA</option>
+                                    <option value="HI">HI</option>
+                                    <option value="IA">IA</option>
+                                    <option value="ID">ID</option>
+                                    <option value="IL">IL</option>
+                                    <option value="IN">IN</option>
+                                    <option value="KS">KS</option>
+                                    <option value="KY">KY</option>
+                                    <option value="LA">LA</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MD">MD</option>
+                                    <option value="ME">ME</option>
+                                    <option value="MI">MI</option>
+                                    <option value="MN">MN</option>
+                                    <option value="MO">MO</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MT">MT</option>
+                                    <option value="NC">NC</option>
+                                    <option value="ND">ND</option>
+                                    <option value="NE">NE</option>
+                                    <option value="NH">NH</option>
+                                    <option value="NJ">NJ</option>
+                                    <option value="NM">NM</option>
+                                    <option value="NV">NV</option>
+                                    <option value="NY">NY</option>
+                                    <option value="OH">OH</option>
+                                    <option value="OK">OK</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PR">PR</option>
+                                    <option value="RI">RI</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SD">SD</option>
+                                    <option value="TN">TN</option>
+                                    <option value="TX">TX</option>
+                                    <option value="UT">UT</option>
+                                    <option value="VA">VA</option>
+                                    <option value="VT">VT</option>
+                                    <option value="WA">WA</option>
+                                    <option value="WI">WI</option>
+                                    <option value="WV">WV</option>
+                                    <option value="WY">WY</option>
+                                </select>-->
+                                <span class="required">required</span>
+                          <!--      <span id="MailStateFieldRequired" style="color:Red;display:none;">required</span>-->
+                            </span>
+                        </li>
+                        <li>
+                            <label for="MailZipField">Postal code</label><span class="justify"><input name="MailZipField" type="text" maxlength="10" size="10" id="MailZipField" onblur="validateField(this)" required /></span>
+                            <span class="required">required</span>
+                           <!-- <span id="MailZipFieldRequired" style="color:Red;display:none;">required</span> -->
+                        </li>
+                        
                     </ul>
                 </fieldset>
                 <fieldset>
@@ -511,83 +521,7 @@
                             <label for="ShipCoField">Company, c/o, etc.</label><input name="ShipCoField" type="text" maxlength="30" size="30" id="ShipCoField"  />
                         </li>
                         <li>
-                            <label for="ShipStreet1Field">Street line 1</label><input name="ShipStreet1Field" type="text" maxlength="32" size="32" id="ShipStreet1Field" onblur="validateField(this)" required />
-                            <span style="color:Red;">*</span>
-                            <span id="ShipStreet1FieldRequired" style="color:Red;display:none;">required</span>
-                        </li>
-                        <li>
-                            <label for="ShipStreet2Field">Street line 2</label><input name="ShipStreet2Field" type="text" maxlength="32" size="32" id="ShipStreet2Field"  />
-                        </li>
-                        <li>
-                            <label for="ShipCityField">City</label><input name="ShipCityField" type="text" maxlength="30" size="30" id="ShipCityField" onblur="validateField(this)" required/>
-                            <span style="color:Red;">*</span>
-                            <span id="ShipCityFieldRequired" style="color:Red;display:none;">required</span>
-                        </li>
-                        <li>
-                            <label for="ShipStateField">State/Province</label>
-                            <input name="ShipStateField" type="text" maxlength="30" size="30" id="ShipStateField" onblur="validateField(this)" style="display:none;" required />
-                            <select name="ShipStateDrop" id="ShipStateDrop" onchange="SetShipStateVal(this.value)" required>
-                                <option selected="selected" value="">&nbsp;</option>
-                                <option value="AK">AK</option>
-                                <option value="AL">AL</option>
-                                <option value="AZ">AZ</option>
-                                <option value="CA">CA</option>
-                                <option value="CO">CO</option>
-                                <option value="CT">CT</option>
-                                <option value="DC">DC</option>
-                                <option value="FL">FL</option>
-                                <option value="GA">GA</option>
-                                <option value="HI">HI</option>
-                                <option value="IA">IA</option>
-                                <option value="ID">ID</option>
-                                <option value="IL">IL</option>
-                                <option value="IN">IN</option>
-                                <option value="KS">KS</option>
-                                <option value="LA">LA</option>
-                                <option value="MA">MA</option>
-                                <option value="MD">MD</option>
-                                <option value="ME">ME</option>
-                                <option value="MI">MI</option>
-                                <option value="MN">MN</option>
-                                <option value="MO">MO</option>
-                                <option value="MT">MT</option>
-                                <option value="NC">NC</option>
-                                <option value="NH">NH</option>
-                                <option value="NJ">NJ</option>
-                                <option value="NM">NM</option>
-                                <option value="NV">NV</option>
-                                <option value="NY">NY</option>
-                                <option value="OH">OH</option>
-                                <option value="OR">OR</option>
-                                <option value="PA">PA</option>
-                                <option value="PR">PR</option>
-                                <option value="RI">RI</option>
-                                <option value="SC">SC</option>
-                                <option value="TN">TN</option>
-                                <option value="TX">TX</option>
-                                <option value="VA">VA</option>
-                                <option value="WA">WA</option>
-                                <option value="WI">WI</option>
-                                <option value="WV">WV</option>
-                                <option value="WY">WY</option>
-
-                            </select>
-                            <span style="color:Red;">*</span>
-                            <span id="ShipStateFieldRequired" style="color:Red;display:none;">required</span>
-                            <br />
-                            <span class="subdued">
-                                If a state is not listed, we cannot legally ship wine there. You can
-                                enter an address in a different state or you can select “Use mailing address” and provide a new
-                                shipping address when you place an order.
-                            </span>
-                        </li>
-                        <li>
-                            <label for="ShipZipField">Postal code</label><input name="ShipZipField" type="text" maxlength="10" size="10" id="ShipZipField" onblur="validateField(this)" required />
-                            <span style="color:Red;">*</span>
-                            <span id="ShipZipFieldRequired" style="color:Red;display:none;">required</span>
-                        </li>
-                        <li>
-                            <label for="ShipCountryField">Country</label><select name="ShipCountryField" onchange="setShipStateVisibility()" id="ShipCountryField" onblur="validateField(this)" required>
+                            <label for="ShipCountryField">Country</label><select name="ShipCountryField" onchange="handleShipStateChange()" id="ShipCountryField" onblur="validateField(this)" required>
                                 <option selected="selected" value="">&nbsp;</option>
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Åland Islands">&#197;land Islands</option>
@@ -849,8 +783,82 @@
                                 <option value="Zambia">Zambia</option>
                                 <option value="Zimbabwe">Zimbabwe</option>
                             </select>
-                            <span style="color:Red;">*</span>
-                            <span id="ShipCountryFieldRequired" style="color:Red;display:none;">required</span>
+                            <span class="required">required</span>
+                           <!-- <span id="ShipCountryFieldRequired" style="color:Red;display:none;">required</span> -->
+                        </li>
+                        <li>
+                            <label for="ShipStreet1Field">Street line 1</label><input name="ShipStreet1Field" type="text" maxlength="32" size="32" id="ShipStreet1Field" onblur="validateField(this)" required />
+                            <span class="required">required</span>
+                          <!--  <span id="ShipStreet1FieldRequired" style="color:Red;display:none;">required</span> -->
+                        </li>
+                        <li>
+                            <label for="ShipStreet2Field">Street line 2</label><input name="ShipStreet2Field" type="text" maxlength="32" size="32" id="ShipStreet2Field"  />
+                        </li>
+                        <li>
+                            <label for="ShipCityField">City</label><input name="ShipCityField" type="text" maxlength="30" size="30" id="ShipCityField" onblur="validateField(this)" required/>
+                            <span class="required">required</span>
+                         <!--    <span id="ShipCityFieldRequired" style="color:Red;display:none;">required</span> -->
+                        </li>
+                        <li>
+                            <label for="ShipStateField">State/Province</label><input name="ShipStateField" type="text" maxlength="30" size="30" id="ShipStateField" onblur="validateField(this)" style="display:none;" required /><select name="ShipStateDrop" id="ShipStateDrop" onchange="SetShipStateVal(this.value)" required>
+                                <option selected="selected" value="">&nbsp;</option>
+                                <option value="AK">AK</option>
+                                <option value="AL">AL</option>
+                                <option value="AZ">AZ</option>
+                                <option value="CA">CA</option>
+                                <option value="CO">CO</option>
+                                <option value="CT">CT</option>
+                                <option value="DC">DC</option>
+                                <option value="FL">FL</option>
+                                <option value="GA">GA</option>
+                                <option value="HI">HI</option>
+                                <option value="IA">IA</option>
+                                <option value="ID">ID</option>
+                                <option value="IL">IL</option>
+                                <option value="IN">IN</option>
+                                <option value="KS">KS</option>
+                                <option value="LA">LA</option>
+                                <option value="MA">MA</option>
+                                <option value="MD">MD</option>
+                                <option value="ME">ME</option>
+                                <option value="MI">MI</option>
+                                <option value="MN">MN</option>
+                                <option value="MO">MO</option>
+                                <option value="MT">MT</option>
+                                <option value="NC">NC</option>
+                                <option value="NH">NH</option>
+                                <option value="NJ">NJ</option>
+                                <option value="NM">NM</option>
+                                <option value="NV">NV</option>
+                                <option value="NY">NY</option>
+                                <option value="OH">OH</option>
+                                <option value="OR">OR</option>
+                                <option value="PA">PA</option>
+                                <option value="PR">PR</option>
+                                <option value="RI">RI</option>
+                                <option value="SC">SC</option>
+                                <option value="TN">TN</option>
+                                <option value="TX">TX</option>
+                                <option value="VA">VA</option>
+                                <option value="WA">WA</option>
+                                <option value="WI">WI</option>
+                                <option value="WV">WV</option>
+                                <option value="WY">WY</option>
+
+                            </select>
+                            <span id="ShipStateRequiredStar" class="required">required</span>
+                            <!-- <span id="ShipStateFieldRequired" style="color:Red;display:none;">required</span> -->
+                            <br />
+                            <span class="subdued">
+                                If a state is not listed, we cannot legally ship wine there. You can
+                                enter an address in a different state or you can select “Use mailing address” and provide a new
+                                shipping address when you place an order.
+                            </span>
+                        </li>
+                        <li>
+                            <label for="ShipZipField">Postal code</label><input name="ShipZipField" type="text" maxlength="10" size="10" id="ShipZipField" onblur="validateField(this)" required />
+                            <span id="ShipZipRequiredStar" class="required">required</span>
+                           <!-- <span id="ShipZipFieldRequired" style="color:Red;display:none;">required</span>-->
                         </li>
                     </ul>
                 </fieldset>
@@ -928,31 +936,66 @@
         ];
 
         
-        function setShipStateVisibility()
+        function handleShipStateChange()
         {
-            var el = document.getElementById("ShipCountryField");
+            var cntryEl = document.getElementById("ShipCountryField");
             var stateEl = document.getElementById("ShipStateField");
             var stateDropEl = document.getElementById("ShipStateDrop");
+            var stateStar = document.getElementById("ShipStateRequiredStar");
+            var stateReq = document.getElementById("ShipStateFieldRequired");
 
-            if (null !== el && null !== stateEl && null !== stateDropEl)
+            if (null !== cntryEl && null !== stateEl && null !== stateDropEl)
             {
-                setShipStateDropOptions(stateDropEl, el);
+                setShipStateDropOptions(stateDropEl, cntryEl);
 
-                if (el.value === "United States" || el.value === "Canada")
+                if (cntryEl.value === "United States" || cntryEl.value === "Canada")
                 {
-                    stateEl.style = "display:none;";
+                    // show the drop down and hide the text input box
+                    stateEl.style.display = "none";
                     stateEl.disabled = false;
-                    stateDropEl.style = "";
-                    
+                    stateDropEl.style.display = "inline";
+                    stateStar.style.display = "inline";
+                    //stateReq.style.display = "inline";
+
+                    // enable the postal code
+                    enableDisablePostalCode(true)
                 }
                 else
                 {
-                    stateEl.style = "";
+                    // hide the dropdown and show the disabled text input
+                    stateEl.style.display = "inline";
                     stateEl.disabled = true;
-                    stateDropEl.style = "display:none;";
+                    stateDropEl.style.display = "none";
+                    stateStar.style.display = "none";
+                    stateReq.style.display = "none";
+
+                    // disable the postal code
+                    enableDisablePostalCode(false)
                 }
                 
                 stateEl.value = "";
+            }
+        }
+
+        function enableDisablePostalCode(isEnabled)
+        {
+            var zipEl = document.getElementById("ShipZipField");
+            var reqStar = document.getElementById("ShipZipRequiredStar");
+            var zipReq = document.getElementById("ShipZipFieldRequired");
+
+            if (null !== zipEl)
+            {
+                if (true === isEnabled)
+                {
+                    zipEl.disabled = false
+                    reqStar.style.display = "inline";
+                }
+                else
+                {
+                    zipEl.disabled = true;
+                    reqStar.style.display = "none";
+                    zipReq.style.display = "none";
+                }
             }
         }
 
@@ -1061,6 +1104,7 @@
                 document.getElementById("ShipStreet2Field"),
                 document.getElementById("ShipCityField"),
                 document.getElementById("ShipStateField"),
+                document.getElementById("ShipStateDrop"),
                 document.getElementById("ShipZipField"),
                 document.getElementById("ShipCountryField")
             );
@@ -1230,10 +1274,10 @@
         function setReqFieldIsVisible(isVisible, reqEl) {
             if (null !== reqEl) {
                 if (true === isVisible) {
-                    reqEl.style = "color:Red;";
+                    reqEl.style = "color:#900;";
                 }
                 else {
-                    reqEl.style = "color:Red;display:none;";
+                    reqEl.style = "color:#900;display:none;";
                 }
 
             }
@@ -1306,6 +1350,11 @@
             if (null !== msgEl) {
                 msgEl.style = "color:Blue;";
             }
+
+            if (null !== ss)
+            {
+                $(".smarty-ui").hide();
+            }
         }
 
         function displayErrorMessage(msg) {
@@ -1318,7 +1367,7 @@
             }
 
             if (null !== msgEl) {
-                msgEl.style = "color:red;";
+                msgEl.style = "color:#900;";
                 msgEl.innerText = msg;
             }
         }
