@@ -22,7 +22,7 @@
         var debug = false;					// Toggle debug mode
 
         var ss = null;
-        var htmlKey = "29555280319814008";			// Put your HTML key here -- My localhost account: 34341261251125811
+        var htmlKey = "16197637701494758";			// Put your HTML key here -- My localhost account: 34341261251125811
         // UAT account: 16197637701494758
 
         /** INITIALIZE **/
@@ -67,8 +67,13 @@
 
 .required {
     color: #900;
-    display: inline-table;
+    display: none;
     float: right;
+}
+.requiredAsteryx{
+    color: #900;
+    display: inline;
+    font-family: 'Segoe UI',
 }
 input[type="email"] {
     width: 200px;
@@ -105,13 +110,15 @@ input[type="email"] {
                         </li>
                         <li>
                             <label for="FirstNameField">First name</label><span class="justify"><input name="FirstNameField" type="text" maxlength="50" size="25" id="FirstNameField" onblur="validateField(this)" required /></span>
-                            <span class="required">required</span>
-                          <!--  <span id="FirstNameFieldRequired" class="required" style="display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="FirstNameFieldRequired" class="required">required</span> 
                         </li>
                         <li>
                             <label for="LastNameField">Last name</label><span class="justify"><input name="LastNameField" type="text" maxlength="50" size="25" id="LastNameField" onblur="validateField(this)" required/></span>
-                            <span class="required">required</span>
-                           <!--  <span id="LastNameFieldRequired" class="required" style="display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="LastNameFieldRequired" class="required">required</span> 
                         </li>
                         <li>
                             <label for="SuffixField">Suffix</label><span class="justify"><input name="SuffixField" type="text" maxlength="10" size="10" id="SuffixField" /></span>
@@ -119,19 +126,22 @@ input[type="email"] {
                         <!-- Start DOB Field added 1/21/13, Matt Converse -->
                         <li>
                             <label for="DOBField">Date of Birth (mm/dd/yyyy)</label><span class="justify"><input name="DOBField" type="text" maxlength="20" size="20" id="DOBField" onblur="validateField(this)" required placeholder="mm/dd/yyyy" /></span>
-                            <span class="required">required</span>
-                           <!-- <span id="DOBFieldRequired" class="required" style="display:none;">required</span> --><br />
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="DOBFieldRequired" class="required">required</span> <br />
                         </li>
                         <!-- End DOB Field  -->
                         <li class="split">
                             <label for="EmailField">Email address</label><span class="justify"><input name="EmailField" type="email" maxlength="50" size="25" id="EmailField" onblur="validateField(this)" required/></span>
-                            <span class="required">required</span>
-                            <!-- <span id="EmailFieldRequired" class="required" style="display:none;">required</span>-->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                             <span id="EmailFieldRequired" class="required">required</span>
                         </li>
                         <li>
                             <label for="VerifyEmailField">Verify email address</label><span class="justify"><input name="VerifyEmailField" type="email" maxlength="50" size="25" id="VerifyEmailField" onblur="validateField(this)" required /></span>
-                            <span class="required">required</span>
-                            <!-- <span id="VerifyEmailFieldRequired" class="required" style="display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                             <span id="VerifyEmailFieldRequired" class="required">required</span> 
                         </li>
                         <li class="split">
                             <label for="DayPhoneField">Daytime phone number</label><span class="justify"><input name="DayPhoneField" type="text" maxlength="22" size="22" id="DayPhoneField" /></span>
@@ -416,14 +426,16 @@ input[type="email"] {
                                     <option value="Zambia">Zambia</option>
                                     <option value="Zimbabwe">Zimbabwe</option>
                                 </select>
-                                <span class="required">required</span>
-                              <!--  <span id="MailCountryFieldRequired" style="color:Red;display:none;">required</span> -->
+                                <!--<span class="required">required</span>-->
+                                <span class="requiredAsteryx">*</span>
+                                <span id="MailCountryFieldRequired" class="required">required</span> 
                             </span>
                         </li>
                         <li>
                             <label for="MailStreet1Field">Street line 1</label><span class="justify"><input name="MailStreet1Field" type="text" maxlength="32" size="32" id="MailStreet1Field" onblur="validateField(this)" required /></span>
-                            <span class="required">required</span>
-                           <!--  <span id="MailStreet1FieldRequired" style="color:Red;display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                             <span id="MailStreet1FieldRequired" class="required">required</span> 
                             
                         </li>
                         <li>
@@ -431,12 +443,13 @@ input[type="email"] {
                         </li>
                         <li>
                             <label for="MailCityField">City</label><span class="justify"><input name="MailCityField" type="text" maxlength="30" size="30" id="MailCityField" onblur="validateField(this)" required /></span>
-                            <span class="required">required</span>
-                         <!--   <span id="MailCityFieldRequired" style="color:Red;display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="MailCityFieldRequired" class="required">required</span> 
 
                         </li>
                         <li>
-                            <label for="MailStateField">State/Province</label><span class="justify"><input name="MailStateField" type="text" id="MailStateField" required />
+                            <label for="MailStateField">State/Province</label><span class="justify"><input name="MailStateField" type="text" id="MailStateField" onblur="validateField(this)" required />
                                 <!--<select name="MailStateField" id="MailStateField" placeholder="MailStateField" onblur="validateField(this)" required>
                                     <option selected="selected" value="">&nbsp;</option>
                                     <option value="AK">AK</option>
@@ -492,14 +505,16 @@ input[type="email"] {
                                     <option value="WV">WV</option>
                                     <option value="WY">WY</option>
                                 </select>-->
-                                <span class="required">required</span>
-                          <!--      <span id="MailStateFieldRequired" style="color:Red;display:none;">required</span>-->
+                                <!--<span class="required">required</span>-->
+                                <span class="requiredAsteryx">*</span>
+                                <span id="MailStateFieldRequired" class="required">required</span>
                             </span>
                         </li>
                         <li>
                             <label for="MailZipField">Postal code</label><span class="justify"><input name="MailZipField" type="text" maxlength="10" size="10" id="MailZipField" onblur="validateField(this)" required /></span>
-                            <span class="required">required</span>
-                           <!-- <span id="MailZipFieldRequired" style="color:Red;display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="MailZipFieldRequired" class="required">required</span> 
                         </li>
                         
                     </ul>
@@ -783,21 +798,24 @@ input[type="email"] {
                                 <option value="Zambia">Zambia</option>
                                 <option value="Zimbabwe">Zimbabwe</option>
                             </select>
-                            <span class="required">required</span>
-                           <!-- <span id="ShipCountryFieldRequired" style="color:Red;display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="ShipCountryFieldRequired" class="required">required</span> 
                         </li>
                         <li>
                             <label for="ShipStreet1Field">Street line 1</label><input name="ShipStreet1Field" type="text" maxlength="32" size="32" id="ShipStreet1Field" onblur="validateField(this)" required />
-                            <span class="required">required</span>
-                          <!--  <span id="ShipStreet1FieldRequired" style="color:Red;display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                            <span id="ShipStreet1FieldRequired" class="required">required</span> 
                         </li>
                         <li>
                             <label for="ShipStreet2Field">Street line 2</label><input name="ShipStreet2Field" type="text" maxlength="32" size="32" id="ShipStreet2Field"  />
                         </li>
                         <li>
                             <label for="ShipCityField">City</label><input name="ShipCityField" type="text" maxlength="30" size="30" id="ShipCityField" onblur="validateField(this)" required/>
-                            <span class="required">required</span>
-                         <!--    <span id="ShipCityFieldRequired" style="color:Red;display:none;">required</span> -->
+                            <!--<span class="required">required</span>-->
+                            <span class="requiredAsteryx">*</span>
+                             <span id="ShipCityFieldRequired" class="required">required</span> 
                         </li>
                         <li>
                             <label for="ShipStateField">State/Province</label><input name="ShipStateField" type="text" maxlength="30" size="30" id="ShipStateField" onblur="validateField(this)" style="display:none;" required /><select name="ShipStateDrop" id="ShipStateDrop" onchange="SetShipStateVal(this.value)" required>
@@ -846,8 +864,8 @@ input[type="email"] {
                                 <option value="WY">WY</option>
 
                             </select>
-                            <span id="ShipStateRequiredStar" class="required">required</span>
-                            <!-- <span id="ShipStateFieldRequired" style="color:Red;display:none;">required</span> -->
+                            <span id="ShipStateRequiredStar" class="requiredAsteryx">*</span>
+                             <span id="ShipStateFieldRequired" class="required">required</span> 
                             <br />
                             <span class="subdued">
                                 If a state is not listed, we cannot legally ship wine there. You can
@@ -857,8 +875,8 @@ input[type="email"] {
                         </li>
                         <li>
                             <label for="ShipZipField">Postal code</label><input name="ShipZipField" type="text" maxlength="10" size="10" id="ShipZipField" onblur="validateField(this)" required />
-                            <span id="ShipZipRequiredStar" class="required">required</span>
-                           <!-- <span id="ShipZipFieldRequired" style="color:Red;display:none;">required</span>-->
+                            <span id="ShipZipRequiredStar" class="requiredAsteryx">*</span>
+                            <span id="ShipZipFieldRequired" class="required">required</span>
                         </li>
                     </ul>
                 </fieldset>
@@ -1274,10 +1292,10 @@ input[type="email"] {
         function setReqFieldIsVisible(isVisible, reqEl) {
             if (null !== reqEl) {
                 if (true === isVisible) {
-                    reqEl.style = "color:#900;";
+                    reqEl.style.display = "inline";
                 }
                 else {
-                    reqEl.style = "color:#900;display:none;";
+                    reqEl.style.display = "none";
                 }
 
             }
@@ -1340,15 +1358,15 @@ input[type="email"] {
             var msgEl = document.getElementById("userMsg");
 
             if (null !== contactFrm) {
-                contactFrm.style = "display:none;";
+                contactFrm.style.display = "none";
             }
 
             if (null !== msgDiv) {
-                msgDiv.style = "";
+                msgDiv.style.display = "block";
             }
 
             if (null !== msgEl) {
-                msgEl.style = "color:Blue;";
+                msgEl.style.display = "block";
             }
 
             if (null !== ss)
@@ -1363,7 +1381,7 @@ input[type="email"] {
             var msgEl = document.getElementById("userMsg");
 
             if (null !== msgDiv) {
-                msgDiv.style = "";
+                msgDiv.style.display = "block";
             }
 
             if (null !== msgEl) {
